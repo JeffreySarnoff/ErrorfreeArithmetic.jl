@@ -8,7 +8,8 @@ export eeftSum2inOrder, eftSum3inOrder, eftSum2, eftSum3,
        eftInv, eftDiv2,
        eftFMA, eftFMS,
        eftSqrt, eftInvSqrt,
-       eftHorner
+       eftHorner,
+       eftSum2Cplx, eftProd2Cplx
 
 using Polynomials
 
