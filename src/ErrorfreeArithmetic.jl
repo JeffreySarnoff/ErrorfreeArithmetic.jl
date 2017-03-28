@@ -12,4 +12,6 @@ export eeftSum2inOrder, eftSum3inOrder, eftSum2, eftSum3,
 
 using Polynomials
 
+include("errorfree_transforms.jl")
+
 end # module
