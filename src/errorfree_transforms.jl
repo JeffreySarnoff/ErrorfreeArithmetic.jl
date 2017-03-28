@@ -160,7 +160,59 @@ function eftFMS{T<:AbstractFloat}(a::T, b::T, c::T)
     return x, y, z
 end
 
+# sum of products
+#=
+William Kahan
+see e.g.
+MATHEMATICS OF COMPUTATION
+ERROR BOUNDS ON COMPLEX FLOATING-POINT MULTIPLICATION WITH AN FMA
+CLAUDE-PIERRE JEANNEROD, PETER KORNERUP, NICOLAS LOUVET, AND JEAN-MICHEL MULLER
+Volume 86, Number 304, March 2017, Pages 881–898
+http://dx.doi.org/10.1090/mcom/3123
+=#
+"""
+computes sum, err = a*b + c*d
+"""
+function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
+                   abx, aby = eftProd2(a, b)
+                   cdx, cdy = eftProd2(c, d)
+                   abcdx, abcdy = eftSum2(abx, cdx)
+                   abcdy, abcdz = eftSum2(abcdy, aby+cdy)
+                   return abcdx, abcdy, abcdz
+              end
+#=
+function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
+            ab = a * b
+            cd = c * d
+            ab1 = fma(a, b, -cd)
+            cd1 = fma(c, d, -ab)
+            y = ab1+cd1
+            x = fma(c, d, ab1)
+            return x,y
+       end
+=#
+#=
+function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
+            cd = c * d; ab = a*b
+            err = fma(c, d, -ab)
+            ab  = fma(a, b, -cd)
+            err = ab+err
+            fma(c, d, fma(a,b,0.0)), err
+       end
 
+function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
+     cd = c * d
+     err = fma(c, d, -cd)
+     ab  = fma(a, b, cd)
+     return eftSum2(ab, err)
+end
+function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
+      ab = a * b
+      cd = c * d
+      cd = fma(c, d, -ab)
+      return fma(c, d, fma(a,b, -cd)), ab+err
+end
+=#
 # Complex Numbers
 #=
   Accurate summation, dot product and polynomial evaluation 
