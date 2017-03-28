@@ -170,14 +170,14 @@ end
   http://web.stanford.edu/group/SOL/software/qdotdd/IC2012.pdf
 =#
 
-function eftCplxSum2{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
+function eftSum2Cplx{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     rhi, ihi = eftSum2(x.re, y.re)
     rlo, ilo = eftSum2(x.im, y.im)
     return Complex(rhi,rlo), Complex(ihi,ilo)
 end
 
 
-function eftCplxProd2{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
+function eftProd2Cplx{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     z1, h1 = eftProd2(x.re, y.re)
     z2, h2 = eftProd2(x.im, y.im)
     z3, h3 = eftProd2(x.re, y.im)
