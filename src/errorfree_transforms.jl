@@ -176,6 +176,12 @@ function eftSum2Cplx{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     return Complex(rhi,rlo), Complex(ihi,ilo)
 end
 
+function eftDiff2Cplx{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
+    rhi, ihi = eftSum2(x.re, -y.re)
+    rlo, ilo = eftSum2(x.im, -y.im)
+    return Complex(rhi,rlo), Complex(ihi,ilo)
+end
+
 
 function eftProd2Cplx{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     z1, h1 = eftProd2(x.re, y.re)
