@@ -1,7 +1,7 @@
 #= single parameter error-free transformations =#
 
 # 'y' must be negated to get the right result
-function eftRecip{T<:AbstractFloat}(a::T)
+function eftInv{T<:AbstractFloat}(a::T)
      x = one(T) / a
      y = -(fma(x, a, -1.0) / a)
      return x, y
@@ -19,7 +19,7 @@ function eftSqrt{T<:AbstractFloat}(a::T)
      return x, y
 end 
 
-function eftRecipSqrt{T<:AbstractFloat}(a::T)
+function eftInvSqrt{T<:AbstractFloat}(a::T)
      r = 1.0/a
      x = sqrt(r)
      t = fma(x, -x, r)
@@ -42,6 +42,12 @@ end
 
 #= two parameter error-free transformations =#
 
+function eftSum2inOrder{T<:AbstractFloat}(a::T, b::T)
+  x = a + b
+  y = b - (x - a)
+  return x, y
+end
+
 function eftSum2{T<:AbstractFloat}(a::T, b::T)
   x = a + b
   t = x - a
@@ -53,10 +59,9 @@ eftSum2{T<:AbstractFloat, R<:Real}(a::T, b::R) = eftSum2(a, convert(T,b))
 eftSum2{T<:AbstractFloat, R<:Real}(a::R, b::T) = eftSum2(convert(T,a), b)
 eftSum2(a::Real, b::Real) = eftSum2(float(a), float(b))
 
-
-function eftSum2inOrder{T<:AbstractFloat}(a::T, b::T)
-  x = a + b
-  y = b - (x - a)
+function eftDiff2inOrder{T<:AbstractFloat}(a::T, b::T)
+  x = a - b
+  y = (a - x) - b
   return x, y
 end
 
@@ -71,12 +76,6 @@ eftDiff2{T<:AbstractFloat, R<:Real}(a::T, b::R) = eftDiff2(a, convert(T,b))
 eftDiff2{T<:AbstractFloat, R<:Real}(a::R, b::T) = eftDiff2(convert(T,a), b)
 eftDiff2(a::Real, b::Real) = eftDiff2(float(a), float(b))
 
-
-function eftDiff2inOrder{T<:AbstractFloat}(a::T, b::T)
-  x = a - b
-  y = (a - x) - b
-  return x, y
-end
 
 function eftProd2{T<:AbstractFloat}(a::T, b::T)
     x = a * b
@@ -118,18 +117,18 @@ end
 
 #= three parameter error-free transformations =#
 
-function eftSum3{T<:AbstractFloat}(a::T,b::T,c::T)
-    s, t = eftSum2(b, c)
-    x, u = eftSum2(a, s)
-    y, z = eftSum2(u, t)
-    x, y = eftSum2inOrder(x, y)
-    return x, y, z
-end
-
 function eftSum3inOrder{T<:AbstractFloat}(a::T,b::T,c::T)
     s, t = eftSum2inOrder(b, c)
     x, u = eftSum2inOrder(a, s)
     y, z = eftSum2inOrder(u, t)
+    x, y = eftSum2inOrder(x, y)
+    return x, y, z
+end
+
+function eftSum3{T<:AbstractFloat}(a::T,b::T,c::T)
+    s, t = eftSum2(b, c)
+    x, u = eftSum2(a, s)
+    y, z = eftSum2(u, t)
     x, y = eftSum2inOrder(x, y)
     return x, y, z
 end
