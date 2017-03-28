@@ -9,7 +9,7 @@ export eeftSum2inOrder, eftSum3inOrder, eftSum2, eftSum3,
        eftFMA, eftFMS,
        eftSqrt, eftInvSqrt,
        eftHorner,
-       eftSum2Cplx, eftProd2Cplx
+       eftSum2Cplx, eftDiff2Cplx, eftProd2Cplx
 
 using Polynomials
 
