@@ -1,5 +1,5 @@
 # ErrorfreeArithmetic.jl
-Error-free transformations are used to get results that are as accurate as possible.
+Error-free transformations are used to get results with extra accuracy.
 
 
 #### Copyright © 2016-2017 by Jeffrey Sarnoff.  Released under the MIT License.
