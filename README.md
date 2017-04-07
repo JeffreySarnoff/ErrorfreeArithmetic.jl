@@ -9,3 +9,17 @@ Errorfree transformations are used to get results that are as accurate as possib
 [![Build Status](https://travis-ci.org/JeffreySarnoff/ErrorfreeArithmetic.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/ErrorfreeArithmetic.jl)
 
 -----
+
+## exports
+
+add_errorfree, subtract_errorfree, 
+add_inorder_errorfree, subtract_inorder_errorfree,
+square_errorfree,  multiply_errorfree,
+inv_errorfree, fma_errorfree, fms_errorfree,
+# while these are not strictly errorfree transformations, they are very nearly so
+cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately
+
+## introduction
+
+Errorfree transformations return a tuple of the nominal result and the residual from the result (the left-over part).    
+
