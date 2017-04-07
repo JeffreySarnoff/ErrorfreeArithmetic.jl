@@ -9,23 +9,26 @@ export add_inorder_errorfree, subtract_inorder_errorfree,
 
 using Compat
 
+
+const SysFloat = Union{Float64, Float32, Float16}  # fma must work
+
 #= single parameter error-free transformations =#
 
 # 'y' must be negated to get the right result
-function inv_errorfree{T<:AbstractFloat}(a::T)
+function inv_errorfree{T<:SysFloat}(a::T)
      x = one(T) / a
      y = -(fma(x, a, -one(T)) / a)
      return x, y
 end
 
 
-function square_errorfree{T<:AbstractFloat}(a::T)
+function square_errorfree{T<:SysFloat}(a::T)
     x = a * a
     y = fma(a, a, -x)
     return x, y
 end
 
-function cube_errorfree{T<:AbstractFloat}(a::T)
+function cube_errorfree{T<:SysFloat}(a::T)
     p = a*a; e = fma(a, a, -p)
     x = p*a; p = fma(p, a, -x)
     y = e*a
@@ -34,49 +37,49 @@ end
 
 #= two parameter error-free transformations =#
 
-function add_inorder_errorfree{T<:AbstractFloat}(a::T, b::T)
+function add_inorder_errorfree{T<:SysFloat}(a::T, b::T)
   x = a + b
   y = b - (x - a)
   return x, y
 end
 
-function add_errorfree{T<:AbstractFloat}(a::T, b::T)
+function add_errorfree{T<:SysFloat}(a::T, b::T)
   x = a + b
   t = x - a
   y = (a - (x - t)) + (b - t)
   return x, y
 end
 
-add_errorfree{T<:AbstractFloat, R<:Real}(a::T, b::R) = add_errorfree(a, convert(T,b))
-add_errorfree{T<:AbstractFloat, R<:Real}(a::R, b::T) = add_errorfree(convert(T,a), b)
+add_errorfree{T<:SysFloat, R<:Real}(a::T, b::R) = add_errorfree(a, convert(T,b))
+add_errorfree{T<:SysFloat, R<:Real}(a::R, b::T) = add_errorfree(convert(T,a), b)
 add_errorfree(a::Real, b::Real) = add_errorfree(float(a), float(b))
 
-function subtract_inorder_errorfree{T<:AbstractFloat}(a::T, b::T)
+function subtract_inorder_errorfree{T<:SysFloat}(a::T, b::T)
   x = a - b
   y = (a - x) - b
   return x, y
 end
 
-function subtract_errorfree{T<:AbstractFloat}(a::T, b::T)
+function subtract_errorfree{T<:SysFloat}(a::T, b::T)
   x = a - b
   t = x - a
   y = (a - (x - t)) - (b + t)
   return x, y
 end
 
-subtract_errorfree{T<:AbstractFloat, R<:Real}(a::T, b::R) = subtract_errorfree(a, convert(T,b))
-subtract_errorfree{T<:AbstractFloat, R<:Real}(a::R, b::T) = subtract_errorfree(convert(T,a), b)
+subtract_errorfree{T<:SysFloat, R<:Real}(a::T, b::R) = subtract_errorfree(a, convert(T,b))
+subtract_errorfree{T<:SysFloat, R<:Real}(a::R, b::T) = subtract_errorfree(convert(T,a), b)
 subtract_errorfree(a::Real, b::Real) = subtract_errorfree(float(a), float(b))
 
 
-function multiply_errorfree{T<:AbstractFloat}(a::T, b::T)
+function multiply_errorfree{T<:SysFloat}(a::T, b::T)
     x = a * b
     y = fma(a, b, -x)
     return x, y
 end
 
-multiply_errorfree{T<:AbstractFloat, R<:Real}(a::T, b::R) = multiply_errorfree(a, convert(T, b))
-multiply_errorfree{T<:AbstractFloat, R<:Real}(a::R, b::T) = multiply_errorfree(convert(T, a), b)
+multiply_errorfree{T<:SysFloat, R<:Real}(a::T, b::R) = multiply_errorfree(a, convert(T, b))
+multiply_errorfree{T<:SysFloat, R<:Real}(a::R, b::T) = multiply_errorfree(convert(T, a), b)
 multiply_errorfree(a::Real, b::Real) = multiply_errorfree(float(a), float(b))
 
 #=
@@ -89,7 +92,7 @@ free transformation for the divideision. ...
 This means that the computed approximation is as good as
 we can expect in the working precision."
 -- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
- function divide{T<:AbstractFloat}(a::T, b::T)
+ function divide{T<:SysFloat}(a::T, b::T)
           x = a/b
           v = x*b
           w = fma(x,b,-v)
@@ -98,7 +101,7 @@ we can expect in the working precision."
        end
 =#
 # 'y' must be negated to get the right result
-function divide_accurately{T<:AbstractFloat}(a::T,b::T)
+function divide_accurately{T<:SysFloat}(a::T,b::T)
      x = a / b
      y = -(fma(x, b,-a) / b)
      return x, y
@@ -109,14 +112,14 @@ end
    Augmented precision square roots, 2-D norms and discussion on correctly reounding sqrt(x^2 + y^2)
    by Nicolas Brisebarre, Mioara Joldes, Erik Martin-Dorel, Hean-Michel Muller, Peter Kornerup
 =#
-function sqrt_accurately{T<:AbstractFloat}(a::T)
+function sqrt_accurately{T<:SysFloat}(a::T)
      x = sqrt(a)
      t = fma(x, -x, a)
      y = t / (x+x)
      return x, y
 end 
 
-function invsqrt_accurately{T<:AbstractFloat}(a::T)
+function invsqrt_accurately{T<:SysFloat}(a::T)
      r = inv(a)
      x = sqrt(r) 
      t = fma(x, -x, r)
@@ -127,7 +130,7 @@ end
 
 #= three parameter error-free transformations =#
 
-function add_inorder_errorfree{T<:AbstractFloat}(a::T,b::T,c::T)
+function add_inorder_errorfree{T<:SysFloat}(a::T,b::T,c::T)
     s, t = add_inorder_errorfree(b, c)
     x, u = add_inorder_errorfree(a, s)
     y, z = add_inorder_errorfree(u, t)
@@ -135,7 +138,7 @@ function add_inorder_errorfree{T<:AbstractFloat}(a::T,b::T,c::T)
     return x, y, z
 end
 
-function add_errorfree{T<:AbstractFloat}(a::T,b::T,c::T)
+function add_errorfree{T<:SysFloat}(a::T,b::T,c::T)
     s, t = add_errorfree(b, c)
     x, u = add_errorfree(a, s)
     y, z = add_errorfree(u, t)
@@ -143,14 +146,14 @@ function add_errorfree{T<:AbstractFloat}(a::T,b::T,c::T)
     return x, y, z
 end
 
-function multiply_errorfree{T<:AbstractFloat}(a::T, b::T, c::T)
+function multiply_errorfree{T<:SysFloat}(a::T, b::T, c::T)
     p, e = multiply_errorfree(a, b)
     x, p = multiply_errorfree(p, c)
     y, z = multiply_errorfree(e, c)
     return x, y, z
 end
 
-function fma_errorfree{T<:AbstractFloat}(a::T, b::T, c::T)
+function fma_errorfree{T<:SysFloat}(a::T, b::T, c::T)
     x = fma(a, b, c)
     u1, u2 = multiply_errorfree(a, b)
     a1, a2 = add_errorfree(u2, c)
@@ -160,7 +163,7 @@ function fma_errorfree{T<:AbstractFloat}(a::T, b::T, c::T)
     return x, y, z
 end
 
-function fms_errorfree{T<:AbstractFloat}(a::T, b::T, c::T)
+function fms_errorfree{T<:SysFloat}(a::T, b::T, c::T)
     x = fma(a, b, c)
     u1, u2 = multiply_errorfree(a, b)
     a1, a2 = subtract_errorfree(u2, c)
@@ -180,20 +183,20 @@ end
   http://web.stanford.edu/group/SOL/software/qdotdd/IC2012.pdf
 =#
 
-function add_errorfree{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
+function add_errorfree{T<:SysFloat}(x::Complex{T}, y::Complex{T})
     rhi, ihi = add_errorfree(x.re, y.re)
     rlo, ilo = add_errorfree(x.im, y.im)
     return Complex(rhi,rlo), Complex(ihi,ilo)
 end
 
-function subtract_errorfree{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
+function subtract_errorfree{T<:SysFloat}(x::Complex{T}, y::Complex{T})
     rhi, ihi = add_errorfree(x.re, -y.re)
     rlo, ilo = add_errorfree(x.im, -y.im)
     return Complex(rhi,rlo), Complex(ihi,ilo)
 end
 
 
-function multiply_errorfree{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
+function multiply_errorfree{T<:SysFloat}(x::Complex{T}, y::Complex{T})
     z1, h1 = multiply_errorfree(x.re, y.re)
     z2, h2 = multiply_errorfree(x.im, y.im)
     z3, h3 = multiply_errorfree(x.re, y.im)
