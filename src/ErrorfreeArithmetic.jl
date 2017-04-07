@@ -1,6 +1,5 @@
 module ErrorfreeArithmetic
 
-
 export add_inorder_errorfree, subtract_inorder_errorfree,
        add_errorfree, subtract_errorfree, 
        square_errorfree, cube_errorfree, multiply_errorfree,
@@ -78,7 +77,7 @@ multiply_errorfree{T<:AbstractFloat, R<:Real}(a::R, b::T) = multiply_errorfree(c
 multiply_errorfree(a::Real, b::Real) = multiply_errorfree(float(a), float(b))
 
 #=
- divide is as good as possible, not quite errorfree_
+ divide is as good as possible, not quite errorfree
  
 "Concerning the divideision, the elementary rounding error is
 generally not a floating point number, so it cannot be computed
