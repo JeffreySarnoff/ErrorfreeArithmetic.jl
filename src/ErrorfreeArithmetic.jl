@@ -203,4 +203,5 @@ function multiply_errorfree{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     return Complex(z5,z6), Complex(h1,h3), Complex(-h2,h4), Complex(h5,h6)
 end
 
+
 end # module
