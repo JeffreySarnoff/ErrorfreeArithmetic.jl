@@ -33,7 +33,9 @@ sqrt_accurately, invsqrt_accurately
 Error-free transformations return a tuple of the nominal result and the residual from the result (the left-over part).    
 
 Error-free addition sums two floating point values (x, y) and returns two floating point values (hi, lo) such that:    
-* `(+)(x, y) == hi`  and  `(+)(hi, lo) == hi` where `|hi| > |lo|`
+* `(+)(x, y) == hi` 
+* `|hi| > |lo|`
+* `(+)(hi, lo) == hi`
 
 
 ## use
