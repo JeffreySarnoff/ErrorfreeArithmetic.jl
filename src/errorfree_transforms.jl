@@ -3,7 +3,7 @@
 # 'y' must be negated to get the right result
 function eftInv{T<:AbstractFloat}(a::T)
      x = one(T) / a
-     y = -(fma(x, a, -1.0) / a)
+     y = -(fma(x, a, -one(T)) / a)
      return x, y
 end
 
