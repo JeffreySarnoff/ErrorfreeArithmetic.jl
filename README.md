@@ -37,5 +37,5 @@ tbd...
 ## use
 
 This package is intended to be used in the support of other work.    
-All routines expect Float64 or Float32 values.
+All routines expect Float64 or Float32 or Float16 values.
 
