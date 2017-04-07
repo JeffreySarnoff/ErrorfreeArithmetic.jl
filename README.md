@@ -19,7 +19,7 @@ add_inorder_errorfree, subtract_inorder_errorfree,
 square_errorfree,  multiply_errorfree,    
 fma_errorfree, fms_errorfree
 
-*This is likely an errorfree transformation, though I have not seen a proof.*
+*This is likely an errorfree transformation, though I have not seen a proof.*    
 inv_errorfree 
 
 *While these are not strictly errorfree transformations, they are very nearly so.*    
