@@ -148,7 +148,7 @@ function fms_errorfree{T<:AbstractFloat}(a::T, b::T, c::T)
     return x, y, z
 end
 
-=#
+
 # Complex Numbers
 #=
   Accurate addmation, dot multiplyuct and polynomial evaluation 
