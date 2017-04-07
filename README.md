@@ -65,9 +65,9 @@ b = Float32(pi^3)                      #  31.0062_7700f0
 hi, lo = add_errorfree(a,b)            # (31.3882_4300f0, 3.8743_0270f-7)
 
 a_plus_b_accurate = BigFloat(a) + BigFloat(b)
-accurate_lo  = Float32(a_plus_b_accurate - hi)
+lo_accurate  = Float32(a_plus_b_accurate - hi)
 
-lo == accurate_lo                      # true
+lo == lo_accurate                      # true
 ```
 
 ## use
