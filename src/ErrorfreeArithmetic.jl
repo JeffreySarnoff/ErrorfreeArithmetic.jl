@@ -179,7 +179,7 @@ function multiply_errorfree{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     z5, h5 = add_errorfree(z1, -z2)
     z6, h6 = add_errorfree(z3,  z4)
     
-    return Complex(z5,z6), Complex(hi,h3), Complex(-h2,h4), Complex(h5,h6)
+    return Complex(z5,z6), Complex(h1,h3), Complex(-h2,h4), Complex(h5,h6)
 end
 
 end # module
