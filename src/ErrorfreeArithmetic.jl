@@ -3,7 +3,7 @@ module ErrorfreeArithmetic
 export add_inorder_errorfree, subtract_inorder_errorfree,
        add_errorfree, subtract_errorfree, 
        square_errorfree, cube_errorfree, multiply_errorfree,
-       inv_errorfree, divide_errorfree, 
+       inv_errorfree, divide_accurately, 
        fma_errorfree, fms_errorfree
 
 #= single parameter error-free transformations =#
@@ -95,7 +95,7 @@ we can expect in the working precision."
        end
 =#
 # 'y' must be negated to get the right result
-function divide_errorfree{T<:AbstractFloat}(a::T,b::T)
+function divide_accurately{T<:AbstractFloat}(a::T,b::T)
      x = a / b
      y = -(fma(x, b,-a) / b)
      return x, y
