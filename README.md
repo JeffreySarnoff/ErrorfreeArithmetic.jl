@@ -2,7 +2,7 @@
 Errorfree transformations are used to get results that are as accurate as possible.
 
 
-#### Copyright © 2017 by Jeffrey Sarnoff.  Released under the MIT License.
+#### Copyright © 2016-2017 by Jeffrey Sarnoff.  Released under the MIT License.
 
 -----
 
