@@ -46,7 +46,7 @@ function add_errorfree(a::T, b::T) where T<:Union{Float64, Float32}
     return a_plus_b_hipart, a_plus_b_lopart
 end
 
-a = Float32(1/golden^2)                #   0.381_96602f0
+a = Float32(1/golden^2)                #   0.3819_6602f0
 b = Float32(pi^3)                      #  31.0062_7700f0
 a_plus_b = a + b                       #  31.3882_4300f0
 
