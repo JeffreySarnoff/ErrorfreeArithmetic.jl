@@ -13,12 +13,12 @@ Errorfree transformations are used to get results that are as accurate as possib
 ## exports
 
 * these are errorfree transformations    
-add_errorfree, subtract_errorfree, 
-add_inorder_errorfree, subtract_inorder_errorfree,
-square_errorfree,  multiply_errorfree,
-inv_errorfree, fma_errorfree, fms_errorfree,
+add_errorfree, subtract_errorfree,   
+add_inorder_errorfree, subtract_inorder_errorfree,    
+square_errorfree,  multiply_errorfree,    
+inv_errorfree, fma_errorfree, fms_errorfree,    
 * while these are not strictly errorfree transformations, they are very nearly so and as accurate as possible given the work  
-cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately
+cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately    
 
 ## introduction
 
