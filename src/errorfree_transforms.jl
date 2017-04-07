@@ -7,25 +7,6 @@ function eftInv{T<:AbstractFloat}(a::T)
      return x, y
 end
 
-#=
-   While not strictly an error-free transformation it is quite reliable and recommended for use.
-   Augmented precision square roots, 2-D norms and discussion on correctly reounding sqrt(x^2 + y^2)
-   by Nicolas Brisebarre, Mioara Joldes, Erik Martin-Dorel, Hean-Michel Muller, Peter Kornerup
-=#
-function eftSqrt{T<:AbstractFloat}(a::T)
-     x = sqrt(a)
-     t = fma(x, -x, a)
-     y = t / (x+x)
-     return x, y
-end 
-
-function eftInvSqrt{T<:AbstractFloat}(a::T)
-     r = 1.0/a
-     x = sqrt(r)
-     t = fma(x, -x, r)
-     y = t / (x+x)
-     return x, y
-end
 
 function eftSquare{T<:AbstractFloat}(a::T)
     x = a * a
@@ -160,58 +141,6 @@ function eftFMS{T<:AbstractFloat}(a::T, b::T, c::T)
     return x, y, z
 end
 
-# sum of products
-#=
-William Kahan
-see e.g.
-MATHEMATICS OF COMPUTATION
-ERROR BOUNDS ON COMPLEX FLOATING-POINT MULTIPLICATION WITH AN FMA
-CLAUDE-PIERRE JEANNEROD, PETER KORNERUP, NICOLAS LOUVET, AND JEAN-MICHEL MULLER
-Volume 86, Number 304, March 2017, Pages 881–898
-http://dx.doi.org/10.1090/mcom/3123
-=#
-"""
-computes sum, err = a*b + c*d
-"""
-function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
-                   abx, aby = eftProd2(a, b)
-                   cdx, cdy = eftProd2(c, d)
-                   abcdx, abcdy = eftSum2(abx, cdx)
-                   abcdy, abcdz = eftSum2(abcdy, aby+cdy)
-                   return abcdx, abcdy, abcdz
-              end
-#=
-function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
-            ab = a * b
-            cd = c * d
-            ab1 = fma(a, b, -cd)
-            cd1 = fma(c, d, -ab)
-            y = ab1+cd1
-            x = fma(c, d, ab1)
-            return x,y
-       end
-=#
-#=
-function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
-            cd = c * d; ab = a*b
-            err = fma(c, d, -ab)
-            ab  = fma(a, b, -cd)
-            err = ab+err
-            fma(c, d, fma(a,b,0.0)), err
-       end
-
-function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
-     cd = c * d
-     err = fma(c, d, -cd)
-     ab  = fma(a, b, cd)
-     return eftSum2(ab, err)
-end
-function eftSum2Prod2{T<:AbstractFloat}(a::T, b::T, c::T, d::T)
-      ab = a * b
-      cd = c * d
-      cd = fma(c, d, -ab)
-      return fma(c, d, fma(a,b, -cd)), ab+err
-end
 =#
 # Complex Numbers
 #=
@@ -246,29 +175,3 @@ function eftProd2Cplx{T<:AbstractFloat}(x::Complex{T}, y::Complex{T})
     
     return Complex(z5,z6), Complex(hi,h3), Complex(-h2,h4), Complex(h5,h6)
 end
-
-
-# Polynomials
-#=
-    http://www-pequan.lip6.fr/~jmc/polycopies/Compensation-horner.pdf
-    
-    p = Poly([coeffX0, coeffX1, coeffX2]) # coeffX0 + coeffX1*x + coeffX2*x^2
-    [Horner(p), p_alpha, p_beta] = eftHorner(p)
-    p(x) = Horner(p)(x) + (p_alpha + p_beta)(x)  # iff no underflow
-=#
-
-function eftHorner{T}(p::Polynomials.Poly{T}, x::T)
-    n = length(coeffs(p))
-    alpha = zeros(T, n)
-    beta  = zeros(T, n)
-    s = p.a[n] # coeffs(p)[n]
-
-    for i = (n-1):-1:1
-        t, alpha = eftProd2(s, x)
-        s, beta  = eftSum2(t, p.a[i])
-    end
-     
-    return s
-end
-
-eftHorner{T}(p::Polynomials.Poly{T}, x::Real) = eftHorner(p, convert(T, x))
