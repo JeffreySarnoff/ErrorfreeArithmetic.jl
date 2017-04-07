@@ -59,15 +59,15 @@ abs(hi) > abs(lo) && hi + lo == hi     # true
 The `lo` part is a portion of the accurate value, it is (most of) the residuum that the `hi` part could not represent.    
 The `hi` part runs out of significant bits before the all of the accurate value is represented.  We can see this:        
 ```julia
-a = Float32(1/golden^2)                #   0.3819_6602f0
-b = Float32(pi^3)                      #  31.0062_7700f0
+a = Float32(1/golden^2)                           #   0.3819_6602f0
+b = Float32(pi^3)                                 #  31.0062_7700f0
 
-hi, lo = add_errorfree(a,b)            # (31.3882_4300f0, 3.8743_0270f-7)
+hi, lo = add_errorfree(a,b)                       # (31.3882_4300f0, 3.8743_0270f-7)
 
 a_plus_b_accurate = BigFloat(a) + BigFloat(b)
 lo_accurate  = Float32(a_plus_b_accurate - hi)
 
-lo == lo_accurate                      # true
+lo == lo_accurate                                  # true
 ```
 
 ## use
