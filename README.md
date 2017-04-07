@@ -77,3 +77,7 @@ All routines expect Float64 or Float32 or Float16 values.
 
 ## references
 
+Takeshi Ogita, Siegfried M. Rump, and Shin'ichi Oishi
+Accurate Sum and Dot Product
+SIAM J. Sci. Comput., 26(6), 1955–1988. (34 pages)
+(http://dx.doi.org/10.1137/030601818)[http://dx.doi.org/10.1137/030601818](http://dx.doi.org/10.1137/030601818)
