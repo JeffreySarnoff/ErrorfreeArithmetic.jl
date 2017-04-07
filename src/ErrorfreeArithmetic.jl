@@ -3,8 +3,9 @@ module ErrorfreeArithmetic
 export add_inorder_errorfree, subtract_inorder_errorfree,
        add_errorfree, subtract_errorfree, 
        square_errorfree, cube_errorfree, multiply_errorfree,
-       inv_errorfree, divide_accurately, 
-       fma_errorfree, fms_errorfree
+       inv_errorfree, 
+       fma_errorfree, fms_errorfree,
+       divide_accurately, sqrt_accurately, invsqrt_accurately
 
 #= single parameter error-free transformations =#
 
@@ -98,6 +99,26 @@ we can expect in the working precision."
 function divide_accurately{T<:AbstractFloat}(a::T,b::T)
      x = a / b
      y = -(fma(x, b,-a) / b)
+     return x, y
+end
+
+#=
+   While not strictly an error-free transformation it is quite reliable and recommended for use.
+   Augmented precision square roots, 2-D norms and discussion on correctly reounding sqrt(x^2 + y^2)
+   by Nicolas Brisebarre, Mioara Joldes, Erik Martin-Dorel, Hean-Michel Muller, Peter Kornerup
+=#
+function sqrt_accurately{T<:AbstractFloat}(a::T)
+     x = sqrt(a)
+     t = fma(x, -x, a)
+     y = t / (x+x)
+     return x, y
+end 
+
+function invsqrt_accurately{T<:AbstractFloat}(a::T)
+     r = inv(a)
+     x = sqrt(r) 
+     t = fma(x, -x, r)
+     y = t / (x+x)
      return x, y
 end
 
