@@ -12,7 +12,7 @@ Errorfree transformations are used to get results that are as accurate as possib
 
 ## exports
 
-* these are errorfree transformations
+* these are errorfree transformations    
 add_errorfree, subtract_errorfree, 
 add_inorder_errorfree, subtract_inorder_errorfree,
 square_errorfree,  multiply_errorfree,
