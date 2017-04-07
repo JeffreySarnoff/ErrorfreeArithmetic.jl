@@ -7,6 +7,8 @@ export add_inorder_errorfree, subtract_inorder_errorfree,
        fma_errorfree, fms_errorfree,
        cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately
 
+using Compat
+
 #= single parameter error-free transformations =#
 
 # 'y' must be negated to get the right result
