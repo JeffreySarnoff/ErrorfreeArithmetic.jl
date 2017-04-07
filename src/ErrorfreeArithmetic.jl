@@ -2,10 +2,10 @@ module ErrorfreeArithmetic
 
 export add_inorder_errorfree, subtract_inorder_errorfree,
        add_errorfree, subtract_errorfree, 
-       square_errorfree, cube_errorfree, multiply_errorfree,
+       square_errorfree,  multiply_errorfree,
        inv_errorfree, 
        fma_errorfree, fms_errorfree,
-       divide_accurately, sqrt_accurately, invsqrt_accurately
+       cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately
 
 #= single parameter error-free transformations =#
 
