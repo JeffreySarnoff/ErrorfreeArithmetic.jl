@@ -88,3 +88,9 @@ Error-Free Transformations in Real and Complex Floating Point Arithmetic
 International Symposium on Nonlinear Theory and its Applications (NOLTA'07), Sep 2007, Vancouver, Canada.     
 Proceedings of International Symposium on Nonlinear Theory and its Applications (NOLTA'07), pp.341-344.    
 https://hal.archives-ouvertes.fr/hal-01306229    
+
+Sylvie Boldo, Stef Graillat, and Jean-Michel Muller    
+On the robustness of the 2Sum and Fast2Sum algorithms    
+ACM Transactions on Mathematical Software, Association for Computing Machinery, 2017    
+https://hal.inria.fr/ensl-01310023    
+
