@@ -32,3 +32,4 @@ sqrt_accurately, invsqrt_accurately
 
 Error-free transformations return a tuple of the nominal result and the residual from the result (the left-over part).    
 
+This package is intended to be used in the support of other work.
