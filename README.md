@@ -32,10 +32,30 @@ sqrt_accurately, invsqrt_accurately
 
 Error-free transformations return a tuple of the nominal result and the residual from the result (the left-over part).    
 
-Error-free addition sums two floating point values (x, y) and returns two floating point values (hi, lo) such that:    
-* `(+)(x, y) == hi` 
-* `|hi| > |lo|`
-* `(+)(hi, lo) == hi`
+Error-free addition sums two floating point values (a, b) and returns two floating point values (hi, lo) such that:    
+* `(+)(a, b) == hi` 
+* `|hi| > |lo|` and `(+)(hi, lo) == hi`  *abs(hi) and abs(lo) do not share significant bits*
+
+Here is how it is done:
+
+```julia
+function add_errorfree(a::T, b::T) where T<:Union{Float64, Float32}
+    a_plus_b_hipart = a + b
+    b_asthe_summand = a_plus_b_hipart - a
+    a_plus_b_lopart = (a - (a_plus_b_hipart - b_asthe_summand)) + (b - b_asthe_summand)
+    return a_plus_b_hipart, a_plus_b_lopart
+end
+
+a = Float32(1/golden^2)                #   0.381_96602f0
+b = Float32(pi^3)                      #  31.0062_7700f0
+a_plus_b = a + b                       #  31.3882_4300f0
+
+hi, lo = add_errorfree(a,b)            # (31.3882_4300f0, 3.8743_0270f-7)
+
+a_plus_b == hi                         # true
+abs(hi) > abs(lo) && hi + lo == hi     # true
+
+```
 
 
 ## use
