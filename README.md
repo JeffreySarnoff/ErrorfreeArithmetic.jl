@@ -82,3 +82,9 @@ Accurate Sum and Dot Product
 SIAM J. Sci. Comput., 26(6), 1955–1988.    
 Published online: 25 July 2006    
 [DOI: 10.1137/030601818](http://dx.doi.org/10.1137/030601818)  
+
+Stef Graillat, Valérie Ménissier-Morain    
+Error-Free Transformations in Real and Complex Floating Point Arithmetic    
+International Symposium on Nonlinear Theory and its Applications (NOLTA'07), Sep 2007, Vancouver, Canada.     
+Proceedings of International Symposium on Nonlinear Theory and its Applications (NOLTA'07), pp.341-344.    
+https://hal.archives-ouvertes.fr/hal-01306229    
