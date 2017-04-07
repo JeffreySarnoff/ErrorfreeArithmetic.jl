@@ -91,7 +91,7 @@ we can expect in the working precision."
 # 'y' must be negated to get the right result
 function eftDiv2{T<:AbstractFloat}(a::T,b::T)
      x = a / b
-     y = -(fma(x, b,- a) / b)
+     y = -(fma(x, b,-a) / b)
      return x, y
 end
 
