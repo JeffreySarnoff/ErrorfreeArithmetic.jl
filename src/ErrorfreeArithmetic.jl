@@ -16,6 +16,7 @@ const SysFloat = Union{Float64, Float32}  # fma must work
 function inv_errorfree{T<:SysFloat}(a::T)
      x = one(T) / a
      y = -(fma(x, a, -one(T)) / a)
+     y = ifelse(y === -zero(T), zero(T), y)       
      return x, y
 end
 
@@ -98,10 +99,11 @@ we can expect in the working precision."
           x,y
        end
 =#
-# 'y' must be negated to get the right result
+# 'y' (iff nonzero) must be negated to get the right result
 function divide_accurately{T<:SysFloat}(a::T,b::T)
      x = a / b
-     y = -(fma(x, b,-a) / b)
+     y = (fma(x, b,-a) / b)
+     y = ifelse(y === -zero(T), zero(T), y)
      return x, y
 end
 
