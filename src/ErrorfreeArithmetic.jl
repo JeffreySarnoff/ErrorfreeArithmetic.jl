@@ -102,7 +102,7 @@ we can expect in the working precision."
 # 'y' (iff nonzero) must be negated to get the right result
 function divide_accurately{T<:SysFloat}(a::T,b::T)
      x = a / b
-     y = (fma(x, b,-a) / b)
+     y = -(fma(x, b,-a) / b)
      y = ifelse(y === -zero(T), zero(T), y)
      return x, y
 end
