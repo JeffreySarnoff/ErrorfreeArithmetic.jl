@@ -73,11 +73,9 @@ subtract_errorfree(a::Real, b::Real) = subtract_errorfree(float(a), float(b))
 
 function multiply_errorfree{T<:SysFloat}(a::T, b::T)
     x = a * b
-
-    isinf(x) && return(x, zero(T))  # infinite result is a special case
-
     y = fma(a, b, -x)
-    return x, y
+
+    return x, ifelse(isinf(x), zero(T), y)
 end
 
 multiply_errorfree{T<:SysFloat, R<:Real}(a::T, b::R) = multiply_errorfree(a, convert(T, b))
