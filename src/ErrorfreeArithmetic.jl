@@ -1,9 +1,9 @@
 module ErrorfreeArithmetic
 
 export add_inorder_errorfree, subtract_inorder_errorfree,
-       add_errorfree, subtract_errorfree, 
+       add_errorfree, subtract_errorfree,
        square_errorfree,  multiply_errorfree,
-       inv_errorfree, 
+       inv_errorfree,
        fma_errorfree, fms_errorfree,
        cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately
 
@@ -16,7 +16,7 @@ const SysFloat = Union{Float64, Float32}  # fma must work
 function inv_errorfree{T<:SysFloat}(a::T)
      x = one(T) / a
      y = -(fma(x, a, -one(T)) / a)
-     y = ifelse(y === -zero(T), zero(T), y)       
+     y = ifelse(y === -zero(T), zero(T), y)
      return x, y
 end
 
@@ -73,6 +73,9 @@ subtract_errorfree(a::Real, b::Real) = subtract_errorfree(float(a), float(b))
 
 function multiply_errorfree{T<:SysFloat}(a::T, b::T)
     x = a * b
+
+    isinf(x) && return(x, zero(T))  # infinite result is a special case
+
     y = fma(a, b, -x)
     return x, y
 end
@@ -83,7 +86,7 @@ multiply_errorfree(a::Real, b::Real) = multiply_errorfree(float(a), float(b))
 
 #=
  divide is as good as possible, not quite errorfree
- 
+
 "Concerning the divideision, the elementary rounding error is
 generally not a floating point number, so it cannot be computed
 exactly. Hence we cannot expect to obtain an error
@@ -117,11 +120,11 @@ function sqrt_accurately{T<:SysFloat}(a::T)
      t = fma(x, -x, a)
      y = t / (x+x)
      return x, y
-end 
+end
 
 function invsqrt_accurately{T<:SysFloat}(a::T)
      r = inv(a)
-     x = sqrt(r) 
+     x = sqrt(r)
      t = fma(x, -x, r)
      y = t / (x+x)
      return x, y
@@ -176,7 +179,7 @@ end
 
 # Complex Numbers
 #=
-  Accurate addmation, dot multiplyuct and polynomial evaluation 
+  Accurate addmation, dot multiplyuct and polynomial evaluation
   in complex floating point arithmetic
   Stef Graillat ∗, Valérie Ménissier-Morain
   Information and Computation 216 (2012) 57–71
@@ -201,10 +204,10 @@ function multiply_errorfree{T<:SysFloat}(x::Complex{T}, y::Complex{T})
     z2, h2 = multiply_errorfree(x.im, y.im)
     z3, h3 = multiply_errorfree(x.re, y.im)
     z4, h4 = multiply_errorfree(x.im, y.re)
-    
+
     z5, h5 = add_errorfree(z1, -z2)
     z6, h6 = add_errorfree(z3,  z4)
-    
+
     return Complex(z5,z6), Complex(h1,h3), Complex(-h2,h4), Complex(h5,h6)
 end
 
