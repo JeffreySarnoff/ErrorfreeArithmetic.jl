@@ -24,5 +24,3 @@ end
 
 @test add_errorfree(1/sqrt(pi), 1/sqrt(catalan)) == correct_add(1/sqrt(pi), 1/sqrt(catalan))
 @test multiply_errorfree(1/sqrt(pi), 1/sqrt(catalan)) == correct_multiply(1/sqrt(pi), 1/sqrt(catalan))
-
-@test multiply_errorfree(Inf, 3.1) == (Inf, 0.0)
