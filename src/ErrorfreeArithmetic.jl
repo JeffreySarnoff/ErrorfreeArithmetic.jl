@@ -176,7 +176,7 @@ end
 
 # Complex Numbers
 #=
-  Accurate addmation, dot multiplyuct and polynomial evaluation 
+  Accurate addition, dot multiply and polynomial evaluation 
   in complex floating point arithmetic
   Stef Graillat ∗, Valérie Ménissier-Morain
   Information and Computation 216 (2012) 57–71
