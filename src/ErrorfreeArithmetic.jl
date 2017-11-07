@@ -84,7 +84,7 @@ multiply_errorfree(a::Real, b::Real) = multiply_errorfree(float(a), float(b))
 #=
  divide is as good as possible, not quite errorfree
  
-"Concerning the divideision, the elementary rounding error is
+"Concerning the division, the elementary rounding error is
 generally not a floating point number, so it cannot be computed
 exactly. Hence we cannot expect to obtain an error
 free transformation for the divideision. ...
