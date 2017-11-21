@@ -107,6 +107,15 @@ function divide_accurately{T<:SysFloat}(a::T,b::T)
      return x, y
 end
 
+# 'y' (iff nonzero) must be negated to get the right result
+function inverse_accurately{T<:SysFloat}(b::T)
+   x = inv( b )
+   y = -(fma(x, b,-one(T)) / b)
+   y = ifelse(y === -zero(T), zero(T), y)
+   return x, y
+end
+
+
 #=
    While not strictly an error-free transformation it is quite reliable and recommended for use.
    Augmented precision square roots, 2-D norms and discussion on correctly reounding sqrt(x^2 + y^2)
