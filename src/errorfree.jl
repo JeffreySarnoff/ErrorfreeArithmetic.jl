@@ -75,9 +75,9 @@ end
 
 
 """
-    three_sum_sorted(a, b, x)
+    three_sum_sorted(a, b, c)
     
-*unchecked* requirement `|a| ≥ |b| ≥ |x|`
+*unchecked* requirement `|a| ≥ |b| ≥ |c|`
 
 Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
 """
@@ -96,6 +96,35 @@ Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
 """
 function three_sum(a::T,b::T,c::T) where T<: SysFloat
     s, t = two_sum(b, c)
+    x, u = two_sum(a, s)
+    y, z = two_sum(u, t)
+    x, y = two_sum_sorted(x, y)
+    return x, y, z
+end
+
+"""
+    three_diff_sorted(a, b, c)
+    
+*unchecked* requirement `|a| ≥ |b| ≥ |c|`
+
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+"""
+function three_diff_sorted(a::T,b::T,c::T) where T<:SysFloat
+    s, t = two_diff_sorted(-b, c)
+    x, u = two_sum_sorted(a, s)
+    y, z = two_sum_sorted(u, t)
+    x, y = two_sum_sorted(x, y)
+    return x, y, z
+end
+
+
+"""
+    three_diff(a, b, c)
+    
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+"""
+function three_diff(a::T,b::T,c::T) where T<: SysFloat
+    s, t = two_diff(-b, c)
     x, u = two_sum(a, s)
     y, z = two_sum(u, t)
     x, y = two_sum_sorted(x, y)
