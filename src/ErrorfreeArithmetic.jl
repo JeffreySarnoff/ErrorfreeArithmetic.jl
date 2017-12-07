@@ -27,12 +27,14 @@ function square_errorfree{T<:SysFloat}(a::T)
     return x, y
 end
 
+#= !!FIX ME!!
 function cube_errorfree{T<:SysFloat}(a::T)
     p = a*a; e = fma(a, a, -p)
     x = p*a; p = fma(p, a, -x)
-    y = e*a
+    y = p*a
     return x, y
 end
+=#
 
 #= two parameter error-free transformations =#
 
