@@ -5,7 +5,7 @@ export add_inorder_errorfree, subtract_inorder_errorfree,
        square_errorfree,  multiply_errorfree,
        inv_errorfree, 
        fma_errorfree, fms_errorfree,
-       cube_accurately, divide_accurately, sqrt_accurately, invsqrt_accurately
+       divide_accurately, sqrt_accurately, invsqrt_accurately
 
 
 const SysFloat = Union{Float64, Float32}  # fma must work
