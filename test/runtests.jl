@@ -1,7 +1,7 @@
 using ErrorfreeArithmetic
 using Base.Test
 
-function correct_add{T<:AbstractFloat}(a::T, b::T)
+function correct_add(a::T, b::T) where T<:AbstractFloat
      aa = convert(BigFloat, a)
      bb = convert(BigFloat, b)
      ab = aa + bb
@@ -10,7 +10,7 @@ function correct_add{T<:AbstractFloat}(a::T, b::T)
      return hi, lo
 end
 
-function correct_multiply{T<:AbstractFloat}(a::T, b::T)
+function correct_multiply(a::T, b::T) where T<:AbstractFloat
      aa = convert(BigFloat, a)
      bb = convert(BigFloat, b)
      ab = aa * bb
