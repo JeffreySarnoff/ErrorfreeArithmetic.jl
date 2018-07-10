@@ -1,4 +1,4 @@
-function two_inv(b::T) where {T<:Base.IEEEFloat}
+function two_inv(b::T) where {T<:AbstractFloat}
      hi = inv(b)
      lo = fma(hi, b, -1.0)
      lo = -lo / b
