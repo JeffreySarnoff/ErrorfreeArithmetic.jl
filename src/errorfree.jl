@@ -134,7 +134,7 @@ end
     
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
-function three_diff(a::T,b::T,c::T) where T<: {T<:AbstractFloat}
+function three_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
     s, t = two_diff(-b, c)
     x, u = two_sum(a, s)
     y, z = two_sum(u, t)
@@ -177,24 +177,13 @@ end
 
 Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
 """
-function three_fma(a::T, b::T, c::T) where {T<:Base.IEEEFloat}
+function three_fma(a::T, b::T, c::T) where {T<:IEEEFloat}
      x = fma(a, b, c)
      y, z = two_prod(a, b)
      t, z = two_sum(c, z)
      t, u = two_sum_(y, t)
      y = ((t - x) + u)
      y, z = two_sum_sorted(y, z)
-     return x, y, z
-end
-
-function three_fma(a::T, b::T, c::T) where {T<:AbstractFloat}
-     x = fma(a, b, c)
-     y, z = two_prod(a, b)
-     t, z = two_sum(c, z)
-     t, u = two_sum_(y, t)
-     y = ((t - x) + u)
-     y, z = two_sum_sorted(y, z)
-     x, y, z = three_sum_sorted(x, y, z)
      return x, y, z
 end
 
