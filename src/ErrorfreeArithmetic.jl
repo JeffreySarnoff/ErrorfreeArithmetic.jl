@@ -7,6 +7,8 @@ export two_sum, two_diff, two_prod, two_inv, two_div,
        two_sqrt, two_cbrt, three_cbrt,
        three_fma
 
+import Base: IEEEFloat
+
 include("errorfree.jl")
 include("errorbest.jl")
 
