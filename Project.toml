@@ -1,0 +1,7 @@
+desc = "Error-free arithmetic transformations."
+keywords = ["floating-point", "error-free", "extended-precision"]
+name = "ErrorfreeArithmetic"
+author = "Jeffrey Sarnoff"
+license = "MIT"
+uuid = "52c05e8a-840c-11e8-005a-156774cd6a6f"
+version = "v0.1.0"
