@@ -8,9 +8,9 @@ export two_sum, two_diff, two_prod, two_inv, two_div,
        three_fma
 
 try
-    import Base: IEEEFloat
+    import Base.IEEEFloat
 catch
-    const IEEEFloat = Union{Float64, Float32, Float16}
+    IEEEFloat = Union{Float64, Float32, Float16}
 end
 
 include("errorfree.jl")
