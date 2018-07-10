@@ -3,6 +3,9 @@ using ErrorfreeArithmetic
 if VERSION > v"0.6.9"
     using Test
 else
+    if !isdefined IEEEFloat
+        const IEEEFloat = Union{Float64, Float32, Float16}
+    end
     using Base.Test
 end
 
