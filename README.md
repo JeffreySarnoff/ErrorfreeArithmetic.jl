@@ -10,6 +10,7 @@ Error-free transformations are used to get results with extra accuracy.
 
 -----
 
+
 ## exports
 
 *These are error-free transformations.*    
@@ -25,6 +26,13 @@ Error-free transformations are used to get results with extra accuracy.
 *they are as accurate as possible given the working precision.*  
 
 - `two_inv`, `two_div`, `two_sqrt`
+
+### naming
+
+The routines named with the prefix `two_` return a two-tuple holding `(high_order_part, low_order_part)`.
+
+Those named with the prefix `three_` return a three-tuple holding `(high_part, mid_part, low_part)`.
+
 
 ## introduction
 
