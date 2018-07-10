@@ -9,7 +9,8 @@ export two_sum, two_diff, two_prod, two_inv, two_div,
 
 try
     import Base.IEEEFloat
-catch
+end
+try
     IEEEFloat = Union{Float64, Float32, Float16}
 end
 
