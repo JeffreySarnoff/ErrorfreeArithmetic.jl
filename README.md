@@ -14,19 +14,17 @@ Error-free transformations are used to get results with extra accuracy.
 
 *These are error-free transformations.*    
 
-add_errorfree, subtract_errorfree,   
-add_inorder_errorfree, subtract_inorder_errorfree,    
-square_errorfree,  multiply_errorfree,    
-fma_errorfree, fms_errorfree
+- two_sum, two_diff, two_sum_sorted, two_diff_sorted
+- three_sum, three_diff, three_sum_sorted, three_diff_sorted
+- two_square, two_cube, three_cube
+- two_prod, three_prod
+- three_fma
 
-*This is likely an error-free transformation, though I have not seen a proof.*    
-inv_errorfree 
 
-*While these are not strictly error-free transformations, they are very nearly so.*    
-*They are as accurate as possible given the working precision.*  
+*While these are not strictly error-free transformations,*    
+*they are as accurate as possible given the working precision.*  
 
-cube_accurately, divide_accurately,    
-sqrt_accurately, invsqrt_accurately    
+- two_inv, two_div, two_sqrt
 
 ## introduction
 
