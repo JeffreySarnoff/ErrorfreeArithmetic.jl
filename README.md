@@ -14,17 +14,17 @@ Error-free transformations are used to get results with extra accuracy.
 
 *These are error-free transformations.*    
 
-- two_sum, two_diff, two_sum_sorted, two_diff_sorted
-- three_sum, three_diff, three_sum_sorted, three_diff_sorted
-- two_square, two_cube, three_cube
-- two_prod, three_prod
-- three_fma
+- `two_sum`, `two_diff`, `two_sum_sorted`, `two_diff_sorted`
+- `three_sum`, `three_diff`, `three_sum_sorted`, `three_diff_sorted`
+- `two_square`, `two_cube`, `three_cube`
+- `two_prod`, `three_prod`
+- `three_fma`
 
 
 *While these are not strictly error-free transformations,*    
 *they are as accurate as possible given the working precision.*  
 
-- two_inv, two_div, two_sqrt
+- `two_inv`, `two_div`, `two_sqrt`
 
 ## introduction
 
