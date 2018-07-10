@@ -3,13 +3,13 @@ using Test
 
 Base.BigFloat(x::T) where {T} = Base.convert(BigFloat, x)
 
-function hilo(::Type{T} x::BigFloat) where {T}
+function hilo(::Type{T}, x::BigFloat) where {T}
     hi = T(x)
     lo = T(x - hi)
     return hi, lo
 end
 
-function himdlo(::Type{T} x::BigFloat) where {T}
+function himdlo(::Type{T}, x::BigFloat) where {T}
     hi = T(x)
     md = T(x - hi)
     lo = T(x - hi - md)
