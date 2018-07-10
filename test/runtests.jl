@@ -19,8 +19,8 @@ function correct_multiply{T<:AbstractFloat}(a::T, b::T)
      return hi, lo
 end
 
-@test add_errorfree(sqrt(pi), sqrt(catalan)) == correct_add(sqrt(pi), sqrt(catalan))
-@test multiply_errorfree(sqrt(pi), sqrt(catalan)) == correct_multiply(sqrt(pi), sqrt(catalan))
+@test two_sum(sqrt(pi), sqrt(catalan)) == correct_add(sqrt(pi), sqrt(catalan))
+@test two_prod(sqrt(pi), sqrt(catalan)) == correct_multiply(sqrt(pi), sqrt(catalan))
 
-@test add_errorfree(1/sqrt(pi), 1/sqrt(catalan)) == correct_add(1/sqrt(pi), 1/sqrt(catalan))
-@test multiply_errorfree(1/sqrt(pi), 1/sqrt(catalan)) == correct_multiply(1/sqrt(pi), 1/sqrt(catalan))
+@test two_sum(1/sqrt(pi), 1/sqrt(catalan)) == correct_add(1/sqrt(pi), 1/sqrt(catalan))
+@test two_prod(1/sqrt(pi), 1/sqrt(catalan)) == correct_multiply(1/sqrt(pi), 1/sqrt(catalan))
