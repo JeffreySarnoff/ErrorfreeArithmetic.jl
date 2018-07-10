@@ -1,13 +1,16 @@
 module ErrorfreeArithmetic
 
-export add_inorder_errorfree, subtract_inorder_errorfree,
-       add_errorfree, subtract_errorfree, 
-       square_errorfree,  multiply_errorfree,
-       inv_errorfree, 
-       fma_errorfree, fms_errorfree,
-       divide_accurately, sqrt_accurately, invsqrt_accurately
+export two_sum, two_diff, two_prod, two_inv, two_div,
+       two_sum_sorted, two_diff_sorted,
+       three_sum, three_diff, three_prod,
+       three_sum_sorted, three_diff_sorted,
+       two_sqrt, two_cbrt, three_cbrt
+       three_fma
 
+include("errorfree.jl")
+include("errorbest.jl")
 
+#=
 const SysFloat = Union{Float64, Float32}  # fma must work
 
 #= single parameter error-free transformations =#
@@ -220,4 +223,5 @@ function multiply_errorfree{T<:SysFloat}(x::Complex{T}, y::Complex{T})
 end
 
 
+=#
 end # module
