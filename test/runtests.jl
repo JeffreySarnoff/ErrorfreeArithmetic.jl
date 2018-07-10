@@ -1,11 +1,8 @@
 using ErrorfreeArithmetic
 
-if VERSION > v"0.6.9"
+try
     using Test
-else
-    if !isdefined IEEEFloat
-        const IEEEFloat = Union{Float64, Float32, Float16}
-    end
+catch
     using Base.Test
 end
 
