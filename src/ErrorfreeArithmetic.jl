@@ -15,3 +15,5 @@ end
 
 include("errorfree.jl")
 include("errorbest.jl")
+
+end # ErrorfreeArithmetic
