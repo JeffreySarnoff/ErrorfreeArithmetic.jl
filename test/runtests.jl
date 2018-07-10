@@ -1,12 +1,7 @@
 using ErrorfreeArithmetic
+using Test
 
-try
-    using Test
-catch
-    using Base.Test
-end
-
-BigFloat(x::T) where {T<:IEEEFloat} = Base.convert(BigFloat, x)
+Base.BigFloat(x::T) where {T} = Base.convert(BigFloat, x)
 
 function hilo(::Type{T} x::BigFloat) where {T}
     hi = T(x)
