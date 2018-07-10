@@ -1,26 +1,97 @@
 using ErrorfreeArithmetic
-using Base.Test
 
-function correct_add{T<:AbstractFloat}(a::T, b::T)
-     aa = convert(BigFloat, a)
-     bb = convert(BigFloat, b)
-     ab = aa + bb
-     hi = T(ab)
-     lo = T(ab - hi)
-     return hi, lo
+if VERSION > v"0.6.9"
+    using Test
+else
+    using Base.Test
 end
 
-function correct_multiply{T<:AbstractFloat}(a::T, b::T)
-     aa = convert(BigFloat, a)
-     bb = convert(BigFloat, b)
-     ab = aa * bb
-     hi = T(ab)
-     lo = T(ab - hi)
-     return hi, lo
+BigFloat(x::T) where {T<:IEEEFloat} = convert(BigFloat, x)
+
+function hilo(::Type{T} x::BigFloat) where {T<:IEEEFloat}
+    hi = T(x)
+    lo = T(x - hi)
+    return hi, lo
 end
 
-@test two_sum(sqrt(pi), sqrt(catalan)) == correct_add(sqrt(pi), sqrt(catalan))
-@test two_prod(sqrt(pi), sqrt(catalan)) == correct_multiply(sqrt(pi), sqrt(catalan))
+function himdlo(::Type{T} x::BigFloat) where {T<:IEEEFloat}
+    hi = T(x)
+    md = T(x - hi)
+    lo = T(x - hi - md)
+    return hi, md, lo
+end
 
-@test two_sum(1/sqrt(pi), 1/sqrt(catalan)) == correct_add(1/sqrt(pi), 1/sqrt(catalan))
-@test two_prod(1/sqrt(pi), 1/sqrt(catalan)) == correct_multiply(1/sqrt(pi), 1/sqrt(catalan))
+function calc_two_sum(a::T, b::T) where {T<:IEEEFloat}
+    aa, bb = BigFloat(a), BigFloat(b)
+    ab = aa + bb
+    return hilo(T, ab)
+end
+
+function calc_two_diff(a::T, b::T) where {T<:IEEEFloat}
+    aa, bb = BigFloat(a), BigFloat(b)
+    ab = aa - bb
+    return hilo(T, ab)
+end
+
+function calc_two_prod(a::T, b::T) where {T<:IEEEFloat}
+    aa, bb = BigFloat(a), BigFloat(b)
+    ab = aa * bb
+    return hilo(T, ab)
+end
+
+function calc_two_div(a::T, b::T) where {T<:IEEEFloat}
+    aa, bb = BigFloat(a), BigFloat(b)
+    ab = aa / bb
+    return hilo(T, ab)
+end
+
+function calc_two_sqrt(a::T) where {T<:IEEEFloat}
+    aa = BigFloat(a)
+    ab = sqrt(aa)
+    return hilo(T, ab)
+end
+
+function isclosest(lo::T, low::T) where {T<:IEEEFloat}
+    lo === low || ((abs(lo - low) <= abs(lo - nextfloat(low))) && (abs(lo - low) <= abs(lo - prevfloat(low))))
+end
+
+function test_two_sum(a::T, b::T) where {T<:IEEEFloat}
+    hi, lo = two_sum(a, b)
+    high, low = calc_two_sum(a, b)
+    hi === high && lo === low
+end
+
+function test_two_diff(a::T, b::T) where {T<:IEEEFloat}
+    hi, lo = two_diff(a, b)
+    high, low = calc_two_diff(a, b)
+    hi === high && lo === low
+end
+
+function test_two_prod(a::T, b::T) where {T<:IEEEFloat}
+    hi, lo = two_prod(a, b)
+    high, low = calc_two_prod(a, b)
+    hi === high && lo === low
+end
+
+function test_two_sqrt(a::T) where {T<:IEEEFloat}
+    hi, lo = two_sqrt(a)
+    high, low = calc_two_sqrt(a)     
+    hi === high && isclosest(lo, low)
+end
+
+function test_two_div(a::T, b::T) where {T<:IEEEFloat}
+    hi, lo = two_div(a, b)
+    high, low = calc_two_div(a, b)     
+    hi === high && isclosest(lo, low)
+end
+
+
+
+a = sqrt(2.0)
+b = sqrt(987654.0)
+
+@test test_two_sum(a, b)
+@test test_two_diff(a, b)
+@test test_two_prod(a, b)
+@test test_two_sqrt(a, b)
+@test test_two_div(a, b)
