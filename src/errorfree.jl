@@ -171,3 +171,36 @@ function three_cube(a::T) where {T<:AbstractFloat}
     z += t
     return x, y, z
 end
+
+"""
+   three_fma(a, b, c)
+
+Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
+"""
+function three_fma(a::T, b::T, c::T) where {T<:Base.IEEEFloat}
+     x = fma(a, b, c)
+     y, z = two_prod(a, b)
+     t, z = two_sum(c, z)
+     t, u = two_sum_(y, t)
+     y = ((t - x) + u)
+     y, z = two_sum_sorted(y, z)
+     return x, y, z
+end
+
+function three_fma(a::T, b::T, c::T) where {T<:AbstractFloat}
+     x = fma(a, b, c)
+     y, z = two_prod(a, b)
+     t, z = two_sum(c, z)
+     t, u = two_sum_(y, t)
+     y = ((t - x) + u)
+     y, z = two_sum_sorted(y, z)
+     x, y, z = three_sum_sorted(x, y, z)
+     return x, y, z
+end
+
+
+#=
+   three_fma algorithm from
+   Sylvie Boldo and Jean-Michel Muller
+   Some Functions Computable with a Fused-mac
+=#
