@@ -7,9 +7,9 @@ export two_sum, two_diff, two_prod, two_inv, two_div,
        two_sqrt, two_cbrt, three_cbrt,
        three_fma
 
-if VERSION > v"0.6.9"
+try
     import Base: IEEEFloat
-else
+catch
     const IEEEFloat = Union{Float64, Float32, Float16}
 end
 
