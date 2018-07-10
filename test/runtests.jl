@@ -6,7 +6,7 @@ catch
     using Base.Test
 end
 
-BigFloat(x::T) where {T<:IEEEFloat} = convert(BigFloat, x)
+BigFloat(x::T) where {T<:IEEEFloat} = Base.convert(BigFloat, x)
 
 function hilo(::Type{T} x::BigFloat) where {T<:IEEEFloat}
     hi = T(x)
