@@ -14,6 +14,6 @@ export # error-free transformations
 import Base.IEEEFloat
 
 include("errorfree.jl")
-include("errorleast.jl")
+include("leasterror.jl")
 
 end # ErrorfreeArithmetic
