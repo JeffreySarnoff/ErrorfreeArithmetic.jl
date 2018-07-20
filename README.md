@@ -13,19 +13,24 @@ Error-free transformations are used to get results with extra accuracy.
 
 ## exports
 
-*These are error-free transformations.*    
+*These are error-free transformations.*
 
-- `two_sum`, `two_diff`, `two_sum_sorted`, `two_diff_sorted`
-- `three_sum`, `three_diff`, `three_sum_sorted`, `three_diff_sorted`
-- `two_square`, `two_cube`, `three_cube`
-- `two_prod`, `three_prod`
+- `two_sum`, `two_diff`, `two_prod`
+- `two_square`, `two_cube`
+- `three_sum`, `three_diff`, `three_prod`
 - `three_fma`
 
+*These are error-free transformations with magnitude sorted arguments.*
 
-*While these are not strictly error-free transformations,*    
-*they are as accurate as possible given the working precision.*  
+- `two_hilo_sum`, `two_lohi_sum`
+- `two_hilo_diff`, `two_lohi_diff`
+- `three_hilo_sum`, `three_lohi_sum`
+- `three_hilo_diff`, `three_lohi_diff`
 
-- `two_inv`, `two_div`, `two_sqrt`
+*These are least-error transformations, as close to error-free as possible.*
+
+- `two_inv`, `two_sqrt`
+- `two_div`
 
 ### naming
 
