@@ -3,8 +3,8 @@ module ErrorfreeArithmetic
 # these exports implement error-free transformations
 export two_sum, two_diff, two_prod 
        three_sum, three_diff, three_prod,
-       two_sum_sorted, two_diff_sorted,
-       three_sum_sorted, three_diff_sorted,
+       two_hilo_sum, two_hilo_diff,
+       three_hilo_sum, three_hilo_diff,
        three_fma
 
 # these exports implement least-error transformations
