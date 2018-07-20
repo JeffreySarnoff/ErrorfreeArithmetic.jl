@@ -144,14 +144,14 @@ end
 
 
 """
-    three_mul(a, b, c)
+    three_prod(a, b, c)
     
 Computes `s = fl(a*b*c)` and `e1 = err(a*b*c), e2 = err(e1)`.
 """
-function three_mul(a::T, b::T, c::T) where {T<:AbstractFloat}
-    y, z = two_mul(a, b)
-    x, y = two_mul(y, c)
-    z, t = two_mul(z, c)
+function three_prod(a::T, b::T, c::T) where {T<:AbstractFloat}
+    y, z = two_prod(a, b)
+    x, y = two_prod(y, c)
+    z, t = two_(z, c)
     y, z = two_sum_sorted(y, z)
     z += t
     return x, y, z
@@ -164,10 +164,10 @@ end
 Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
 """
 function three_cube(a::T) where {T<:AbstractFloat}
-    y, z = mul_(a, a)
-    x, y = mul_(y, a)
-    z, t = mul_(z, a)
-    y, z = add_hilo_(y, z)
+    y, z = two_prod(a, a)
+    x, y = two_prod(y, a)
+    z, t = two_prod(z, a)
+    y, z = two_sum_sorted(y, z)
     z += t
     return x, y, z
 end
@@ -181,7 +181,7 @@ function three_fma(a::T, b::T, c::T) where {T<:IEEEFloat}
      x = fma(a, b, c)
      y, z = two_prod(a, b)
      t, z = two_sum(c, z)
-     t, u = two_sum_(y, t)
+     t, u = two_sum(y, t)
      y = ((t - x) + u)
      y, z = two_sum_sorted(y, z)
      return x, y, z
