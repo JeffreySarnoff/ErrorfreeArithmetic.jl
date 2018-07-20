@@ -11,7 +11,12 @@ export # error-free transformations
        # least-error transformations, as close to error-free as possible
        two_inv, two_sqrt, two_div
 
-import Base.IEEEFloat
+
+if VERSION >= v"0.7-"
+    import Base.IEEEFloat
+else
+    const IEEEFloat = Union{Float64, Float32, Float16}
+end
 
 include("errorfree.jl")
 include("leasterror.jl")
