@@ -213,7 +213,7 @@ end
 
 Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
 """
-function three_hilo_sum(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_lohi_sum(a::T,b::T,c::T) where {T<:AbstractFloat}
     s, t = two_hilo_sum(b, a)
     x, u = two_hilo_sum(c, s)
     y, z = two_hilo_sum(u, t)
@@ -243,7 +243,7 @@ end
 
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
-function three_hilo_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_lohi_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
     s, t = two_hilo_diff(-b, a)
     x, u = two_hilo_sum(c, s)
     y, z = two_hilo_sum(u, t)
