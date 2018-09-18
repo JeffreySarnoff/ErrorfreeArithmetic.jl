@@ -93,7 +93,7 @@ Computes `s = fl(a*b*c)` and `e1 = err(a*b*c), e2 = err(e1)`.
 function three_prod(a::T, b::T, c::T) where {T<:AbstractFloat}
     y, z = two_prod(a, b)
     x, y = two_prod(y, c)
-    z, t = two_(z, c)
+    z, t = two_prod(z, c)
     y, z = two_hilo_sum(y, z)
     z += t
     return x, y, z
