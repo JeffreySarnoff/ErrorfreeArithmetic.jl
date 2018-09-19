@@ -70,6 +70,40 @@ function three_sum(a::T,b::T,c::T) where {T<:AbstractFloat}
     return x, y, z
 end
 
+"""
+    four_sum(a, b, c, d)
+    
+Computes `s = fl(a+b+c+d)` and `e1 = err(a+b+c+d), e2 = err(e1), e3 = err(e2)`.
+"""
+function four_sum(a::T,b::T,c::T,d::T) where {T<: AbstractFloat}
+    t0, t1 = two_sum(a ,  b)
+    t0, t2 = two_sum(t0,  c)
+    a,  t3 = two_sum(t0,  d)
+    t0, t1 = two_sum(t1, t2)
+    b,  t2 = two_sum(t0, t3)
+    c,  d  = two_sum(t1, t2)
+    return a, b, c, d
+end
+
+"""
+    five_sum(a, b, c, d, e)
+    
+Computes `s = fl(a+b+c+d+e)` and 
+    `e1 = err(a+b+c+d), e2 = err(e1), e3 = err(e2), e4 = err(e3)`.
+"""
+function five_sum(v::T, w::T, x::T, y::T, z::T) where {T<:AbstractFloat}
+    t0, t4 = two_sum(y, z)
+    t0, t3 = two_sum(x, t0)
+    t0, t2 = two_sum(w, t0)
+    a, t1  = two_sum(v, t0)
+    t0, t3 = two_sum(t3, t4)
+    t0, t2 = two_sum(t2, t0)
+    b, t1  = two_sum(t1, t0)
+    t0, t2 = two_sum(t2, t3)
+    c, t1  = two_sum(t1, t0)
+    d, e   = two_sum(t1, t2)
+    return a, b, c, d, e
+end
 
 """
     three_diff(a, b, c)
@@ -134,6 +168,8 @@ function three_fma(a::T, b::T, c::T) where {T<:IEEEFloat}
      y, z = two_hilo_sum(y, z)
      return x, y, z
 end
+
+
 
 # with arguments sorted by magnitude
 
