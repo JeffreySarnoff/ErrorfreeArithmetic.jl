@@ -72,6 +72,19 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
 end
 
 """
+    three_diff(a, b, c)
+    
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+"""
+function three_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
+    s, t = two_diff(-b, c)
+    x, u = two_sum(a, s)
+    y, z = two_sum(u, t)
+    x, y = two_hilo_sum(x, y)
+    return x, y, z
+end
+
+"""
     two_square(a)
 
 Computes `s = fl(a*a)` and `e = err(a*a)`.
@@ -95,6 +108,21 @@ function two_cube(a::T) where {T<:AbstractFloat}
 end 
 
 """
+    three_cube(a)
+    
+Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
+"""
+function three_cube(a::T) where {T<:AbstractFloat}
+    y, z = two_prod(a, a)
+    x, y = two_prod(y, a)
+    z, t = two_prod(z, a)
+    y, z = two_hilo_sum(y, z)
+    z += t
+    return x, y, z
+end
+
+
+"""
     two_prod(a, b)
 
 Computes `s = fl(a*b)` and `e = err(a*b)`.
@@ -105,22 +133,6 @@ Computes `s = fl(a*b)` and `e = err(a*b)`.
     p, e
 end
 
-
-
-"""
-    three_diff(a, b, c)
-    
-Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
-"""
-function three_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
-    s, t = two_diff(-b, c)
-    x, u = two_sum(a, s)
-    y, z = two_sum(u, t)
-    x, y = two_hilo_sum(x, y)
-    return x, y, z
-end
-
-
 """
     three_prod(a, b, c)
     
@@ -130,21 +142,6 @@ function three_prod(a::T, b::T, c::T) where {T<:AbstractFloat}
     y, z = two_prod(a, b)
     x, y = two_prod(y, c)
     z, t = two_prod(z, c)
-    y, z = two_hilo_sum(y, z)
-    z += t
-    return x, y, z
-end
-
-
-"""
-    three_cube(a)
-    
-Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
-"""
-function three_cube(a::T) where {T<:AbstractFloat}
-    y, z = two_prod(a, a)
-    x, y = two_prod(y, a)
-    z, t = two_prod(z, a)
     y, z = two_hilo_sum(y, z)
     z += t
     return x, y, z
