@@ -1,21 +1,22 @@
 function two_inv(b::T) where {T<:AbstractFloat}
      hi = inv(b)
-     lo = fma(hi, b, -one(T))
-     lo = -lo / b
+     lo = fma(-hi, b, one(T))
+     lo /= b
      return hi, lo
 end
 
 function two_div(a::T, b::T) where {T<:AbstractFloat}
      hi = a / b
-     lo = fma(hi, b, -a)
-     lo = -lo / b
+     lo = fma(-hi, b, a)
+     lo /= b
      return hi, lo
 end
 
 function two_sqrt(a::T) where {T<:AbstractFloat}
     hi = sqrt(a)
     lo = fma(-hi, hi, a)
-    lo /= hi + hi
+    lo /= 2
+    lo /= hi
     return hi, lo
 end
 
