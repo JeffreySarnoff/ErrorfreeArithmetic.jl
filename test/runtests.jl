@@ -70,6 +70,28 @@ function calc_two_cbrt(a::T) where {T}
     return hilo(T, ab)
 end
 
+
+function calc_three_sum(a::T, b::T, c::T) where {T}
+    aa, bb, cc = BigFloat(a), BigFloat(b), BigFloat(c)
+    abc = aa + bb + cc
+    return himdlo(T, abc)
+end
+
+function calc_three_diff(a::T, b::T, c::T) where {T}
+    aa, bb, cc = BigFloat(a), BigFloat(b), BigFloat(c)
+    abc = aa - bb - cc
+    return himdlo(T, abc)
+end
+
+function calc_three_prod(a::T, b::T, c::T) where {T}
+    aa, bb, cc = BigFloat(a), BigFloat(b), BigFloat(c)
+    abc = aa * bb * cc
+    return himdlo(T, abc)
+end
+
+
+
+
 function isclosest(lo::T, low::T) where {T}
     lo === low || ((abs(lo - low) <= abs(lo - nextfloat(low))) && (abs(lo - low) <= abs(lo - prevfloat(low))))
 end
@@ -129,9 +151,29 @@ function test_two_div(a::T, b::T) where {T}
 end
 
 
+function test_three_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_sum(a, b, c)
+    high, mid, low = calc_three_sum(a, b, c)
+    hi === high && md === mid && lo === low
+end
+
+function test_three_diff(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_diff(a, b, c)
+    high, mid, low = calc_three_diff(a, b, c)
+    hi === high && md === mid && lo === low
+end
+
+function test_three_prod(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_prod(a, b, c)
+    high, mid, low = calc_three_prod(a, b, c)
+    hi === high && md === mid && lo === low
+end
+
+
 
 a = sqrt(2.0)
 b = sqrt(987654.0)
+c = cbrt(456.125)
 
 @test test_two_sum(a, b)
 @test test_two_diff(a, b)
@@ -142,3 +184,7 @@ b = sqrt(987654.0)
 @test test_two_div(a, b)
 @test test_two_sqrt(b)
 @test test_two_cbrt(a)
+
+@test test_three_sum(a, b, c)
+@test test_three_diff(a, b, c)
+@test test_three_prod(a, b, c)
