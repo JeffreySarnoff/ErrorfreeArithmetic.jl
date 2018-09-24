@@ -34,6 +34,24 @@ function calc_two_prod(a::T, b::T) where {T}
     return hilo(T, ab)
 end
 
+function calc_two_square(a::T) where {T}
+    aa = BigFloat(a)
+    ab = aa * aa
+    return hilo(T, ab)
+end
+
+function calc_two_cube(a::T) where {T}
+    aa = BigFloat(a)
+    ab = aa * aa * aa
+    return hilo(T, ab)
+end
+
+function calc_two_inv(a::T) where {T}
+    aa = BigFloat(a)
+    ab = inv(aa)
+    return hilo(T, ab)
+end
+
 function calc_two_div(a::T, b::T) where {T}
     aa, bb = BigFloat(a), BigFloat(b)
     ab = aa / bb
@@ -43,6 +61,12 @@ end
 function calc_two_sqrt(a::T) where {T}
     aa = BigFloat(a)
     ab = sqrt(aa)
+    return hilo(T, ab)
+end
+
+function calc_two_cbrt(a::T) where {T}
+    aa = BigFloat(a)
+    ab = cbrt(aa)
     return hilo(T, ab)
 end
 
@@ -62,6 +86,18 @@ function test_two_diff(a::T, b::T) where {T}
     hi === high && lo === low
 end
 
+function test_two_square(a::T) where {T}
+    hi, lo = two_square(a)
+    high, low = calc_two_square(a)     
+    hi === high && lo === low
+end
+
+function test_two_cube(a::T) where {T}
+    hi, lo = two_cube(a)
+    high, low = calc_two_cube(a)     
+    hi === high && lo === low
+end
+
 function test_two_prod(a::T, b::T) where {T}
     hi, lo = two_prod(a, b)
     high, low = calc_two_prod(a, b)
@@ -71,6 +107,18 @@ end
 function test_two_sqrt(a::T) where {T}
     hi, lo = two_sqrt(a)
     high, low = calc_two_sqrt(a)     
+    hi === high && isclosest(lo, low)
+end
+
+function test_two_cbrt(a::T) where {T}
+    hi, lo = two_cbrt(a)
+    high, low = calc_two_cbrt(a)     
+    hi === high && isclosest(lo, low)
+end
+
+function test_two_inv(a::T) where {T}
+    hi, lo = two_inv(a)
+    high, low = calc_two_inv(a)     
     hi === high && isclosest(lo, low)
 end
 
@@ -87,6 +135,10 @@ b = sqrt(987654.0)
 
 @test test_two_sum(a, b)
 @test test_two_diff(a, b)
+@test test_two_square(b)
+@test test_two_cube(a)
 @test test_two_prod(a, b)
+@test test_two_inv(b)
 @test test_two_div(a, b)
-@test test_two_sqrt(a)
+@test test_two_sqrt(b)
+@test test_two_cbrt(a)
