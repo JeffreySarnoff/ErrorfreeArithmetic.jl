@@ -136,15 +136,14 @@ end
 """
     three_prod(a, b, c)
     
-Computes `s = fl(a*b*c)` and `e1 = err(a*b*c), e2 = err(e1)`.
+Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
 function three_prod(a::T, b::T, c::T) where {T<:AbstractFloat}
-    y, z = two_prod(a, b)
-    x, y = two_prod(y, c)
-    z, t = two_prod(z, c)
-    y, z = two_hilo_sum(y, z)
-    z += t
-    return x, y, z
+    abhi, ablo = two_prod(a, b)
+    hi, abhiclo = two_prod(abhi, c)
+    ablochi, abloclo = two_prod(ablo, c)
+    md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
+    return hi, md, lo
 end
 
 #=
