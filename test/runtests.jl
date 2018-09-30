@@ -132,11 +132,13 @@ function test_two_sqrt(a::T) where {T}
     hi === high && isclosest(lo, low)
 end
 
+#=
 function test_two_cbrt(a::T) where {T}
     hi, lo = two_cbrt(a)
     high, low = calc_two_cbrt(a)     
     hi === high && isclosest(lo, low)
 end
+=#
 
 function test_two_inv(a::T) where {T}
     hi, lo = two_inv(a)
@@ -183,7 +185,7 @@ c = cbrt(456.125)
 @test test_two_inv(b)
 @test test_two_div(a, b)
 @test test_two_sqrt(b)
-@test test_two_cbrt(a)
+# @test test_two_cbrt(a)
 
 @test test_three_sum(a, b, c)
 @test test_three_diff(a, b, c)
