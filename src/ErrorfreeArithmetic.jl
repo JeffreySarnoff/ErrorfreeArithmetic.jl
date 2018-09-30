@@ -1,7 +1,8 @@
 module ErrorfreeArithmetic
 
        
-export # error-free transformations
+export SysFloat,
+       # error-free transformations
        two_sum, two_diff, two_prod, 
        three_sum, three_diff, three_prod,
        three_fma,
@@ -12,11 +13,14 @@ export # error-free transformations
        two_inv, two_sqrt, two_div
 
 
-if VERSION >= v"0.7-"
-    import Base.IEEEFloat
-else
-    const IEEEFloat = Union{Float64, Float32, Float16}
-end
+using Base.IEEEFloat
+
+"""
+    SysFloat
+
+SysFloats are floating point types with processor fma support.
+"""
+const SysFloat = Union{Float64, Float32}
 
 include("errorfree.jl")
 include("leasterror.jl")
