@@ -13,7 +13,7 @@ export SysFloat,
        two_inv, two_sqrt, two_div
 
 
-using Base.IEEEFloat
+using Base: IEEEFloat
 
 """
     SysFloat
