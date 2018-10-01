@@ -10,7 +10,10 @@ export SysFloat,
        two_hilo_sum, two_lohi_sum, two_hilo_diff, two_lohi_diff,
        three_hilo_sum, three_lohi_sum, three_hilo_diff, three_lohi_diff,
        # least-error transformations, as close to error-free as possible
-       two_inv, two_sqrt, two_div
+       two_div,
+       one_inv, one_sqrt,
+       # deprecated
+       two_inv, two_sqrt
 
 
 using Base: IEEEFloat
@@ -24,5 +27,9 @@ const SysFloat = Union{Float64, Float32}
 
 include("errorfree.jl")
 include("leasterror.jl")
+
+# deprecated
+two_inv(x::T) where {T<:AbstractFloat} = one_inv(x)
+two_sqrt(x::T) where {T<:AbstractFloat} = one_sqrt(x)
 
 end # ErrorfreeArithmetic
