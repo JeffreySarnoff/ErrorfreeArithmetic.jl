@@ -1,23 +1,25 @@
 const two27 = Float64(1<<27)
 
 """
-extractScalar 
+    extractscalar
 
-Splits value relative to an integral power of 2.
+Split a value relative to an integral power of 2
 
 hi is the high order part of p, lo is the residual part
 hi + lo === p
 """
-function extractScalar(value::Float64)
-   hi = (two27 + value) - two27
+@inline function extractscalar(value::Float64)
+    powoftwo =  ldexp(1.0, (53 - exponent(value)) >> 1) # 53 == precision(Float64)
+    return extractscalar(powoftwo, value)
+end
+
+function extractscalar(powoftwo::Float64, value::Float64)
+   hi = (powoftwo + value) - powoftwo
    lo = value - hi
    return hi, lo
 end
 
-function one_cube(value::Float64)
-   hi, lo = extractscalar(value)
-   return two_cube(hi, lo)
-end
+
 
 function two_cube(hi::T, lo::T) where {T<:AbstractFloat}
     hhh  = three_mul(hi, hi, hi)
