@@ -3,7 +3,7 @@ module ErrorfreeArithmetic
        
 export SysFloat,
        # error-free transformations
-       two_sum, two_diff, two_prod, 
+       two_sum, two_diff, two_prod, two_square,
        three_sum, three_diff, three_prod,
        three_fma,
        # error-free transformations with magnitude sorted arguments
