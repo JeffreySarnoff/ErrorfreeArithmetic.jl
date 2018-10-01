@@ -38,6 +38,7 @@ function four_sum(a::T,b::T,c::T,d::T) where {T<: AbstractFloat}
     return hi, hm, ml, lo
 end
 
+
 """
     five_sum(a, b, c, d, e)
     
@@ -96,31 +97,14 @@ Computes `s = fl(a*a)` and `e = err(a*a)`.
 end
 
 """
-    two_cube(a)
+    one_cube(a)
     
 Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
 """
-function two_cube(a::T) where {T<:AbstractFloat}
-    y = a*a; z = fma(a, a, -y)
-    x = y*a; y = fma(y, a, -x)
-    z = fma(z,a,y)
-    return x, z
-end 
-
-"""
-    three_cube(a)
-    
-Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
-"""
-function three_cube(a::T) where {T<:AbstractFloat}
-    y, z = two_prod(a, a)
-    x, y = two_prod(y, a)
-    z, t = two_prod(z, a)
-    y, z = two_hilo_sum(y, z)
-    z += t
-    return x, y, z
+function one_cube(value::Float64)
+   hi, lo = extractscalar(value)
+   return two_cube(hi, lo)
 end
-
 
 """
     two_prod(a, b)
