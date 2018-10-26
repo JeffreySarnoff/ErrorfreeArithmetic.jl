@@ -1,3 +1,15 @@
+#=
+this is a canonical implementation
+the implemented version benchmarked slightly better under a variety of inputs (julia v1.0.1)
+
+@inline function two_sum(a::T, b::T) where {T<:AbstractFloat}
+    hi = a + b
+    v  = hi - a
+    lo = (a - (hi - v)) + (b - v)
+    return hi, lo
+end
+=#
+
 """
     two_sum(a, b)
 
@@ -5,8 +17,9 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
 @inline function two_sum(a::T, b::T) where {T<:AbstractFloat}
     hi = a + b
-    v  = hi - a
-    lo = (a - (hi - v)) + (b - v)
+    a1 = hi - b
+    b1 = hi - a1
+    lo = (a - a1) + (b - b1)
     return hi, lo
 end
 
