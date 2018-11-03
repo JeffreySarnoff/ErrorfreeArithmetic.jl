@@ -103,7 +103,7 @@ end
     
 Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
-function four_sum(a::T,b::T,c::T,d::T) where {T<: AbstractFloat}
+function four_diff(a::T,b::T,c::T,d::T) where {T<: AbstractFloat}
     t0, t1 = two_diff(a ,  b)
     t0, t2 = two_diff(t0,  c)
     hi, t3 = two_diff(t0,  d)
@@ -157,6 +157,18 @@ function three_prod(a::T, b::T, c::T) where {T<:AbstractFloat}
     md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
     return hi, md, lo
 end
+
+"""
+    ad_minus_bc(a, b, c, d)
+
+Computes the determinant of a 2x2 matrix.
+"""
+function ad_minus_bc(a::T, b::T, c::T, d::T) where {T<:AbstractFloat}
+    adhi, adlo = two_prod(a,d)
+    bchi, bclo = two_prod(b,c)
+    return four_sum(adhi, adlo, -bchi, -bclo)
+end
+
 
 #=
    three_fma algorithm from
