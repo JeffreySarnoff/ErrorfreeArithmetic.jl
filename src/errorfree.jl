@@ -130,7 +130,7 @@ end
 
 Computes `s = fl(a*b)` and `e = err(a*b)`.
 """
-@inline function two_prod(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_prod(a::T, b::T) where {T<:FloatWithFMA}
     p = a * b
     e = fma(a, b, -p)
     p, e
@@ -141,7 +141,7 @@ end
     
 Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
-function three_prod(a::T, b::T, c::T) where {T<:AbstractFloat}
+function three_prod(a::T, b::T, c::T) where {T<:FloatWithFMA}
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     ablochi, abloclo = two_prod(ablo, c)
@@ -154,7 +154,7 @@ end
 
 Computes the determinant of a 2x2 matrix.
 """
-function ad_minus_bc(a::T, b::T, c::T, d::T) where {T<:AbstractFloat}
+function ad_minus_bc(a::T, b::T, c::T, d::T) where {T<:FloatWithFMA}
     adhi, adlo = two_prod(a,d)
     bchi, bclo = two_prod(b,c)
     return four_sum(adhi, adlo, -bchi, -bclo)
@@ -193,7 +193,7 @@ end
 
 Computes `s = fl(a+b)` and `e = err(a+b)`.
 """
-@inline function two_hilo_sum(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_hilo_sum(a::T, b::T) where {T<:FloatWithFMA}
     s = a + b
     e = b - (s - a)
     return s, e
@@ -206,7 +206,7 @@ end
 
 Computes `s = fl(a+b)` and `e = err(a+b)`.
 """
-@inline function two_lohi_sum(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_lohi_sum(a::T, b::T) where {T<:FloatWithFMA}
     s = b + a
     e = a - (s - b)
     return s, e
@@ -219,7 +219,7 @@ end
 
 Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
-@inline function two_hilo_diff(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_hilo_diff(a::T, b::T) where {T<:FloatWithFMA}
     s = a - b
     e = (a - s) - b
     s, e
@@ -232,7 +232,7 @@ end
 
 Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
-@inline function two_lohi_diff(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_lohi_diff(a::T, b::T) where {T<:FloatWithFMA}
     s = b - a
     e = (b - s) - a
     s, e
@@ -247,7 +247,7 @@ end
 
 Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
 """
-function three_hilo_sum(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_hilo_sum(a::T,b::T,c::T) where {T<:FloatWithFMA}
     s, t = two_hilo_sum(b, c)
     x, u = two_hilo_sum(a, s)
     y, z = two_hilo_sum(u, t)
@@ -262,7 +262,7 @@ end
 
 Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
 """
-function three_lohi_sum(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_lohi_sum(a::T,b::T,c::T) where {T<:FloatWithFMA}
     s, t = two_hilo_sum(b, a)
     x, u = two_hilo_sum(c, s)
     y, z = two_hilo_sum(u, t)
@@ -277,7 +277,7 @@ end
 
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
-function three_hilo_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_hilo_diff(a::T,b::T,c::T) where {T<:FloatWithFMA}
     s, t = two_hilo_diff(-b, c)
     x, u = two_hilo_sum(a, s)
     y, z = two_hilo_sum(u, t)
@@ -292,7 +292,7 @@ end
 
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
-function three_lohi_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_lohi_diff(a::T,b::T,c::T) where {T<:FloatWithFMA}
     s, t = two_hilo_diff(-b, a)
     x, u = two_hilo_sum(c, s)
     y, z = two_hilo_sum(u, t)
