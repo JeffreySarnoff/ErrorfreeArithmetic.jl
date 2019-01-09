@@ -23,6 +23,18 @@ SysFloats are floating point types with processor fma support.
 """
 const SysFloat = Union{Float64, Float32}
 
+"""
+    FloatWithFMA
+
+Floats with FMA support fused multiply-add, fma(x,y,z)
+""" FloatWithFMA
+
+if isdefined(Main, :DoubleFloats)
+    const FloatWithFMA = Union{Float64, Float32, Float16, Double64, Double32, Double16}
+else
+    const FloatWithFMA = Union{Float64, Float32, Float16}
+end
+
 include("errorfree.jl")
 include("leasterror.jl")
 
