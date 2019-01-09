@@ -86,18 +86,6 @@ lo == lo_accurate                                 # true
 This package is intended to be used in the support of other work.    
 All routines expect Float64 or Float32 or Float16 values.
 
-## compatibility with earlier versions
-
-Here are the aliases
-
-```julia
-using ErrorfreeArithmetic
-
-@inline add_errorfree(a::T, b::T) where {T<:Base.IEEEFloat} = two_sum(a, b)
-@inline subtract_errorfree(a::T, b::T) where {T<:Base.IEEEFloat} = two_diff(a, b)
-@inline multiply_errorfree(a::T, b::T) where {T<:Base.IEEEFloat} = two_prod(a, b)
-@inline square_errorfree(a::T) where {T<:Base.IEEEFloat} = two_square(a)
-```
 
 ## references
 
