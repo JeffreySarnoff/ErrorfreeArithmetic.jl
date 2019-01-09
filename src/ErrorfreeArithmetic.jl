@@ -11,8 +11,6 @@ export SysFloat,
        three_hilo_sum, three_lohi_sum, three_hilo_diff, three_lohi_diff,
        # least-error transformations, as close to error-free as possible
        two_div,
-       one_inv, one_sqrt,
-       # deprecated
        two_inv, two_sqrt
 
 
