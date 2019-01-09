@@ -15,7 +15,7 @@ end
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_sum(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_sum(a::T, b::T) where {T<:FloatWithFMA}
     hi = a + b
     a1 = hi - b
     b1 = hi - a1
@@ -28,7 +28,7 @@ end
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
-function three_sum(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_sum(a::T,b::T,c::T) where {T<:FloatWithFMA}
     s, t   = two_sum(b, c)
     hi, u  = two_sum(a, s)
     md, lo = two_sum(u, t)
@@ -41,7 +41,7 @@ end
     
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
-function four_sum(a::T,b::T,c::T,d::T) where {T<: AbstractFloat}
+function four_sum(a::T,b::T,c::T,d::T) where {T<:FloatWithFMA}
     t0, t1 = two_sum(a ,  b)
     t0, t2 = two_sum(t0,  c)
     hi, t3 = two_sum(t0,  d)
@@ -58,7 +58,7 @@ end
 Computes `s = fl(a+b+c+d+e)` and 
     `e1 = err(a+b+c+d), e2 = err(e1), e3 = err(e2), e4 = err(e3)`.
 """
-function five_sum(v::T, w::T, x::T, y::T, z::T) where {T<:AbstractFloat}
+function five_sum(v::T, w::T, x::T, y::T, z::T) where {T<:FloatWithFMA}
     t0, t4 = two_sum(y, z)
     t0, t3 = two_sum(x, t0)
     t0, t2 = two_sum(w, t0)
@@ -77,7 +77,7 @@ end
 
 Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
-@inline function two_diff(a::T, b::T) where {T<:AbstractFloat}
+@inline function two_diff(a::T, b::T) where {T<:FloatWithFMA}
     s = a - b
     v = s - a
     e = (a - (s - v)) - (b + v)
@@ -90,7 +90,7 @@ end
     
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
-function three_diff(a::T,b::T,c::T) where {T<:AbstractFloat}
+function three_diff(a::T,b::T,c::T) where {T<:FloatWithFMA}
     s, t = two_diff(-b, c)
     x, u = two_sum(a, s)
     y, z = two_sum(u, t)
@@ -103,7 +103,7 @@ end
     
 Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
-function four_diff(a::T,b::T,c::T,d::T) where {T<: AbstractFloat}
+function four_diff(a::T,b::T,c::T,d::T) where {T<:FloatWithFMA}
     t0, t1 = two_diff(a ,  b)
     t0, t2 = two_diff(t0,  c)
     hi, t3 = two_diff(t0,  d)
@@ -118,21 +118,69 @@ end
 
 Computes `s = fl(a*a)` and `e = err(a*a)`.
 """
-@inline function two_square(a::T) where {T<:AbstractFloat}
+@inline function two_square(a::T) where {T<:FloatWithFMA}
     p = a * a
     e = fma(a, a, -p)
     p, e
 end
 
 """
-    one_cube(a)
+    two_cube(a)
+    
+Computes `s = fl(a*a*a)` and `e1 = err(a*a*a)`.
+"""
+function two_cube(value::IEEEFloat)
+    hi, lo = extractscalar(value)
+    hhh  = three_mul(hi, hi, hi)
+    hhl  = three_mul(hi, hi, 3*lo)
+    hll  = three_mul(hi, 3*lo, lo)
+    lll  = three_mul(lo, lo, lo)
+    
+    himh = four_sum(hhh[1], hhl[1], hhh[2], hll[1])
+    mllo = four_sum(hhl[2], hll[2], lll[1], lll[2])
+    hilo = four_sum(himh[1], himh[2], mllo[1], mllo[2])
+
+    return hilo[1], hilo[2]
+end
+
+"""
+    three_cube(a)
     
 Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
 """
-function one_cube(value::Float64)
-   hi, lo = extractscalar(value)
-   return two_cube(hi, lo)
+function three_cube(value::IEEEFloat)
+    hi, lo = extractscalar(value)
+    hhh  = three_mul(hi, hi, hi)
+    hhl  = three_mul(hi, hi, 3*lo)
+    hll  = three_mul(hi, 3*lo, lo)
+    lll  = three_mul(lo, lo, lo)
+    
+    himh = four_sum(hhh[1], hhl[1], hhh[2], hll[1])
+    mllo = four_sum(hhl[2], hll[2], lll[1], lll[2])
+    hilo = four_sum(himh[1], himh[2], mllo[1], mllo[2])
+
+    return hilo[1], hilo[2], hilo[3]
 end
+
+"""
+    four_cube(a)
+    
+Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1), e3 = err(e2)`.
+"""
+function three_cube(value::IEEEFloat)
+    hi, lo = extractscalar(value)
+    hhh  = three_mul(hi, hi, hi)
+    hhl  = three_mul(hi, hi, 3*lo)
+    hll  = three_mul(hi, 3*lo, lo)
+    lll  = three_mul(lo, lo, lo)
+    
+    himh = four_sum(hhh[1], hhl[1], hhh[2], hll[1])
+    mllo = four_sum(hhl[2], hll[2], lll[1], lll[2])
+    hilo = four_sum(himh[1], himh[2], mllo[1], mllo[2])
+
+    return hilo
+end
+
 
 """
     two_prod(a, b)
