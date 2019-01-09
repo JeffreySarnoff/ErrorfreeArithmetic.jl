@@ -1,4 +1,4 @@
-@inline function one_inv(b::T) where {T<:AbstractFloat}
+@inline function two_inv(b::T) where {T<:AbstractFloat}
      hi = inv(b)
      lo = fma(-hi, b, one(T))
      lo /= b
@@ -12,7 +12,7 @@ end
      return hi, lo
 end
 
-@inline function one_sqrt(a::T) where {T<:AbstractFloat}
+@inline function two_sqrt(a::T) where {T<:AbstractFloat}
     hi = sqrt(a)
     lo = fma(-hi, hi, a)
     lo /= 2
