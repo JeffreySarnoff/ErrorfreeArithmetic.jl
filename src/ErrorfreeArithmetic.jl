@@ -9,6 +9,7 @@ export SysFloat,
        # error-free transformations with magnitude sorted arguments
        two_hilo_sum, two_lohi_sum, two_hilo_diff, two_lohi_diff,
        three_hilo_sum, three_lohi_sum, three_hilo_diff, three_lohi_diff,
+       four_hilo_sum, four_lohi_sum, four_hilo_diff, four_lohi_diff,
        # least-error transformations, as close to error-free as possible
        two_div,
        two_inv, two_sqrt
