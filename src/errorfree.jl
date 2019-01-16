@@ -149,18 +149,6 @@ function three_prod(a::T, b::T, c::T) where {T<:FloatWithFMA}
     return hi, md, lo
 end
 
-"""
-    ad_minus_bc(a, b, c, d)
-
-Computes the determinant of a 2x2 matrix.
-"""
-function ad_minus_bc(a::T, b::T, c::T, d::T) where {T<:FloatWithFMA}
-    adhi, adlo = two_prod(a,d)
-    bchi, bclo = two_prod(b,c)
-    return four_sum(adhi, adlo, -bchi, -bclo)
-end
-
-
 #=
    three_fma algorithm from
    Sylvie Boldo and Jean-Michel Muller
