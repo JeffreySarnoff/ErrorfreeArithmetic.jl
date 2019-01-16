@@ -20,6 +20,19 @@ end
     return hi, lo
 end
 
+
+"""
+    ad_minus_bc(a, b, c, d)
+
+Computes the determinant of a 2x2 matrix.
+"""
+function ad_minus_bc(a::T, b::T, c::T, d::T) where {T<:FloatWithFMA}
+    adhi, adlo = two_prod(a,d)
+    bchi, bclo = two_prod(b,c)
+    return four_sum(adhi, adlo, -bchi, -bclo)
+end
+
+
 #=
 "Concerning the division, the elementary rounding error is
 generally not a floating point number, so it cannot be computed
