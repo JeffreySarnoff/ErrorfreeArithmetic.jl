@@ -4,7 +4,8 @@ module ErrorfreeArithmetic
 export SysFloat,
        # error-free transformations
        two_sum, two_diff, two_prod, two_square,
-       three_sum, three_diff, four_diff, three_prod,
+       three_sum, three_diff, three_prod,
+       four_sum, four_diff,
        ad_minus_bc, three_fma,
        # error-free transformations with magnitude sorted arguments
        two_hilo_sum, two_lohi_sum, two_hilo_diff, two_lohi_diff,
