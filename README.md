@@ -13,6 +13,11 @@ Error-free transformations are used to get results with extra accuracy.
 
 ## exports
 
+- The number that begins a function name always matches the number of values returned.
+    - the values returned are of descending magnitude and non-overlapping when added. 
+- The number that begins a function name often matches the number of arguments expected.
+    - `two_inv` and `two_sqrt` are single argument functions returning two values
+
 *These are error-free transformations.*
 
 - `two_sum`, `two_diff`, `two_prod`
