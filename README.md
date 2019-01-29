@@ -19,6 +19,7 @@ Error-free transformations are used to get results with extra accuracy.
 - `two_square`, `two_cube`
 - `three_sum`, `three_diff`, `three_prod`
 - `three_fma`
+- `four_sum`, `four_diff`
 
 *These are error-free transformations with magnitude sorted arguments.*
 
@@ -26,6 +27,8 @@ Error-free transformations are used to get results with extra accuracy.
 - `two_hilo_diff`, `two_lohi_diff`
 - `three_hilo_sum`, `three_lohi_sum`
 - `three_hilo_diff`, `three_lohi_diff`
+- `four_hilo_sum`, `four_lohi_sum`
+- `four_hilo_diff`, `four_lohi_diff`
 
 *These are least-error transformations, as close to error-free as possible.*
 
