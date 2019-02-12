@@ -37,6 +37,19 @@ function three_sum(a::T,b::T,c::T) where {T<:FloatWithFMA}
 end
 
 """
+    two_sum(a, b, c)
+    
+Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
+"""
+function two_sum(a::T,b::T,c::T) where {T<:FloatWithFMA}
+    s, t   = two_sum(b, c)
+    hi, u  = two_sum(a, s)
+    lo     = u + t
+    hi, lo = two_hilo_sum(hi, lo)
+    return hi, lo
+end
+
+"""
     four_sum(a, b, c, d)
     
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
@@ -51,6 +64,34 @@ function four_sum(a::T,b::T,c::T,d::T) where {T<:FloatWithFMA}
     return hi, hm, ml, lo
 end
 
+"""
+    three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d), lo = err(md)`.
+"""
+function three_sum(a::T,b::T,c::T,d::T) where {T<:FloatWithFMA}
+    t0, t1 = two_sum(a ,  b)
+    t0, t2 = two_sum(t0,  c)
+    hi, t3 = two_sum(t0,  d)
+    t0, t1 = two_sum(t1, t2)
+    hm, t2 = two_sum(t0, t3) # here, t0 >= t3
+    ml     = t1 + t2
+    return hi, hm, ml
+end
+
+"""
+    two_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
+"""
+function two_sum(a::T,b::T,c::T,d::T) where {T<:FloatWithFMA}
+    t0, t1 = two_sum(a ,  b)
+    t0, t2 = two_sum(t0,  c)
+    hi, t3 = two_sum(t0,  d)
+    t0, t1 = two_sum(t1, t2)
+    lo     = t0 + t3
+    return hi, lo
+end
 
 """
     five_sum(a, b, c, d, e)
