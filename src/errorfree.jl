@@ -119,13 +119,12 @@ end
 Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
 @inline function two_diff(a::T, b::T) where {T<:FloatWithFMA}
-    s = a - b
-    v = s - a
-    e = (a - (s - v)) - (b + v)
-
-    s, e
+    hi = a - b
+    a1 = hi + b
+    b1 = hi - a1
+    lo = (a - a1) - (b + b1)
+    return hi, lo
 end
-
 """
     three_diff(a, b, c)
     
