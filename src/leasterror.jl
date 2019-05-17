@@ -1,18 +1,18 @@
-@inline function two_inv(b::T) where {T<:FloatWithFMA}
+@inline function two_inv(b::T) where {T}
      hi = inv(b)
      lo = fma(-hi, b, one(T))
      lo /= b
      return hi, lo
 end
 
-@inline function two_div(a::T, b::T) where {T<:FloatWithFMA}
+@inline function two_div(a::T, b::T) where {T}
      hi = a / b
      lo = fma(-hi, b, a)
      lo /= b
      return hi, lo
 end
 
-@inline function two_sqrt(a::T) where {T<:FloatWithFMA}
+@inline function two_sqrt(a::T) where {T}
     hi = sqrt(a)
     lo = fma(-hi, hi, a)
     lo /= 2
@@ -26,7 +26,7 @@ end
 
 Computes the determinant of a 2x2 matrix.
 """
-function ad_minus_bc(a::T, b::T, c::T, d::T) where {T<:FloatWithFMA}
+function ad_minus_bc(a::T, b::T, c::T, d::T) where {T}
     adhi, adlo = two_prod(a,d)
     bchi, bclo = two_prod(b,c)
     return four_sum(adhi, adlo, -bchi, -bclo)
