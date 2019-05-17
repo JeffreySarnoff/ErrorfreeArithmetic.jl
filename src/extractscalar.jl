@@ -20,7 +20,7 @@ for (T,P) in ((:Float64, 53), (:Float32, 24), (:Float16, 11))
   end
 end
 
-function extractscalar(powoftwo::T, value::T) where {T<:IEEEFloat}
+function extractscalar(powoftwo::T, value::T) where {T}
    hi = (powoftwo + value) - powoftwo
    lo = value - hi
    return hi, lo
@@ -33,12 +33,12 @@ end
     
 Computes `s = fl(a*a*a)` and `e1 = err(a*a*a)`.
 """
-function two_cube(value::IEEEFloat)
+function two_cube(value::T) where {T}
     hi, lo = extractscalar(value)
-    hhh  = three_mul(hi, hi, hi)
-    hhl  = three_mul(hi, hi, 3*lo)
-    hll  = three_mul(hi, 3*lo, lo)
-    lll  = three_mul(lo, lo, lo)
+    hhh  = three_prod(hi, hi, hi)
+    hhl  = three_prod(hi, hi, 3*lo)
+    hll  = three_prod(hi, 3*lo, lo)
+    lll  = three_prod(lo, lo, lo)
     
     himh = four_sum(hhh[1], hhl[1], hhh[2], hll[1])
     mllo = four_sum(hhl[2], hll[2], lll[1], lll[2])
@@ -52,12 +52,12 @@ end
     
 Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1)`.
 """
-function three_cube(value::IEEEFloat)
+function three_cube(value::T) where {T}
     hi, lo = extractscalar(value)
-    hhh  = three_mul(hi, hi, hi)
-    hhl  = three_mul(hi, hi, 3*lo)
-    hll  = three_mul(hi, 3*lo, lo)
-    lll  = three_mul(lo, lo, lo)
+    hhh  = three_prod(hi, hi, hi)
+    hhl  = three_prod(hi, hi, 3*lo)
+    hll  = three_prod(hi, 3*lo, lo)
+    lll  = three_prod(lo, lo, lo)
     
     himh = four_sum(hhh[1], hhl[1], hhh[2], hll[1])
     mllo = four_sum(hhl[2], hll[2], lll[1], lll[2])
@@ -71,12 +71,12 @@ end
     
 Computes `s = fl(a*a*a)` and `e1 = err(a*a*a), e2 = err(e1), e3 = err(e2)`.
 """
-function three_cube(value::IEEEFloat)
+function three_cube(value::T) where {T}
     hi, lo = extractscalar(value)
-    hhh  = three_mul(hi, hi, hi)
-    hhl  = three_mul(hi, hi, 3*lo)
-    hll  = three_mul(hi, 3*lo, lo)
-    lll  = three_mul(lo, lo, lo)
+    hhh  = three_prod(hi, hi, hi)
+    hhl  = three_prod(hi, hi, 3*lo)
+    hll  = three_prod(hi, 3*lo, lo)
+    lll  = three_prod(lo, lo, lo)
     
     himh = four_sum(hhh[1], hhl[1], hhh[2], hll[1])
     mllo = four_sum(hhl[2], hll[2], lll[1], lll[2])
