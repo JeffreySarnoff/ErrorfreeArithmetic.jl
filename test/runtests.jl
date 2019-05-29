@@ -152,7 +152,6 @@ function test_two_div(a::T, b::T) where {T}
     hi === high && isclosest(lo, low)
 end
 
-
 function test_three_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_sum(a, b, c)
     high, mid, low = calc_three_sum(a, b, c)
