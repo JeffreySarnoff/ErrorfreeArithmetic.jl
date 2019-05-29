@@ -39,8 +39,4 @@ end
 include("errorfree.jl")
 include("leasterror.jl")
 
-# deprecated
-two_inv(x::T) where {T<:AbstractFloat} = one_inv(x)
-two_sqrt(x::T) where {T<:AbstractFloat} = one_sqrt(x)
-
 end # ErrorfreeArithmetic
