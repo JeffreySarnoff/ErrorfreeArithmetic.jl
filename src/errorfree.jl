@@ -206,12 +206,12 @@ end
 
 *unchecked* requirement `|a| ≥ |b|`
 
-Computes `s = fl(a+b)` and `e = err(a+b)`.
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
 @inline function two_hilo_sum(a::T, b::T) where {T}
-    s = a + b
-    e = b - (s - a)
-    return s, e
+    hi = a + b
+    lo = b - (hi - a)
+    return hi, lo
 end
 
 """
@@ -219,12 +219,12 @@ end
 
 *unchecked* requirement `|b| ≥ |a|`
 
-Computes `s = fl(a+b)` and `e = err(a+b)`.
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
 @inline function two_lohi_sum(a::T, b::T) where {T}
-    s = b + a
-    e = a - (s - b)
-    return s, e
+    hi = b + a
+    lo = a - (hi - b)
+    return hi, lo
 end
 
 """
@@ -232,12 +232,12 @@ end
     
 *unchecked* requirement `|a| ≥ |b|`
 
-Computes `s = fl(a-b)` and `e = err(a-b)`.
+Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 """
 @inline function two_hilo_diff(a::T, b::T) where {T}
-    s = a - b
-    e = (a - s) - b
-    s, e
+    hi = a - b
+    lo = (a - hi) - b
+    hi, lo
 end
 
 """
@@ -245,12 +245,12 @@ end
     
 *unchecked* requirement `|b| ≥ |a|`
 
-Computes `s = fl(a-b)` and `e = err(a-b)`.
+Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 """
 @inline function two_lohi_diff(a::T, b::T) where {T}
-    s = b - a
-    e = (b - s) - a
-    s, e
+    hi = b - a
+    lo = (b - hi) - a
+    hi, lo
 end
 
 
@@ -260,7 +260,7 @@ end
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c|`
 
-Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
+Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
 function three_hilo_sum(a::T,b::T,c::T) where {T}
     s, t = two_hilo_sum(b, c)
@@ -275,7 +275,7 @@ end
     
 *unchecked* requirement `|c| ≥ |b| ≥ |a|`
 
-Computes `s = fl(a+b+c)` and `e1 = err(a+b+c), e2 = err(e1)`.
+Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
 function three_lohi_sum(a::T,b::T,c::T) where {T}
     s, t = two_hilo_sum(b, a)
@@ -290,7 +290,7 @@ end
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c|`
 
-Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
 function three_hilo_diff(a::T,b::T,c::T) where {T}
     s, t = two_hilo_diff(b, -c)
@@ -305,7 +305,7 @@ end
     
 *unchecked* requirement `|c| ≥ |b| ≥ |a|`
 
-Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
 function three_lohi_diff(c::T,b::T,a::T) where {T}
     s, t = two_hilo_diff(b, -c)
@@ -320,7 +320,7 @@ end
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
 
-Computes `s = fl(a+b+c+d)` and `e1 = err(a+b+c+d), e2 = err(e1), e3 = err(e2)`.
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
 function four_hilo_sum(a::T,b::T,c::T,d::T) where {T}
     t0, t1 = two_hilo_sum(a ,  b)
@@ -337,7 +337,7 @@ end
     
 *unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
 
-Computes `s = fl(a+b+c+d)` and `e1 = err(a+b+c+d), e2 = err(e1), e3 = err(e2)`.
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
 function four_lohi_sum(d::T,c::T,b::T,a::T) where {T}
     t0, t1 = two_hilo_sum(a ,  b)
@@ -355,7 +355,7 @@ end
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
 
-Computes `s = fl(a-b-c-d)` and `e1 = err(a-b-c-d), e2 = err(e1), e3 = err(e2)`.
+Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
 function four_hilo_diff(a::T,b::T,c::T,d::T) where {T}
     t0, t1 = two_hilo_diff(a,  b)
@@ -373,7 +373,7 @@ end
     
 *unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
 
-Computes `s = fl(a-b-c-d)` and `e1 = err(a-b-c-d), e2 = err(e1), e3 = err(e2)`.
+Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
 function four_lohi_diff(d::T,c::T,b::T,a::T) where {T}
     t0, t1 = two_hilo_diff(a,  b)
