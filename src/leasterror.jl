@@ -37,7 +37,7 @@ end
 "Concerning the division, the elementary rounding error is
 generally not a floating point number, so it cannot be computed
 exactly. Hence we cannot expect to obtain an error
-free transformation for the xdivision. ...
+free transformation for the division. ...
 This means that the computed approximation is as good as
 we can expect in the working precision."
 -- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
