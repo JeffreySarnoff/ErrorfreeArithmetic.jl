@@ -194,6 +194,9 @@ function three_fma(a::T, b::T, c::T) where {T}
      t, u = two_sum(y, t)
      y = ((t - x) + u)
      y, z = two_hilo_sum(y, z)
+     if isinf(x)
+        y = z = zero(T)
+    end
      return x, y, z
 end
 
