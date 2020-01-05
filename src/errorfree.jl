@@ -183,24 +183,6 @@ end
 =#
 
 """
-   two_fma(a, b, c)
-
-Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c))`.
-"""
-function three_fma(a::T, b::T, c::T) where {T}
-     x = fma(a, b, c)
-     if isinf(x)
-        return (x, zero(T))
-     end
-     y, z = two_prod(a, b)
-     t, z = two_sum(c, z)
-     t, u = two_sum(y, t)
-     y = ((t - x) + u)
-     y = y + z
-     return x, y
-end
-
-"""
    three_fma(a, b, c)
 
 Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
