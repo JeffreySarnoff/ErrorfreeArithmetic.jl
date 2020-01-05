@@ -23,7 +23,7 @@ Error-free transformations are used to get results with extra accuracy.
 - `two_sum`, `two_diff`, `two_prod`
 - `two_square`, `two_cube`
 - `three_sum`, `three_diff`, `three_prod`
-- `three_fma`
+- `two_fma`, `three_fma`
 - `four_sum`, `four_diff`
 
 *These are error-free transformations with magnitude sorted arguments.*
