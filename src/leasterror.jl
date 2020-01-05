@@ -34,6 +34,30 @@ end
 
 
 #=
+   two_fma from three_fma algorithm from
+   Sylvie Boldo and Jean-Michel Muller
+   Some Functions Computable with a Fused-mac
+=#
+
+"""
+   two_fma(a, b, c)
+
+Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c))`.
+"""
+function two_fma(a::T, b::T, c::T) where {T}
+     x = fma(a, b, c)
+     if isinf(x)
+        return (x, zero(T))
+     end
+     y, z = two_prod(a, b)
+     t, z = two_sum(c, z)
+     t, u = two_sum(y, t)
+     y = ((t - x) + u)
+     y = y + z
+     return x, y
+end
+
+#=
 "Concerning the division, the elementary rounding error is
 generally not a floating point number, so it cannot be computed
 exactly. Hence we cannot expect to obtain an error
