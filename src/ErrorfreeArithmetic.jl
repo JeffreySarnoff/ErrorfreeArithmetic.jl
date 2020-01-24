@@ -12,7 +12,9 @@ export SysFloat,
        four_hilo_sum, four_lohi_sum, four_hilo_diff, four_lohi_diff,
        # least-error transformations, as close to error-free as possible
        two_div,
-       two_inv, two_sqrt
+       two_inv, two_sqrt,
+       # least-error remainders
+       div_rem, sqrt_rem
 
 
 using Base: IEEEFloat
@@ -38,5 +40,6 @@ end
 
 include("errorfree.jl")
 include("leasterror.jl")
+include("remainder.jl")
 
 end # ErrorfreeArithmetic
