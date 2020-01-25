@@ -13,7 +13,7 @@ export SysFloat,
        # least-error transformations, as close to error-free as possible
        two_div,
        two_inv, two_sqrt,
-       # least-error remainders
+       # error-free remainders
        div_rem, sqrt_rem
 
 
