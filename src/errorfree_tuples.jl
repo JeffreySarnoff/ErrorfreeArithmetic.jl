@@ -162,7 +162,7 @@ Computes `s = fl(a*b)` and `e = err(a*b)`.
 @inline function two_prod(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .* b
     neghi = (-).(hi)
-    lo = fma(a, b, neghi)
+    lo = (fma).(a, b, neghi)
     hi, lo
 end
 
@@ -191,7 +191,7 @@ end
 Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
 """
 function three_fma(a::T, b::T, c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
-     x = fma.(a, b, c)
+     x = (fma).(a, b, c)
      infs = isinf.(x)
      y, z = two_prod(a, b)
      t, z = two_sum(c, z)
