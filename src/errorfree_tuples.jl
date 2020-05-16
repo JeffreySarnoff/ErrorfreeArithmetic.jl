@@ -184,7 +184,7 @@ Computes `hi = fl(a-b)` and `lo = err(a-b)`.
     hi = b .- a
     lo = (b .- hi) .- a
     hi, lo
-enD    
+end    
 
 """
     three_hilo_diff(a, b, c)
