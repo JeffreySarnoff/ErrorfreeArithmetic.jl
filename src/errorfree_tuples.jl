@@ -3,7 +3,7 @@
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_sum(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .+ b
     v  = hi .- a
     lo = (a .- (hi .- v)) .+ (b .- v)
@@ -15,7 +15,7 @@ end
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
-function three_sum(a::T,b::T,c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_sum(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     s, t   = two_sum(b, c)
     hi, u  = two_sum(a, s)
     md, lo = two_sum(u, t)
@@ -28,7 +28,7 @@ end
     
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
-function two_sum(a::T,b::T,c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function two_sum(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     s, t   = two_sum(b, c)
     hi, u  = two_sum(a, s)
     lo     = u .+ t
@@ -41,7 +41,7 @@ end
     
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
-function four_sum(a::T,b::T,c::T,d::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function four_sum(a::T,b::T,c::T,d::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_sum(a ,  b)
     t0, t2 = two_sum(t0,  c)
     hi, t3 = two_sum(t0,  d)
@@ -56,7 +56,7 @@ end
     
 Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d), lo = err(md)`.
 """
-function three_sum(a::T,b::T,c::T,d::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_sum(a::T,b::T,c::T,d::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_sum(a ,  b)
     t0, t2 = two_sum(t0,  c)
     hi, t3 = two_sum(t0,  d)
@@ -71,7 +71,7 @@ end
     
 Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
 """
-function two_sum(a::T,b::T,c::T,d::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function two_sum(a::T,b::T,c::T,d::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_sum(a ,  b)
     t0, t2 = two_sum(t0,  c)
     hi, t3 = two_sum(t0,  d)
@@ -86,7 +86,7 @@ end
 Computes `s = fl(a+b+c+d+e)` and 
     `e1 = err(a+b+c+d), e2 = err(e1), e3 = err(e2), e4 = err(e3)`.
 """
-function five_sum(v::T, w::T, x::T, y::T, z::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function five_sum(v::T, w::T, x::T, y::T, z::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t4 = two_sum(y, z)
     t0, t3 = two_sum(x, t0)
     t0, t2 = two_sum(w, t0)
@@ -105,7 +105,7 @@ end
 
 Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
-@inline function two_diff(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_diff(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .- b
     a1 = hi .+ b
     b1 = hi .- a1
@@ -117,7 +117,7 @@ end
     
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
-function three_diff(a::T,b::T,c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_diff(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     negb = (-).(b)
     s, t = two_diff(negb, c)
     x, u = two_sum(a, s)
@@ -131,7 +131,7 @@ end
     
 Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
-function four_diff(a::T,b::T,c::T,d::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function four_diff(a::T,b::T,c::T,d::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_diff(a ,  b)
     t0, t2 = two_diff(t0,  c)
     hi, t3 = two_diff(t0,  dj
@@ -146,7 +146,7 @@ end
 
 Computes `s = fl(a*a)` and `e = err(a*a)`.
 """
-@inline function two_square(a::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_square(a::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .* a
     neghi = (-).(hi)
     lo = (fma).(a, a, neghi)
@@ -159,7 +159,7 @@ end
 
 Computes `s = fl(a*b)` and `e = err(a*b)`.
 """
-@inline function two_prod(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_prod(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .* b
     neghi = (-).(hi)
     lo = (fma).(a, b, neghi)
@@ -171,7 +171,7 @@ end
     
 Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
-function three_prod(a::T, b::T, c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_prod(a::T, b::T, c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     ablochi, abloclo = two_prod(ablo, c)
@@ -190,7 +190,7 @@ end
 
 Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
 """
-function three_fma(a::T, b::T, c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_fma(a::T, b::T, c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
      x = (fma).(a, b, c)
      y, z = two_prod(a, b)
      t, z = two_sum(c, z)
@@ -220,7 +220,7 @@ end
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_hilo_sum(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_hilo_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .+ b
     lo = b .- (hi .- a)
     return hi, lo
@@ -233,7 +233,7 @@ end
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_lohi_sum(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_lohi_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = b .+ a
     lo = a .- (hi .- b)
     return hi, lo
@@ -246,7 +246,7 @@ end
 
 Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 """
-@inline function two_hilo_diff(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_hilo_diff(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = a .- b
     lo = (a .- hi) .- b
     hi, lo
@@ -259,7 +259,7 @@ end
 
 Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 """
-@inline function two_lohi_diff(a::T, b::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_lohi_diff(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     hi = b .- a
     lo = (b .- hi) .- a
     hi, lo
@@ -274,7 +274,7 @@ end
 
 Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
-function three_hilo_sum(a::T,b::T,c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_hilo_sum(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     s, t = two_hilo_sum(b, c)
     x, u = two_hilo_sum(a, s)
     y, z = two_hilo_sum(u, t)
@@ -289,7 +289,7 @@ end
 
 Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
-function three_lohi_sum(a::T,b::T,c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_lohi_sum(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     s, t = two_hilo_sum(b, a)
     x, u = two_hilo_sum(c, s)
     y, z = two_hilo_sum(u, t)
@@ -304,7 +304,7 @@ end
 
 Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
-function three_hilo_diff(a::T,b::T,c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_hilo_diff(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     negc = (-).(c)
     s, t = two_hilo_diff(b, negc)
     x, u = two_hilo_sum(a, s)
@@ -320,7 +320,7 @@ end
 
 Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
-function three_lohi_diff(c::T,b::T,a::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function three_lohi_diff(c::T,b::T,a::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     negc = (-).(c)
     s, t = two_hilo_diff(b, negc)
     x, u = two_hilo_sum(a, s)
@@ -336,7 +336,7 @@ end
 
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
-function four_hilo_sum(a::T,b::T,c::T,d::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function four_hilo_sum(a::T,b::T,c::T,d::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_hilo_sum(a ,  b)
     t0, t2 = two_hilo_sum(t0,  c)
     hi, t3 = two_hilo_sum(t0,  d)
@@ -353,7 +353,7 @@ end
 
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
-function four_lohi_sum(d::T,c::T,b::T,a::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function four_lohi_sum(d::T,c::T,b::T,a::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_hilo_sum(a ,  b)
     t0, t2 = two_hilo_sum(t0,  c)
     hi, t3 = two_hilo_sum(t0,  d)
@@ -371,7 +371,7 @@ end
 
 Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
-function four_hilo_diff(a::T,b::T,c::T,d::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function four_hilo_diff(a::T,b::T,c::T,d::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_hilo_diff(a,  b)
     t0, t2 = two_hilo_diff(t0,  c)
     hi, t3 = two_hilo_diff(t0,  d)
@@ -389,7 +389,7 @@ end
 
 Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
 """
-function four_lohi_diff(d::T,c::T,b::T,a::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
+function four_lohi_diff(d::T,c::T,b::T,a::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
     t0, t1 = two_hilo_diff(a,  b)
     t0, t2 = two_hilo_diff(t0,  c)
     hi, t3 = two_hilo_diff(t0,  d)
