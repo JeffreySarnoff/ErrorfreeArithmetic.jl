@@ -192,14 +192,20 @@ Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
 """
 function three_fma(a::T, b::T, c::T) where {N, F<Base.IEEEFloat, T<:NTuple{N,F}}
      x = (fma).(a, b, c)
-     infs = isinf.(x)
      y, z = two_prod(a, b)
      t, z = two_sum(c, z)
      t, u = two_sum(y, t)
      y = ((t .- x) .+ u)
      y, z = two_hilo_sum(y, z)
-     y[infs] .= zero(F)
-     z[infs] .= zero(F)
+     infs = isinf.(x)   
+     if any(infs)
+        ys = [y...]
+        zs = [z...]     
+        ys[infs] .= zero(F)
+        zs[infs] .= zero(F)
+        y = (ys...,)
+        z = (zs...,)
+     end       
      return x, y, z
 end
 
