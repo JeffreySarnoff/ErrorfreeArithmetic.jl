@@ -17,9 +17,9 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
 function three_sum(a::T,b::T,c::T) where {T}
     s, t   = two_sum(b, c)
-    hi, u  = two_sum(a, s)
-    md, lo = two_sum(u, t)
-    hi, md = two_hilo_sum(hi, md)
+    hi1, u  = two_sum(a, s)
+    md1, lo = two_sum(u, t)
+    hi, md = two_hilo_sum(hi1, md1)
     return hi, md, lo
 end
 
@@ -30,9 +30,9 @@ Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
 function two_sum(a::T,b::T,c::T) where {T}
     s, t   = two_sum(b, c)
-    hi, u  = two_sum(a, s)
-    lo     = u + t
-    hi, lo = two_hilo_sum(hi, lo)
+    hi1, u = two_sum(a, s)
+    lo1    = u + t
+    hi, lo = two_hilo_sum(hi1, lo1)
     return hi, lo
 end
 
