@@ -185,20 +185,45 @@ end
 """
    three_fma(a, b, c)
 
-Computes `s = fl(fma(a,b,c))` and `e1 = err(fma(a,b,c)), e2 = err(e1)`.
+Computes `hi = fl(fma(a,b,c))` and `md = fl(err(fma(a,b,c))), lo = fl(err(md))`.
 """
 function three_fma(a::T, b::T, c::T) where {T}
-     x = fma(a, b, c)
-     if isinf(x)
-         return (x, zero(T), zero(T))
-     end   
-     y, z = two_prod(a, b)
-     t, z = two_sum(c, z)
-     t, u = two_sum(y, t)
-     y = ((t - x) + u)
-     y, z = two_hilo_sum(y, z)
-     return x, y, z
+     hi = fma(a, b, c) 
+     hi0, lo0 = two_prod(a, b)
+     hi1, lo1 = two_sum(c, lo0)
+     hi2, lo2 = two_sum(hi0, hi1)
+     y = ((hi2 - hi) + lo2)
+     md, lo = two_hilo_sum(y, lo1)
+     return hi, md, lo
 end
+
+"""
+   two_fma(a, b, c)
+
+Computes `hi = fl(fma(a,b,c))` and `lo = fl(err(fma(a,b,c)))`.
+"""
+function two_fma(a::T, b::T, c::T) where {T}
+     hi = fma(a, b, c) 
+     hi0, lo0 = two_prod(a, b)
+     hi1, lo1 = two_sum(c, lo0)
+     hi2, lo2 = two_sum(hi0, hi1)
+     dhi = hi2 - hi
+     lo3 = lo1 + lo2
+     lo = dhi + lo3
+     return hi, lo
+end
+
+"""
+   two_muladd(a, b, c)
+
+Computes `hi = fl(muladd(a,b,c))` and `lo = fl(err(muladd(a,b,c)))`.
+"""
+function two_muladd(a::T, b::T, c::T) where {T}
+     hi = fma(a, b, c)
+     c_minus_hi = c - hi
+     lo = muladd(a, b, c_minus_hi)
+     return hi, lo
+end    
 
 # with arguments sorted by magnitude
 
