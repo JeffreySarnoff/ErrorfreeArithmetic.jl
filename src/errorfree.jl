@@ -31,6 +31,7 @@ Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 function two_sum(a::T,b::T,c::T) where {T}
     hi1, lo1 = two_sum(b, c)
     hi2, lo2 = two_sum(a, hi1)
+    lo12     = lo1 + lo2
     hi, lo   = two_hilo_sum(hi2, lo2+lo1)
     return hi, lo
 end
