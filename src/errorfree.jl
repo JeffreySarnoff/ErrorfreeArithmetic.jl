@@ -112,6 +112,7 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
     lo = (a - a1) - (b + b1)
     return hi, lo
 end
+
 """
     three_diff(a, b, c)
     
@@ -143,24 +144,23 @@ end
 """
     two_square(a)
 
-Computes `s = fl(a*a)` and `e = err(a*a)`.
+Computes `hi = fl(a*a)` and `lo = fl(err(a*a))`.
 """
 @inline function two_square(a::T) where {T}
-    p = a * a
-    e = fma(a, a, -p)
-    p, e
+    hi = a * a
+    lo = fma(a, a, -hi)
+    hi, lo
 end
-
 
 """
     two_prod(a, b)
 
-Computes `s = fl(a*b)` and `e = err(a*b)`.
+Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
 """
 @inline function two_prod(a::T, b::T) where {T}
-    p = a * b
-    e = fma(a, b, -p)
-    p, e
+    hi = a * b
+    lo = fma(a, b, -hi)
+    hi, lo
 end
 
 """
@@ -199,8 +199,6 @@ function three_fma(a::T, b::T, c::T) where {T}
      y, z = two_hilo_sum(y, z)
      return x, y, z
 end
-
-
 
 # with arguments sorted by magnitude
 
@@ -255,8 +253,6 @@ Computes `hi = fl(a-b)` and `lo = err(a-b)`.
     lo = (b - hi) - a
     hi, lo
 end
-
-
 
 """
     three_hilo_sum(a, b, c)
@@ -352,7 +348,6 @@ function four_lohi_sum(d::T,c::T,b::T,a::T) where {T}
     return hi, hm, ml, lo
 end
 
-
 """
     four_hilo_diff(a, b, c, d)
     
@@ -369,7 +364,6 @@ function four_hilo_diff(a::T,b::T,c::T,d::T) where {T}
     ml, lo = two_hilo_sum(t1, t2)
     return hi, hm, ml, lo
 end
-
 
 """
     four_hilo_diff(a, b, c, d)
