@@ -12,6 +12,14 @@ NOLTA'07, Vancouver, Canada, September 16-19, 2007
     return hi, lo
 end
 
+@inline function two_diff(a::Complex{T}, b::Complex{T}) where {T<:Real}
+    hi1, lo1 = two_diff(a.re, b.re)
+    hi2, lo2 = two_diff(a.im, b.im)
+    hi = Complex{T}(hi1, hi2)
+    lo = Complex{T}(lo1, lo2)
+    return hi, lo
+end
+
 #=
 from "Error-free transformations in real and complex floating point arithmetics"
 by Stef Graillat and Valérie Ménissier-Morain
