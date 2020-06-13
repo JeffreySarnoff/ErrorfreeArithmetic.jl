@@ -3,10 +3,25 @@
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_sum(a::T, b::T) where {T}
+@inline function two_sum(a::T, b::T) where {T<:Real}
     hi = a + b
     v  = hi - a
     lo = (a - (hi - v)) + (b - v)
+    return hi, lo
+end
+
+
+#=
+from "Error-free transformations in real and complex floating point arithmetics"
+by Stef Graillat and Valérie Ménissier-Morain
+2007 International Symposium on Nonlinear Theory and its Applications
+NOLTA'07, Vancouver, Canada, September 16-19, 2007
+=#
+@inline function two_sum(a::Complex{T}, b::Complex{T}) where {T<:Real}
+    hi1, lo1 = two_sum(a.re, b.re)
+    hi2, lo2 = two_sum(a.im, b.im)
+    hi = Complex{T}(hi1, hi2)
+    lo = Complex{T}(lo1, lo2)
     return hi, lo
 end
 
