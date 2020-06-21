@@ -22,7 +22,7 @@ tworands_hi2lo(overlap=0; shift=0) = tworands_hilo(Float64, overlap; shift=shift
 function threerands_sep(::Type{T}, separation::Int=fullseparation(T)) where {T}
     hishift = fld(separation, rand(1:fld(separation,3)))
     mdshift = hishift - separation
-    loshift = mdshift - fld(separation, rand(1:fld(separation,3)))
+    loshift = mdshift - separation
     hi = rand(T) * 2.0^hishift
     md = rand(T) * 2.0^mdshift
     lo = rand(T) * 2.0^loshift
