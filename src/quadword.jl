@@ -116,3 +116,14 @@ end
     a,b,c,d = maxtomin(x1,x2,x3,x4)
     return fast_vecsum_errbranch(a,b,c,d)
 end
+
+
+function tst4(n,x)
+  for i=1:n
+      h0,a0,b0,l0 = fourrands_hi2lo(x)
+      h,a,b,l = quadword(h0,a0,b0,l0); hi,hm,lm,lo=fast_quadword(l,h,b,a)
+      if (h,a,b,l) != (hi,hm,lm,lo)
+         error("($h0,$a0,$b0,$l0): $h, $a, $b, $l != $hi, $hm, $lm, $lo")
+      end
+   end
+ end
