@@ -1,14 +1,12 @@
+@inline min_max(x,y) = ifelse(abs(x) < abs(y), (x,y) , (y,x))
 @inline max_min(x,y) = ifelse(abs(y) < abs(x), (x,y) , (y,x))
 
-function maxtomin(a::T, b::T, c::T, d::T) where {T}
-    a, b = max_min(a, b)
-    c, d = max_min(c, d)
-
-    a, c = max_min(a, c)
-    b, d = max_min(b, d)
-
-    b, c = max_min(b, c)
-
+function mintomax(a::T, b::T, c::T, d::T) where {T}
+    a, b = min_max(a, b)
+    c, d = min_max(c, d)
+    a, c = min_max(a, c)
+    b, d = min_max(b, d)
+    b, c = min_max(b, c)
     return a, b, c, d
 end
 
@@ -19,6 +17,24 @@ function maxtomin(a::T, b::T, c::T, d::T) where {T}
     b, d = max_min(b, d)
     b, c = max_min(b, c)
     return a, b, c, d
+end
+
+function normalize(a::T, b::T, c::T, d::T) where {T}
+    a, b, c, d = mintomax(a, b, c, d)
+    t = v = zeros(T, 4)
+    s, t[4] = two_hilo_sum(a, b)
+    s, t[3] = two_hilo_sum(c, s)
+    t[1], t[2] = two_hilo_sum(d, s)
+    k = 1
+    for i=1:4
+        s, e = two_hilo_sum(s, t[i])
+        if !iszero(e)
+            v[k] = s
+            s = e
+            k += 1
+        end
+    end    
+    return (v...,)    
 end
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
