@@ -444,3 +444,67 @@ function four_lohi_diff(d::T,c::T,b::T,a::T) where {T}
     ml, lo = two_hilo_sum(t1, t2)
     return hi, hm, ml, lo
 end
+
+
+#=
+A note on Dekker’s FastTwoSum algorithm
+by Marko Lange and Shin’ichi Oishi
+Numerische Mathematik
+https://doi.org/10.1007/s00211-020-01114-2
+Received: 13 December 2017 / Revised: 16 March 2020
+© Springer-Verlag GmbH Germany, part of Springer Nature 2020
+=#
+
+function three_prod(x1::T, x2::T, x3::T) where {T}
+   s1, s2, s3, s4 = four_sum_three_product(x1, x2, x3)
+   s2, s3 = two_hilo_sum(s2, s3)
+   s3 += s4
+   return s1, s2, s3
+end
+    
+function four_sum_three_product(x1::T, x2::T, x3::T) where {T}
+    thi, tlo = two_prod(x2, x3)
+    s1, s2 = two_prod(x1, thi)
+    s3, s4 = two_prod(x1, tlo)
+    return s1, s2, s3, s4
+end
+
+function twosum(p1,p2,p3)
+    e = 0
+    s = p1
+    x = p2 + s
+    z = x - p2
+    y = (p2-(x-z)) + (x-z)
+    e = e + y
+    s = x
+    x = p3 + s
+    z = x - p3
+    y = (p3 - (x-z)) + (x-z)
+    e = e + y
+    s = x
+    return s, e
+ end
+
+function twosum(p1,p2,p3,p4)
+    e = 0
+    s = p1
+    x = p2 + s
+    z = x - p2
+    y = (p2-(x-z)) + (x-z)
+    e = e + y
+    s = x
+    x = p3 + s
+    z = x - p3
+    y = (p3 - (x-z)) + (x-z)
+    e = e + y
+    s = x
+    x = p4 + s
+    z = x - p4
+    y = (p4 - (x-z)) + (x-z)
+    e = e + y
+    s = x
+    return s, e
+ end
+
+    
+    
