@@ -3,6 +3,9 @@
 fullseparation(::Type{T}) where {T} =  Base.significand_bits(T) + 3
 bitoverlap(::Type{T}, nbits) where {T} = fullseparation(T) - nbits
 
+# bitoverlap needs to be < Base.significand_bits(T) - fld(Base.significand_bits(T),2) for Float64
+#   to preclude lo == 0.0
+
 function tworands_sep(::Type{T}, separation::Int=fullseparation(T)) where {T}
     hishift = fld(separation, rand(1:fld(separation,3)))
     loshift = hishift - separation
