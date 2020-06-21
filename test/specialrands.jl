@@ -3,9 +3,21 @@
 fullseparation(::Type{T}) where {T} =  Base.significand_bits(T) + 3
 bitoverlap(::Type{T}, nbits) where {T} = fullseparation(T) - nbits
 
-# bitoverlap needs to be < 52 for tworands_hi2lo(Float64)   to preclude lo == 0.0
-# bitoverlap needs to be < 27 for threerands_hi2lo(Float64) to preclude lo == 0.0
-# bitoverlap needs to be < 19 for fourrands_hi2lo(Float64)  to preclude lo == 0.0
+# overlap needs to be <= 28 for tworands_hi2lo(Float64)   to preclude lo == 0.0  (bitoverlap >= 27)
+# overlap needs to be <= 11 for threerands_hi2lo(Float64) to preclude lo == 0.0  (bitoverlap >= 44)
+# overlap needs to be <=  8 for fourrands_hi2lo(Float64)  to preclude lo == 0.0  (bitoverlap >= 47)
+
+#=
+julia> function tst4(n,x)
+          for i=1:n
+             h,a,b,l = fourrands_hi2lo(x)
+             h,a,b,l = four_sum(h,a,b,l)
+             if iszero(l)
+                error("$l")
+             end
+           end
+        end
+=#
 
 function tworands_sep(::Type{T}, separation::Int=fullseparation(T)) where {T}
     hishift = fld(separation, rand(1:fld(separation,3)))
