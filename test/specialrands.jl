@@ -3,6 +3,7 @@
 fullseparation(::Type{T}) where {T} =  Base.significand_bits(T) + 3
 bitoverlap(::Type{T}, nbits) where {T} = fullseparation(T) - nbits
 
+# bitoverlap needs to be < 52 for tworands_hi2lo(Float64)   to preclude lo == 0.0
 # bitoverlap needs to be < 27 for threerands_hi2lo(Float64) to preclude lo == 0.0
 # bitoverlap needs to be < 19 for fourrands_hi2lo(Float64)  to preclude lo == 0.0
 
