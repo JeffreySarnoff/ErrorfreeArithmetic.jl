@@ -292,7 +292,7 @@ function correct_one_divide(aa::T, bb::T) where {T}
     return T(s)
 end
 
-function correct_two_divide(aa::T, bb:T) where {T}
+function correct_two_divide(aa::T, bb::T) where {T}
     a = bigfloat(aa)
     b = bigfloat(bb)
     s = a / b
