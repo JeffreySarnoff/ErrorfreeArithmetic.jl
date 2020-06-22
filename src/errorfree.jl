@@ -56,6 +56,15 @@ end
     
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
+@inline function four_sum(x1::T, x2::T, x3::T, x4::T) where {T}
+    a,b,c,d = maxtomin(x1,x2,x3,x4)
+    a1, a2 = two_hilo_sum(a, b)
+    b1, b2 = two_hilo_sum(c, d)
+    c1, c2 = two_hilo_sum(a1, b1)
+    d1, d2 = two_hilo_sum(a2, b2)
+    return fast_vecsum_errbranch(c1,c2,d1,d2)
+end
+#=
 function four_sum(a::T,b::T,c::T,d::T) where {T}
     t0, t1 = two_sum(a ,  b)
     t0, t2 = two_sum(t0,  c)
@@ -65,6 +74,7 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     ml, lo = two_sum(t1, t2)
     return hi, hm, ml, lo
 end
+=#
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
