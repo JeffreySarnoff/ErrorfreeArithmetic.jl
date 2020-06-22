@@ -130,16 +130,10 @@ end
 
 @inline function fast_quadword(x1::T, x2::T, x3::T, x4::T) where {T}
     a,b,c,d = maxtomin(x1,x2,x3,x4)
-    return fast_vecsum_errbranch(a,b,c,d)
-end
-
-@inline function fast_quadword(x1::T, x2::T, x3::T, x4::T) where {T}
-    a,b,c,d = maxtomin(x1,x2,x3,x4)
     a1, a2 = two_hilo_sum(a, b)
     b1, b2 = two_hilo_sum(c, d)
     c1, c2 = two_hilo_sum(a1, b1)
     d1, d2 = two_hilo_sum(a2, b2)
-    #e1to4 = vec_sum(c1,c2,d1,d2)
     return fast_vecsum_errbranch(c1,c2,d1,d2)
 end
 
