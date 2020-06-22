@@ -470,7 +470,7 @@ Received: 13 December 2017 / Revised: 16 March 2020
 © Springer-Verlag GmbH Germany, part of Springer Nature 2020
 =#
 
-function three_prod(x1::T, x2::T, x3::T) where {T}
+function threeprod(x1::T, x2::T, x3::T) where {T}
    s1, s2, s3, s4 = four_sum_three_product(x1, x2, x3)
    s2, s3 = two_hilo_sum(s2, s3)
    s3 += s4
