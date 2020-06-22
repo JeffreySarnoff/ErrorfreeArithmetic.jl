@@ -3,7 +3,7 @@ greatermagnitude(x,y) = abs(y) < abs(x) ? (x, y) : (y, x)
 # error-free sums
 
 function correct_two_sum(aa::T, bb::T) where {T}
-    aa, bb = sort([aa,bb,cc], lt=greatermagnitude)
+    aa, bb = sort([aa,bb], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     s = a + b
