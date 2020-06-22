@@ -39,6 +39,7 @@ else
 end
 
 include("errorfree.jl")
+include("errorfree_tuple.jl")
 include("errorfree_tuples.jl")
 include("leasterror.jl")
 include("remainder.jl")
