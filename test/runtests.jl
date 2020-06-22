@@ -11,6 +11,8 @@ setprecision(BigFloat, BigFloatPrec)
 bigfloat(x) = BigFloat(x)
 
 # ----------
+trials = 100
+# ----------
 
 include("specialrands.jl")
 include("permutations.jl")
