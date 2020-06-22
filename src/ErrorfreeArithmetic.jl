@@ -38,6 +38,8 @@ else
     const FloatWithFMA = Union{Float64, Float32, Float16}
 end
 
+include("maxtomin.jl")
+
 include("errorfree.jl")
 include("errorfree_tuple.jl")
 include("errorfree_tuples.jl")
