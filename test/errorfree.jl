@@ -1,4 +1,4 @@
-greatermagnitude(x,y) = abs(y) < abs(x) ? (x, y) : (y, x)
+greatermagnitude(x,y) = abs(y) < abs(x)
 
 # error-free sums
 
