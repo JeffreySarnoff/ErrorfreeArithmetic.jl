@@ -157,7 +157,7 @@ function correct_two_prod(aa::T, bb::T) where {T}
     return hi, lo
 end
 
-function correct_two_prd(aa::T, bb::T, cc::T) where {T}
+function correct_two_prod(aa::T, bb::T, cc::T) where {T}
     aa, bb, cc = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -247,3 +247,78 @@ function correct_four_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
     lo = T(s - hi - mdhi - mdlo)
     return hi, mdhi, mdlo, lo
 end
+
+# error-free reciprocation
+
+function correct_one_inv(aa::T) where {T}
+    a = bigfloat(aa)
+    s = inv(a)
+    return T(s)
+end
+
+function correct_two_inv(aa::T) where {T}
+    a = bigfloat(aa)
+    s = inv(a)
+    hi = T(s)
+    lo = T(s - hi)
+    return hi, lo
+end
+
+function correct_three_inv(aa::T) where {T}
+    a = bigfloat(aa)
+    s = inv(a)
+    hi = T(s)
+    md = T(s - hi)
+    lo = T(s - hi - md)
+    return hi, md, lo
+end
+
+function correct_four_inv(aa::T) where {T}
+    a = bigfloat(aa)
+    s = inv(a)
+    hi = T(s)
+    himd = T(s - hi)
+    lomd = T(s - hi - himd)
+    lo = T(s - hi - himd - lomd)
+    return hi, himd, lomd, lo
+end
+
+# error-free division
+
+function correct_one_divide(aa::T, bb::T) where {T}
+    a = bigfloat(aa)
+    b = bigfloat(bb)
+    s = a / b
+    return T(s)
+end
+
+function correct_two_divide(aa::T, bb:T) where {T}
+    a = bigfloat(aa)
+    b = bigfloat(bb)
+    s = a / b
+    hi = T(s)
+    lo = T(s - hi)
+    return hi, lo
+end
+
+function correct_three_divide(aa::T, bb::T) where {T}
+    a = bigfloat(aa)
+    b = bigfloat(bb)
+    s = a / b
+    hi = T(s)
+    md = T(s - hi)
+    lo = T(s - hi - md)
+    return hi, md, lo
+end
+
+function correct_four_divide(aa::T, bb::T) where {T}
+    a = bigfloat(aa)
+    b = bigfloat(bb)
+    s = a / b
+    hi = T(s)
+    himd = T(s - hi)
+    lomd = T(s - hi - himd)
+    lo = T(s - hi - himd - lomd)
+    return hi, himd, lomd, lo
+end
+
