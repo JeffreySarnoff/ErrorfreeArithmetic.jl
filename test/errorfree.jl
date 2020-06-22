@@ -7,10 +7,13 @@ setprecision(BigFloat, BigFloatPrec)
 # bigfloat(x) = BigFloat(string(x))
 bigfloat(x) = BigFloat(x)
 
+
+greatermagnitude(x,y) = abs(y) < abs(x) ? (x, y) : (y, x)
+
 # error-free sums
 
 function correct_two_sum(aa::T, bb::T) where {T}
-    aa, bb = sort([aa,bb,cc], lt=!isless)
+    aa, bb = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     s = a + b
@@ -20,7 +23,7 @@ function correct_two_sum(aa::T, bb::T) where {T}
 end
 
 function correct_two_sum(aa::T, bb::T, cc::T) where {T}
-    aa, bb, cc = sort([aa,bb,cc], lt=!isless)
+    aa, bb, cc = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -31,7 +34,7 @@ function correct_two_sum(aa::T, bb::T, cc::T) where {T}
 end
 
 function correct_two_sum(aa::T, bb::T, cc::T, dd:T) where {T}
-    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=!isless)
+    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -43,7 +46,7 @@ function correct_two_sum(aa::T, bb::T, cc::T, dd:T) where {T}
 end
 
 function correct_three_sum(aa::T, bb::T, cc::T) where {T}
-    aa, bb, cc = sort([aa,bb,cc], lt=!isless)
+    aa, bb, cc = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -55,7 +58,7 @@ function correct_three_sum(aa::T, bb::T, cc::T) where {T}
 end
 
 function correct_three_sum(aa::T, bb::T, cc::T, dd:T) where {T}
-    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=!isless)
+    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -68,7 +71,7 @@ function correct_three_sum(aa::T, bb::T, cc::T, dd:T) where {T}
 end
 
 function correct_three_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
-    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=!isless)
+    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -82,7 +85,7 @@ function correct_three_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
 end
 
 function correct_four_sum(aa::T, bb::T, cc::T, dd:T) where {T}
-    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=!isless)
+    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -96,7 +99,7 @@ function correct_four_sum(aa::T, bb::T, cc::T, dd:T) where {T}
 end
 
 function correct_four_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
-    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=!isless)
+    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -110,10 +113,52 @@ function correct_four_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
     return hi, mdhi, mdlo, lo
 end
 
+# error-free diffs
+
+function correct_two_diff(aa::T, bb::T) where {T}
+    bb = -bb
+    return correct_two_sum(aa, bb)
+end
+
+function correct_two_diff(aa::T, bb::T, cc::T) where {T}
+    bb, cc = -bb, -cc
+    return correct_two_sum(aa, bb, cc)
+end
+
+function correct_two_diff(aa::T, bb::T, cc::T, dd:T) where {T}
+    bb, cc, dd = -bb, -cc, -dd
+    return correct_two_sum(aa, bb, cc, dd)
+end
+
+function correct_three_diff(aa::T, bb::T, cc::T) where {T}
+    bb, cc = -bb, -cc
+    return correct_three_sum(aa, bb, cc)
+end
+
+function correct_three_diff(aa::T, bb::T, cc::T, dd:T) where {T}
+    bb, cc, dd = -bb, -cc, -dd
+    return correct_three_sum(aa, bb, cc, dd)
+end
+
+function correct_three_diff(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+    bb, cc, dd, mm = -bb, -cc, -dd, -mm
+    return correct_four_sum(aa, bb, cc, dd, mm)
+end
+
+function correct_four_diff(aa::T, bb::T, cc::T, dd:T) where {T}
+    bb, cc, dd = -bb, -cc, -dd
+    return correct_four_sum(aa, bb, cc, dd)
+end
+
+function correct_four_diff(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+    bb, cc, dd, mm = -bb, -cc, -dd, -mm
+    return correct_four_sum(aa, bb, cc, dd, mm)
+end
+
 # error-free products
 
 function correct_two_prod(aa::T, bb::T) where {T}
-    aa, bb = sort([aa,bb,cc], lt=!isless)
+    aa, bb = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     s = a * b
@@ -123,7 +168,7 @@ function correct_two_prod(aa::T, bb::T) where {T}
 end
 
 function correct_two_prd(aa::T, bb::T, cc::T) where {T}
-    aa, bb, cc = sort([aa,bb,cc], lt=!isless)
+    aa, bb, cc = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -134,7 +179,7 @@ function correct_two_prd(aa::T, bb::T, cc::T) where {T}
 end
 
 function correct_two_prod(aa::T, bb::T, cc::T, dd:T) where {T}
-    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=!isless)
+    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -146,7 +191,7 @@ function correct_two_prod(aa::T, bb::T, cc::T, dd:T) where {T}
 end
 
 function correct_three_prod(aa::T, bb::T, cc::T) where {T}
-    aa, bb, cc = sort([aa,bb,cc], lt=!isless)
+    aa, bb, cc = sort([aa,bb,cc], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -158,7 +203,7 @@ function correct_three_prod(aa::T, bb::T, cc::T) where {T}
 end
 
 function correct_three_prod(aa::T, bb::T, cc::T, dd:T) where {T}
-    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=!isless)
+    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -171,7 +216,7 @@ function correct_three_prod(aa::T, bb::T, cc::T, dd:T) where {T}
 end
 
 function correct_three_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
-    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=!isless)
+    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -185,7 +230,7 @@ function correct_three_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
 end
 
 function correct_four_prod(aa::T, bb::T, cc::T, dd:T) where {T}
-    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=!isless)
+    aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
@@ -199,7 +244,7 @@ function correct_four_prod(aa::T, bb::T, cc::T, dd:T) where {T}
 end
 
 function correct_four_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
-    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=!isless)
+    aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
     c = bigfloat(cc)
