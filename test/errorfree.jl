@@ -321,3 +321,25 @@ function correct_four_divide(aa::T, bb::T) where {T}
     lo = T(s - hi - himd - lomd)
     return hi, himd, lomd, lo
 end
+
+# tupled forms
+
+correct_two_sum(x::NTuple{N,T})   where {T,N} = correct_two_sum(x...)
+correct_three_sum(x::NTuple{N,T}) where {T,N} = correct_three_sum(x...)
+correct_four_sum(x::NTuple{N,T})  where {T,N} = correct_four_sum(x...)
+
+correct_two_diff(x::NTuple{N,T})   where {T,N} = correct_two_diff(x...)
+correct_three_diff(x::NTuple{N,T}) where {T,N} = correct_three_diff(x...)
+correct_four_diff(x::NTuple{N,T})  where {T,N} = correct_four_diff(x...)
+
+correct_two_prod(x::NTuple{N,T})   where {T,N} = correct_two_prod(x...)
+correct_three_prod(x::NTuple{N,T}) where {T,N} = correct_three_prod(x...)
+correct_four_prod(x::NTuple{N,T})  where {T,N} = correct_four_prod(x...)
+
+correct_two_inv(x::NTuple{N,T})   where {T,N} = correct_two_inv(x...)
+correct_three_inv(x::NTuple{N,T}) where {T,N} = correct_three_inv(x...)
+correct_four_inv(x::NTuple{N,T})  where {T,N} = correct_four_inv(x...)
+
+correct_two_divide(x::NTuple{N,T})   where {T,N} = correct_two_divide(x...)
+correct_three_divide(x::NTuple{N,T}) where {T,N} = correct_three_divide(x...)
+correct_four_divide(x::NTuple{N,T})  where {T,N} = correct_four_divide(x...)
