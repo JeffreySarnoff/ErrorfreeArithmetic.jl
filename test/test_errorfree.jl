@@ -1,6 +1,6 @@
 @testset "two_sum" begin
   for i in 1:trials
-    overlap = rand(-2:25)
+    overlap = rand(-2:20)
     shift = rand(-18:18)
     aa, bb = tworands_hi2lo(overlap, shift=shift)
     p = permute2(aa, bb)
@@ -12,7 +12,7 @@ end
 
 @testset "two_sum of 3" begin
   for i in 1:trials
-    overlap = rand(-2:25)
+    overlap = rand(-2:9)
     shift = rand(-18:18)
     aa, bb, cc = threerands_hi2lo(overlap, shift=shift)
     p = permute3(aa, bb, cc)
@@ -38,7 +38,7 @@ end
 
 @testset "three_sum" begin
   for i in 1:trials
-    overlap = rand(-2:25)
+    overlap = rand(-2:9)
     shift = rand(-18:18)
     aa, bb, cc = threerands_hi2lo(overlap, shift=shift)
     p = permute3(aa, bb, cc)
@@ -64,7 +64,7 @@ end
 
 @testset "four_sum" begin
   for i in 1:trials
-    overlap = rand(-2:25)
+    overlap = rand(-2:6)
     shift = rand(-18:18)
     aa, bb, cc, dd = fourrands_hi2lo(overlap, shift=shift)
     p = permute4(aa, bb, cc, dd)
