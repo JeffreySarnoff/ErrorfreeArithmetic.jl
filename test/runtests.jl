@@ -18,6 +18,7 @@ include("errorfree.jl")
 
 include("resolvefloats.jl")
 
+include("test_errorfree.jl")
 include("test_n_func.jl")
 
 # ----------
