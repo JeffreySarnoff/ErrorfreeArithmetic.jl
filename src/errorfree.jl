@@ -35,6 +35,21 @@ function two_sum(a::T,b::T,c::T) where {T}
     hi, lo   = two_hilo_sum(hi2, lo12)
     return hi, lo
 end
+#=
+function two_sum(a::T,b::T,c::T) where {T}
+    t1 = a + b
+    v  = t1 - a
+    
+    lo = (a - (t1 - v)) + (b - v)
+    hi = t1 + c
+    
+    v  = hi - t1
+    t3 = (t1 - (hi - v)) + (c - v)
+    lo += t3
+    
+    return hi, lo
+end
+=#
 
 """
     four_sum(a, b, c, d)
