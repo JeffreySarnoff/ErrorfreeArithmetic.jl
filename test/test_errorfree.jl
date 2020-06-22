@@ -48,6 +48,7 @@ end
   end
 end
 
+#=
 @testset "three_sum of 4" begin
   for i in 1:trials
     overlap = rand(-2:25)
@@ -59,6 +60,7 @@ end
     @test ab == xy
   end
 end
+=#
 
 @testset "four_sum" begin
   for i in 1:trials
