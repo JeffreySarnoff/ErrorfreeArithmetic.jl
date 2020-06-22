@@ -22,10 +22,9 @@ end
   end
 end
 
-#=
 @testset "two_sum of 4" begin
   for i in 1:trials
-    overlap = rand(-2:25)
+    overlap = rand(-2:7)
     shift = rand(-18:18)
     aa, bb, cc, dd = fourrands_hi2lo(overlap, shift=shift)
     p = permute4(aa, bb, cc, dd)
@@ -34,7 +33,6 @@ end
     @test ab == xy
   end
 end
-=#
 
 @testset "three_sum" begin
   for i in 1:trials
