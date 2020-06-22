@@ -23,7 +23,7 @@ function correct_two_sum(aa::T, bb::T, cc::T) where {T}
     return hi, lo
 end
 
-function correct_two_sum(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_two_sum(aa::T, bb::T, cc::T, dd::T) where {T}
     aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -47,7 +47,7 @@ function correct_three_sum(aa::T, bb::T, cc::T) where {T}
     return hi, md, lo
 end
 
-function correct_three_sum(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_three_sum(aa::T, bb::T, cc::T, dd::T) where {T}
     aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -60,7 +60,7 @@ function correct_three_sum(aa::T, bb::T, cc::T, dd:T) where {T}
     return hi, md, lo
 end
 
-function correct_three_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+function correct_three_sum(aa::T, bb::T, cc::T, dd::T, mm::T) where {T}
     aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -74,7 +74,7 @@ function correct_three_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
     return hi, md, lo
 end
 
-function correct_four_sum(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_four_sum(aa::T, bb::T, cc::T, dd::T) where {T}
     aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -88,7 +88,7 @@ function correct_four_sum(aa::T, bb::T, cc::T, dd:T) where {T}
     return hi, mdhi, mdlo, lo
 end
 
-function correct_four_sum(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+function correct_four_sum(aa::T, bb::T, cc::T, dd::T, mm::T) where {T}
     aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -115,7 +115,7 @@ function correct_two_diff(aa::T, bb::T, cc::T) where {T}
     return correct_two_sum(aa, bb, cc)
 end
 
-function correct_two_diff(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_two_diff(aa::T, bb::T, cc::T, dd::T) where {T}
     bb, cc, dd = -bb, -cc, -dd
     return correct_two_sum(aa, bb, cc, dd)
 end
@@ -125,22 +125,22 @@ function correct_three_diff(aa::T, bb::T, cc::T) where {T}
     return correct_three_sum(aa, bb, cc)
 end
 
-function correct_three_diff(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_three_diff(aa::T, bb::T, cc::T, dd::T) where {T}
     bb, cc, dd = -bb, -cc, -dd
     return correct_three_sum(aa, bb, cc, dd)
 end
 
-function correct_three_diff(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+function correct_three_diff(aa::T, bb::T, cc::T, dd::T, mm::T) where {T}
     bb, cc, dd, mm = -bb, -cc, -dd, -mm
     return correct_four_sum(aa, bb, cc, dd, mm)
 end
 
-function correct_four_diff(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_four_diff(aa::T, bb::T, cc::T, dd::T) where {T}
     bb, cc, dd = -bb, -cc, -dd
     return correct_four_sum(aa, bb, cc, dd)
 end
 
-function correct_four_diff(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+function correct_four_diff(aa::T, bb::T, cc::T, dd::T, mm::T) where {T}
     bb, cc, dd, mm = -bb, -cc, -dd, -mm
     return correct_four_sum(aa, bb, cc, dd, mm)
 end
@@ -168,7 +168,7 @@ function correct_two_prod(aa::T, bb::T, cc::T) where {T}
     return hi, lo
 end
 
-function correct_two_prod(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_two_prod(aa::T, bb::T, cc::T, dd::T) where {T}
     aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -192,7 +192,7 @@ function correct_three_prod(aa::T, bb::T, cc::T) where {T}
     return hi, md, lo
 end
 
-function correct_three_prod(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_three_prod(aa::T, bb::T, cc::T, dd::T) where {T}
     aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -205,7 +205,7 @@ function correct_three_prod(aa::T, bb::T, cc::T, dd:T) where {T}
     return hi, md, lo
 end
 
-function correct_three_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+function correct_three_prod(aa::T, bb::T, cc::T, dd::T, mm::T) where {T}
     aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -219,7 +219,7 @@ function correct_three_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
     return hi, md, lo
 end
 
-function correct_four_prod(aa::T, bb::T, cc::T, dd:T) where {T}
+function correct_four_prod(aa::T, bb::T, cc::T, dd::T) where {T}
     aa, bb, cc, dd = sort([aa,bb,cc,dd], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -233,7 +233,7 @@ function correct_four_prod(aa::T, bb::T, cc::T, dd:T) where {T}
     return hi, mdhi, mdlo, lo
 end
 
-function correct_four_prod(aa::T, bb::T, cc::T, dd:T, mm::T) where {T}
+function correct_four_prod(aa::T, bb::T, cc::T, dd::T, mm::T) where {T}
     aa, bb, cc, dd, mm = sort([aa,bb,cc,dd,mm], lt=greatermagnitude)
     a = bigfloat(aa)
     b = bigfloat(bb)
@@ -321,4 +321,3 @@ function correct_four_divide(aa::T, bb::T) where {T}
     lo = T(s - hi - himd - lomd)
     return hi, himd, lomd, lo
 end
-
