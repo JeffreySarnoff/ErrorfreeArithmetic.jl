@@ -7,11 +7,21 @@ author = "Jeffrey Sarnoff"
 license = "MIT"
 version = "v0.5.0"
 
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+LoopVectorization = "bdcacae8-1622-11e9-2a5c-532679323890"
+
 [extras]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["LinearAlgebra", "Random", "Test"]
+benchmark = ["BenchmarkTools", "Random"]
 
 [compat]
+BenchmarkTools = "1"
+LoopVectorization = "0"
 julia = "1"
