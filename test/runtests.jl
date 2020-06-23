@@ -1,5 +1,6 @@
-using ErrorfreeArithmetic
-using Test
+using ErrorfreeArithmetic, Random, Test
+
+Random.seed!(0xface)  # ensure tests that use rands are repeatable
 
 # 512. (sigbits + extrabits) * (4 + 1) [4+1 from renormalize(a,b,c,d,e)]
 const BigFloatOldPrec = precision(BigFloat)
