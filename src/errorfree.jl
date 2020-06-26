@@ -121,11 +121,11 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
     return hi, lo
 end
 
-
 """
     three_diff(a, b, c)
     
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
 """
 function three_diff(a::T,b::T,c::T) where {T}
     s, t = two_diff(-b, c)
@@ -134,6 +134,37 @@ function three_diff(a::T,b::T,c::T) where {T}
     x, y = two_hilo_sum(x, y)
     return x, y, z
 end
+
+"""
+    ieee_three_diff(a, b, c)
+    
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+- Handles `Inf` properly
+"""
+function three_diff(a::T,b::T,c::T) where {T}
+    s, t = two_diff(-b, c)
+    x, u = two_sum(a, s)
+    isinf(x) && return(x, zero(T), zero(T))
+    y, z = two_sum(u, t)
+    x, y = two_hilo_sum(x, y)
+    return x, y, z
+end
+
+"""
+    four_diff(a, b, c, d)
+    
+Computes `s = fl(a-b-c-d)` and `e1 = err(a-b-c-d), e2 = err(e1), e3 = err(e2)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
+"""
+four_diff(a::T, b::T, c::T, d::T) where {T} = four_sum(a, -b, -c, -d)
+
+"""
+    ieee_four_diff(a, b, c, d)
+    
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+- Handles `Inf` properly
+"""
+ieee_four_diff(a::T, b::T, c::T, d::T) where {T} = ieee_four_sum(a, -b, -c, -d)
 
 
 """
