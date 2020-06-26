@@ -26,7 +26,7 @@ end
 """
     four_sum(a, b, c, d)
     
-Computes `hi = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), lo = err(lomd)`.
+Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
 """
 function four_sum(a::T, b::T, c::T, d::T) where {T}
     s3, s4 = two_sum(c, d)
