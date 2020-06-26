@@ -23,7 +23,14 @@ end
 @inline if_else(flag::Bool, ifvalue::Float32, elsevalue::Float32) =
      reinterpret(Float32, if_else(flag, reinterpret(Int32, ifvalue), reinterpret(Int32, elsevalue)) )
 
-@inline function if_hilo_else(a::T, b::T) where {T<:Union{Float64, Float32}}
+@inline function hilo(a::T, b::T) where {T<:Union{Float64, Float32}}
+    flag = a > b
+    hi = reinterpret(Float64, if_else(flag, a, b))
+    lo = reinterpret(Float64, if_else(flag, b, a))
+    return hi,lo
+end  
+
+@inline function hilo_magnitude(a::T, b::T) where {T<:Union{Float64, Float32}}
     flag = abs(a) > abs(b)
     hi = reinterpret(Float64, if_else(flag, a, b))
     lo = reinterpret(Float64, if_else(flag, b, a))
