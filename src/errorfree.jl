@@ -37,6 +37,19 @@ function four_sum(a::T, b::T, c::T, d::T) where {T}
 end
 
 """
+    five_sum(a, b, c, d, e)
+    
+Computes `hi = fl(a+b+c+d+e)` and `mdhi = err(a+b+c+d), mdmd = err(mdhi),  mdlo = err(mdmd), lo = err(mdlo)`.
+"""
+function four_sum(a::T, b::T, c::T, d::T, e::T) where {T}
+    mdhi, mdmd, mdlo, lo = four_sum(b, c, d, e)
+    hi, mdhi, mdmd, mdlo = four_sum(a, mdhi, mdmd, lo) 
+    mdhi, mdmd, mdlo, lo = four_sum(mdhhi, mdmd, mdlo, lo)
+    hi, mdhi, mdmd, mdlo = four_hilo_sum(hi, mdhi, mdmd, mdlo) 
+    return hi, mdhi, mdmd, mdlo, lo
+end
+
+"""
     two_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c)`.
@@ -52,7 +65,7 @@ end
 """
     two_sum(a, b, c, d)
     
-Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d)`.
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d)`.
 """
 function two_sum(a::T, b::T, c::T, d::T) where {T}
     hm, ml, lo = three_sum(b, c, d)
@@ -63,6 +76,31 @@ function two_sum(a::T, b::T, c::T, d::T) where {T}
     return hi, hm
 end
 
+"""
+    three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(md)`.
+"""
+function three_sum(a::T, b::T, c::T, d::T) where {T}
+    hm, ml, lo = three_sum(b, c, d)
+    hi, hm, ml = three_sum(a, hm, ml) 
+    hm, ml = two_sum(hm, ml, lo)
+    hi, hm, ml = three_hilo_sum(hi, hm, ml)
+    return hi, hm, ml
+end
+
+"""
+    four_sum(a, b, c, d, e)
+    
+Computes `hi = fl(a+b+c+d+e)` and `mdhi = err(a+b+c+d), mdmd = err(mdhi),  mdlo = err(mdmd)`.
+"""
+function four_sum(a::T, b::T, c::T, d::T, e::T) where {T}
+    mdhi, mdmd, mdlo, lo = four_sum(b, c, d, e)
+    hi, mdhi, mdmd, mdlo = four_sum(a, mdhi, mdmd, lo) 
+    mdhi, mdmd, mdlo = three_hilo_sum(mdhhi, mdmd, mdlo, lo)
+    hi, mdhi, mdmd, mdlo = four_hilo_sum(hi, mdhi, mdmd, mdlo) 
+    return hi, mdhi, mdmd, mdlo
+end
 
 #=
 function two_sum(a::T,b::T,c::T) where {T}
@@ -95,7 +133,7 @@ Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
     return fast_vecsum_errbranch(c1,c2,d1,d2)
 end
 =#
-@=
+#=
 function four_sum(a::T,b::T,c::T,d::T) where {T}
     a,b,c,d = maxtomin(a,b,c,d)
     t0, t1 = two_sum(a ,  b)
@@ -405,6 +443,36 @@ function three_lohi_sum(a::T,b::T,c::T) where {T}
 end
 
 """
+    three_hilo_sum(a, b, c, d)
+    
+*unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
+
+Computes `x = fl(a+b+c+d)` and `y = err(a+b+c+d), z = err(y)`.
+"""
+function three_hilo_sum(a::T, b::T, c::T, d::T) where {T}
+    y, z, lo = three_hilo_sum(b, c, d)
+    x, y, z  = three_hilo_sum(a, y, z)
+    y, z, lo = three_hilo_sum(y, z, lo)
+    x, y, z  = three_hilo_sum(x, y, z)
+    return x, y, z
+end
+
+"""
+    three_lohi_sum(a, b, c, d)
+    
+*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
+
+Computes `x = fl(a+b+c+d)` and `y = err(a+b+c+d), z = err(y)`.
+"""
+function three_lohi_sum(a::T, b::T, c::T, d::T) where {T}
+    y, z, lo = three_lohi_sum(b, c, d)
+    x, y, z  = three_lohi_sum(a, y, z)
+    y, z, lo = three_lohi_sum(y, z, lo)
+    x, y, z  = three_lohi_sum(x, y, z)
+    return x, y, z
+end
+
+"""
     three_hilo_diff(a, b, c)
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c|`
@@ -448,6 +516,14 @@ function four_hilo_sum(a::T,b::T,c::T,d::T) where {T}
     t0, t1 = two_hilo_sum(t1, t2)
     hm, t2 = two_hilo_sum(t0, t3) # here, t0 >= t3
     ml, lo = two_hilo_sum(t1, t2)
+    return hi, hm, ml, lo
+end
+
+function four_hilo_sum2(a::T, b::T, c::T, d::T) where {T}
+    hm, ml, lo = three_hilo_sum(b, c, d)
+    hi, hm, ml = three_hilo_sum(a, hm, ml) 
+    hm, ml, lo = three_hilo_sum(hm, ml, lo)
+    hi, hm, ml = three_hilo_sum(hi, hm, ml)
     return hi, hm, ml, lo
 end
 
