@@ -26,8 +26,19 @@ end
 """
     four_sum(a, b, c, d)
     
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
+Computes `hi = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), lo = err(lomd)`.
 """
+function four_sum(a::T, b::T, c::T, d::T) where {T}
+    s3, lo = two_sum(c, d)
+    s2, s3 = two_sum(b, s3)
+    hi, s2 = two_sum(a, s2)
+    s3, lo = two_sum(s3, lo)
+    s2, s3 = two_sum(s2, s3)
+    hi, s2 = two_hilo_sum(hi, s2)
+    return hi, s2, s3, lo
+end
+
+#=
 function four_sum(a::T, b::T, c::T, d::T) where {T}
     hm, ml, lo = three_sum(b, c, d)
     hi, hm, ml = three_sum(a, hm, ml) 
@@ -35,6 +46,7 @@ function four_sum(a::T, b::T, c::T, d::T) where {T}
     hi, hm, ml = three_hilo_sum(hi, hm, ml)
     return hi, hm, ml, lo
 end
+=#
 
 """
     five_sum(a, b, c, d, e)
@@ -147,6 +159,10 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
 end
 =#
 
+@inline function vecsum(x1, x2)
+    return two_sum(x1, x2)
+end
+
 @inline function vecsum(x1, x2, x3)
     s2, s3 = two_sum(x2, x3)
     s1, s2 = two_sum(x1, s2)
@@ -159,6 +175,87 @@ end
     s1, s2 = two_sum(x1, s2)
     return s1, s2, s3, s4
 end
+
+function vecsum(x1, x2, x3, x4, x5)
+    s4, s5 = two_sum(x4, x5)
+    s3, s4 = two_sum(x3, s4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3, s4, s5
+end
+
+function vecsum(x1, x2, x3, x4, x5, x6)
+    s5, s6 = two_sum(x5, x6)
+    s4, s5 = two_sum(x4, s5)
+    s3, s4 = two_sum(x3, s4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3, s4, s5, s6
+end
+
+function vecsum(x1, x2, x3, x4, x5, x6, x7)
+    s6, s7 = two_sum(x6, x7)
+    s5, s6 = two_sum(x5, s6)
+    s4, s5 = two_sum(x4, s5)
+    s3, s4 = two_sum(x3, s4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3, s4, s5, s6, s7
+end
+
+function vecsum(x1, x2, x3, x4, x5, x6, x7, x8)
+    s7, s8 = two_sum(x7, x8)
+    s6, s7 = two_sum(x6, s7)
+    s5, s6 = two_sum(x5, s6)
+    s4, s5 = two_sum(x4, s5)
+    s3, s4 = two_sum(x3, s4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3, s4, s5, s6, s7, s8
+end
+
+@inline function vec_hilo_sum(x1, x2, x3)
+    s2, s3 = two_sum(x2, x3)
+    s1, s2 = two_hilo_sum(x1, s2)
+    return s1, s2, s3
+end
+
+@inline function vec_hilo_sum(x1, x2, x3, x4)
+    s3, s4 = two_sum(x3, x4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_hilo_sum(x1, s2)
+    return s1, s2, s3, s4
+end
+
+
+function vecsum_hilo(x1, x2, x3)
+    s2, s3 = two_sum(x2, x3)
+    s1, s2 = two_sum(x1, s2)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3
+end
+
+function vecsum_hilo(x1, x2, x3, x4)
+    s3, s4 = two_sum(x3, x4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3, s4
+end
+
+
+function vecsum_hilo(x1, x2, x3, x4)
+    s1, s2, s3, s4 = vecsum(x1, x2, x3, x4)
+    s1, s2, s3, s4 = vec_hilo_sum(s1, s2, s3, s4)
+    return vec_hilo_sum(s1, s2, s3, s4)
+end
+
 
 @inline function vecsum(x1, x2, x3, x4, x5)
     s4, s5 = two_sum(x4, x5)
