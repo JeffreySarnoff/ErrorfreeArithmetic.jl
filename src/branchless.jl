@@ -31,47 +31,6 @@ end
 end  
 
 #=
-
-julia> @inline function if_el(flag::Bool, ifvalue1::Float64, ifvalue2::Float64, elsevalue1::Float64, elsevalue2::Float64)
-            a1 = reinterpret(Int64, ifvalue1)
-            a2 = reinterpret(Int64, ifvalue2)
-            a3 = reinterpret(Int64, elsevalue1)
-            a4 = reinterpret(Int64, elsevalue2)
-            result = if_else(flag, a1, a2, a3, a4)
-            return reinterpret(Float64, result[1]), reinterpret(Float64, result[2])
-           end
-if_el (generic function with 1 method)
-
-julia> if_el(true,a,b,b,a)
-(1.4142135623730952e12, 1.4142135623730951)
-=#
-
-@inline if_else(flag::Bool, ifvalue1::T, ifvalue2::T, elsevalue1::T, elsevalue2::T) where {T<:Base.BitSigned} = let flg = zero(T) | flag
-    ((-flg & ifvalue1) | ((flg - one(T)) & elsevalue1)), ((-flg & ifvalue2) | ((flg - one(T)) & elsevalue2))
-end
-
-@inline if_else(flag::Bool, ifvalue1::Float64, ifvalue2::Float64, elsevalue1::Float64, elsevalue2::Float64) =
-     reinterpret.(Float64, if_else(flag, reinterpret(Int64,ifvalue1), reinterpret(Int64,ifvalue2), reinterpret(Int64,elsevalue1), reinterpret(Int64,elsevalue2)) )
-
-@inline if_else(flag::Bool, ifvalue1::Float32, ifvalue2::Float32, elsevalue1::Float32, elsevalue2::Float32) =
-     reinterpret.(Float32, if_else(flag, reinterpret(Int32,ifvalue1), reinterpret(Int32,ifvalue2), reinterpret(Int32,elsevalue1), reinterpret(Int32,elsevalue2)) )
-
-@inline function if_else(flag::Bool, ifvalue1::Float64, ifvalue2::Float64, elsevalue1::Float64, elsevalue2::Float64)
-     hilo =  if_else(flag, reinterpret(Int64,ifvalue1), reinterpret(Int64,ifvalue2), reinterpret(Int64,elsevalue1), reinterpret(Int64,elsevalue2))
-     return reinterpret(Float64, hilo[1]), reinterpret(Float64, hilo[2])
-end
-
- @inline function if_hilo_else(ifvalue1::Float64, ifvalue2::Float64, elsevalue1::Float64, elsevalue2::Float64)
-    hilo =  if_else(abs(ifvalue1) > abs(ifvalue2), reinterpret(Int64,ifvalue1), reinterpret(Int64,ifvalue2), reinterpret(Int64,elsevalue1), reinterpret(Int64,elsevalue2))
-    return reinterpret(Float64, hilo[1]), reinterpret(Float64, hilo[2])
-end
-@inline function if_hilo_else(ifvalue1::Float64, ifvalue2::Float64)
-    hilo =  if_else(abs(ifvalue1) > abs(ifvalue2), reinterpret(Int64,ifvalue1), reinterpret(Int64,ifvalue2), reinterpret(Int64,ifvalue2), reinterpret(Int64,ifvalue1))
-    return reinterpret(Float64, hilo[1]), reinterpret(Float64, hilo[2])
-end
-  
-
-#=
 julia> if_else(true, 6, 10)
 6
 
