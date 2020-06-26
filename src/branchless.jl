@@ -18,12 +18,12 @@ julia> optional(false,6)
 end
 
 @inline if_else(flag::Bool, ifvalue::Float64, elsevalue::Float64) =
-     reinterpret(Float64, if_else(flag, reinterpret(Int64,ifvalue), reinterpret(Int64,elsevalue)) )
+     reinterpret(Float64, if_else(flag, reinterpret(Int64, ifvalue), reinterpret(Int64, elsevalue)) )
 
 @inline if_else(flag::Bool, ifvalue::Float32, elsevalue::Float32) =
-     reinterpret(Float32, if_else(flag, reinterpret(Int32,ifvalue), reinterpret(Int32,elsevalue)) )
+     reinterpret(Float32, if_else(flag, reinterpret(Int32, ifvalue), reinterpret(Int32, elsevalue)) )
 
-@inline function if_hilo_else(a::Float64, b::Float64)
+@inline function if_hilo_else(a::T, b::T) where {T<:Union{Float64, Float32}}
     flag = abs(a) > abs(b)
     hi = reinterpret(Float64, if_else(flag, a, b))
     lo = reinterpret(Float64, if_else(flag, b, a))
