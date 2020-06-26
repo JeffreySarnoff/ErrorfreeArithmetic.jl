@@ -33,7 +33,7 @@ function four_sum(a::T, b::T, c::T, d::T) where {T}
     hi, hm, ml = three_sum(a, hm, ml)
     hm, ml, lo = three_sum(hm, ml, lo)
     hi, hm, ml = three_hilo_sum(hi, hm, ml)
-    return hi, hm, ml
+    return hi, hm, ml,lo
 end    
     
 
