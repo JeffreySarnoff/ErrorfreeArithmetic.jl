@@ -1,19 +1,24 @@
-@inline max_min(x, y) = abs(y) < abs(x) ? (x,y) : (y,x)
+@inline magnitude_maxmin(x, y) = abs(y) < abs(x) ? (x, y) : (y, x)
 
-maxtomin(a, b) = max_min(a, b)
+magnitude_maxtomin(a, b) = magnitude_maxmin(a, b)
 
-function maxtomin(a, b, c)
-    b, c = max_min(b, c)
-    a, c = max_min(a, c)
-    b, b = max_min(a, b)
+function magnitude_maxtomin(a, b, c)
+    b, c = magnitude_maxmin(b, c)
+    a, c = magnitude_maxmin(a, c)
+    a, b = magnitude_maxmin(a, b)
     return a, b, c
 end
 
-function maxtomin(a, b, c, d)
-    a, b = max_min(a, b)
-    c, d = max_min(c, d)
-    a, c = max_min(a, c)
-    b, d = max_min(b, d)
-    b, c = max_min(b, c)
+function magnitude_maxtomin(a, b, c, d)
+    c, d = magnitude_maxmin(c, d)
+    b, d = magnitude_maxmin(b, d)
+    a, d = magnitude_maxmin(a, d)    
+    b, c = magnitude_maxmin(b, c)
+    a, c = magnitude_maxmin(a, c)
+    a, b = magnitude_maxmin(a, b)
     return a, b, c, d
 end
+
+magnitude_maxtomin(x::NTuple{2, T}) where {T} = magnitude_maxtomin(x[1], x[2])
+magnitude_maxtomin(x::NTuple{3, T}) where {T} = magnitude_maxtomin(x[1], x[2], x[3])
+magnitude_maxtomin(x::NTuple{4, T}) where {T} = magnitude_maxtomin(x[1], x[2], x[3], x[4])
