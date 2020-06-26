@@ -16,7 +16,7 @@ end
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 Handles `Inf` properly.
 """
-@inline function two_sum(a::T, b::T) where {T}
+@inline function safe_two_sum(a::T, b::T) where {T}
     hi = a + b
     isinf(hi) && return (hi, zero(T))
     v  = hi - a
@@ -44,7 +44,7 @@ end
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 Handles `Inf` properly.
 """
-function three_sum(a::T, b::T, c::T) where {T}
+function safe_three_sum(a::T, b::T, c::T) where {T}
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     isinf(hi) && return (hi, zero(T), zero(T))
@@ -77,7 +77,7 @@ end
 Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
 Handles `Inf` properly.
 """
-function four_sum(a::T, b::T, c::T, d::T) where {T}
+function safe_four_sum(a::T, b::T, c::T, d::T) where {T}
     s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
     s1, s2 = two_sum(a, s2)
