@@ -23,6 +23,16 @@ end
 @inline if_else(flag::Bool, ifvalue::Float32, elsevalue::Float32) =
      reinterpret(Float32, if_else(flag, reinterpret(Int32,ifvalue), reinterpret(Int32,elsevalue)) )
 
+@inline if_else(flag::Bool, ifvalue1::T, ifvalue2::T, elsevalue1::T, elsevalue2::T) where {T<:Base.BitSigned} = let flg = zero(T) | flag
+           ((-flg & ifvalue1) | ((flg - one(T)) & elsevalue1)), ((-flg & ifvalue2) | ((flg - one(T)) & elsevalue2))
+       end
+
+@inline if_else(flag::Bool, ifvalue1::Float64, ifvalue2::Float64, elsevalue1::Float64, elsevalue2::Float64) =
+     reinterpret(Float64, if_else(flag, reinterpret(Int64,ifvalue1), reinterpret(Int64,ifvalue2), reinterpret(Int64,elsevalue1), reinterpret(Int64,elsevalue2)) )
+
+@inline if_else(flag::Bool, ifvalue1::Float32, ifvalue2::Float32, elsevalue1::Float32, elsevalue2::Float32) =
+     reinterpret(Float32, if_else(flag, reinterpret(Int32,ifvalue1), reinterpret(Int32,ifvalue2), reinterpret(Int32,elsevalue1), reinterpret(Int32,elsevalue2)) )
+
 #=
 julia> if_else(true, 6, 10)
 6
