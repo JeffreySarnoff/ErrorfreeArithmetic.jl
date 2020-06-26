@@ -2,6 +2,7 @@
     two_sum(a, b)
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b))
 """
 @inline function two_sum(a::T, b::T) where {T}
     hi = a + b
@@ -28,6 +29,7 @@ end
    three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
 """
 function three_sum(a::T, b::T, c::T) where {T}
     md, lo = two_sum(b, c) 
@@ -56,6 +58,7 @@ end
     four_sum(a, b, c, d)
     
 Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
 """
 function four_sum(a::T, b::T, c::T, d::T) where {T}
     s3, s4 = two_sum(c, d)
@@ -90,6 +93,61 @@ function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
     return s1, s2, s3, s4
 end
 
+"""
+    two_prod(a, b)
+
+Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
+- Unchecked Precondition: !(isinf(a) | isinf(b))
+"""
+@inline function two_prod(a::T, b::T) where {T}
+    hi = a * b
+    lo = fma(a, b, -hi)
+    hi, lo
+end
+
+"""
+    ieee_two_prod(a, b)
+
+Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
+- Handles `Inf` properly
+"""
+@inline function ieee_two_prod(a::T, b::T) where {T}
+    hi = a * b
+    isinf(hi) && return (hi, zero(T))
+    lo = fma(a, b, -hi)
+    hi, lo
+end
+
+"""
+    three_prod(a, b, c)
+
+Computes `hi = fl(a*b*c)` `md = fl(a*b*c - hi)` and `lo = fl(err(md))`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
+"""
+function three_prod(a::T, b::T, c::T) where {T}
+    abhi, ablo = two_prod(a, b)
+    hi, abhiclo = two_prod(abhi, c)
+    ablochi, abloclo = two_prod(ablo, c)
+    md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
+    hi, md = two_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
+    ieee_three_prod(a, b)
+
+Computes `hi = fl(a*b*c)` `md = fl(a*b*c - hi)` and `lo = fl(err(md))`.
+- Handles `Inf` properly
+"""
+function ieee_three_prod(a::T, b::T, c::T) where {T}
+    abhi, ablo = two_prod(a, b)
+    hi, abhiclo = two_prod(abhi, c)
+    isinf(hi) && return (hi, zero(T), zero(T))
+    ablochi, abloclo = two_prod(ablo, c)
+    md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
+    hi, md = two_sum(hi, md)
+    return hi, md, lo
+end
 
 
 #=
