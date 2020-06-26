@@ -93,6 +93,49 @@ function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
     return s1, s2, s3, s4
 end
 
+
+"""
+    two_diff(a, b)
+
+Computes `s = fl(a-b)` and `e = err(a-b)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b))
+"""
+@inline function two_diff(a::T, b::T) where {T}
+    hi = a - b
+    v  = hi - a
+    lo = (a - (hi - v)) - (b + v)
+    return hi, lo
+end
+
+"""
+    ieee_two_diff(a, b)
+
+Computes `s = fl(a-b)` and `e = err(a-b)`.
+- Handles `Inf` properly
+"""
+@inline function ieee_two_diff(a::T, b::T) where {T}
+    hi = a - b
+    isinf(hi) && return (hi, zero(T))
+    v  = hi - a
+    lo = (a - (hi - v)) - (b + v)
+    return hi, lo
+end
+
+
+"""
+    three_diff(a, b, c)
+    
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+"""
+function three_diff(a::T,b::T,c::T) where {T}
+    s, t = two_diff(-b, c)
+    x, u = two_sum(a, s)
+    y, z = two_sum(u, t)
+    x, y = two_hilo_sum(x, y)
+    return x, y, z
+end
+
+
 """
     two_prod(a, b)
 
