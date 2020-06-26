@@ -29,13 +29,16 @@ end
 Computes `hi = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), lo = err(lomd)`.
 """
 function four_sum(a::T, b::T, c::T, d::T) where {T}
-    s3, lo = two_sum(c, d)
+    s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
-    hi, s2 = two_sum(a, s2)
-    s3, lo = two_sum(s3, lo)
+    s1, s2 = two_sum(a, s2)
+    s3, s4 = two_sum(s3, s4)
     s2, s3 = two_sum(s2, s3)
-    hi, s2 = two_hilo_sum(hi, s2)
-    return hi, s2, s3, lo
+    s1, s2 = two_hilo_sum(s1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3, s4
 end
 
 #=
