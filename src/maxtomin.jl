@@ -23,7 +23,7 @@ magnitude_maxtomin(x::NTuple{2, T}) where {T} = magnitude_maxtomin(x[1], x[2])
 magnitude_maxtomin(x::NTuple{3, T}) where {T} = magnitude_maxtomin(x[1], x[2], x[3])
 magnitude_maxtomin(x::NTuple{4, T}) where {T} = magnitude_maxtomin(x[1], x[2], x[3], x[4])
 
-inline magnitude_minmax(x, y) = abs(x) < abs(y) ? (x, y) : (y, x)
+@inline magnitude_minmax(x, y) = abs(x) < abs(y) ? (x, y) : (y, x)
 
 magnitude_mintomax(a, b) = magnitude_minnax(a, b)
 
