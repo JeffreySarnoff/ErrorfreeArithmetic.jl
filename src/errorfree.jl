@@ -11,12 +11,12 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 """
-    safe_two_sum(a, b)
+    ieee_two_sum(a, b)
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
-Handles `Inf` properly.
+- Handles `Inf` properly.
 """
-@inline function safe_two_sum(a::T, b::T) where {T}
+@inline function ieee_two_sum(a::T, b::T) where {T}
     hi = a + b
     isinf(hi) && return (hi, zero(T))
     v  = hi - a
@@ -39,12 +39,12 @@ function three_sum(a::T, b::T, c::T) where {T}
 end
 
 """
-   safe_three_sum(a, b, c)
+   ieee_three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
-Handles `Inf` properly.
+- Handles `Inf` properly.
 """
-function safe_three_sum(a::T, b::T, c::T) where {T}
+function ieee_three_sum(a::T, b::T, c::T) where {T}
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     isinf(hi) && return (hi, zero(T), zero(T))
@@ -72,12 +72,12 @@ function four_sum(a::T, b::T, c::T, d::T) where {T}
 end
 
 """
-    safe_four_sum(a, b, c, d)
+    ieee_four_sum(a, b, c, d)
     
 Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
-Handles `Inf` properly.
+- Handles `Inf` properly.
 """
-function safe_four_sum(a::T, b::T, c::T, d::T) where {T}
+function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
     s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
     s1, s2 = two_sum(a, s2)
