@@ -63,7 +63,7 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
 """
 function three_sum(a::T, b::T, c::T) where {T}
-    a, b, c = magnitude_maxtomin(a, b, c)
+    a, b, c = magnitude_mintomax(a, b, c)
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     md, lo = two_sum(md, lo)
@@ -78,7 +78,7 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Handles `Inf` properly.
 """
 function ieee_three_sum(a::T, b::T, c::T) where {T}
-    a, b, c = magnitude_maxtomin(a, b, c)
+    a, b, c = magnitude_mintomax(a, b, c)
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     isinf(hi) && return (hi, zero(T), zero(T))
@@ -135,7 +135,7 @@ Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lo
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
 """
 function four_sum(a::T, b::T, c::T, d::T) where {T}
-    a, b, c, d = magnitude_maxtomin(a, b, c, d)
+    a, b, c, d = magnitude_mintomax(a, b, c, d)
     s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
     s1, s2 = two_sum(a, s2)
@@ -155,7 +155,7 @@ Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lo
 - Handles `Inf` properly.
 """
 function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
-    a, b, c, d = magnitude_maxtomin(a, b, c, d)
+    a, b, c, d = magnitude_mintomax(a, b, c, d)
     s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
     s1, s2 = two_sum(a, s2)
