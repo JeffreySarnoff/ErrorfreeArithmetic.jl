@@ -24,7 +24,6 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     return hi, lo
 end
 
-
 """
    three_sum(a, b, c)
     
