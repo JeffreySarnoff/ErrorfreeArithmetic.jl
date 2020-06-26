@@ -41,7 +41,7 @@ end
     
 Computes `hi = fl(a+b+c+d+e)` and `mdhi = err(a+b+c+d), mdmd = err(mdhi),  mdlo = err(mdmd), lo = err(mdlo)`.
 """
-function four_sum(a::T, b::T, c::T, d::T, e::T) where {T}
+function five_sum(a::T, b::T, c::T, d::T, e::T) where {T}
     mdhi, mdmd, mdlo, lo = four_sum(b, c, d, e)
     hi, mdhi, mdmd, mdlo = four_sum(a, mdhi, mdmd, lo) 
     mdhi, mdmd, mdlo, lo = four_sum(mdhhi, mdmd, mdlo, lo)
@@ -147,20 +147,20 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
 end
 =#
 
-function vecsum(x1, x2, x3)
+@inline function vecsum(x1, x2, x3)
     s2, s3 = two_sum(x2, x3)
     s1, s2 = two_sum(x1, s2)
     return s1, s2, s3
 end
 
-function vecsum(x1, x2, x3, x4)
+@inline function vecsum(x1, x2, x3, x4)
     s3, s4 = two_sum(x3, x4)
     s2, s3 = two_sum(x2, s3)
     s1, s2 = two_sum(x1, s2)
     return s1, s2, s3, s4
 end
 
-function vecsum(x1, x2, x3, x4, x5)
+@inline function vecsum(x1, x2, x3, x4, x5)
     s4, s5 = two_sum(x4, x5)
     s3, s4 = two_sum(x3, s4)
     s2, s3 = two_sum(x2, s3)
@@ -203,8 +203,8 @@ function vecsum3(x1, x2, x3, x4)
     s3, s4 = two_sum(s3, s4)
     s2, s3 = two_sum(s2, s3)
     s1, s2 = two_hilo_sum(a1, s2)
-    s3, s4 = two_hilo_sum(s3, s4)
-    s2, s3 = two_hilo_sum(s2, s3)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
     s1, s2 = two_hilo_sum(a1, s2)
     return s1, s2, s3, s4
 end
