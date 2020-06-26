@@ -3,7 +3,7 @@
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_sum(a::T, b::T) where {T<:Real}
+@inline function two_sum(a::T, b::T) where {T}
     hi = a + b
     v  = hi - a
     lo = (a - (hi - v)) + (b - v)
@@ -15,13 +15,27 @@ end
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
-function three_sum(a::T,b::T,c::T) where {T}
-    hi1, lo1 = two_sum(b, c)
-    hi2, lo2 = two_sum(a, hi1)
-    md2, lo  = two_sum(lo2, lo1)
-    hi, md   = two_hilo_sum(hi2, md2)
+function three_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_sum(b, c) 
+    hi, md = two_sum(a, md)
+    md, lo = two_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
+
+"""
+    four_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
+"""
+function four_sum(a::T, b::T, c::T, d::T) where {T}
+    hm, ml, lo = three_sum(b, c, d)
+    hi, hm, ml = three_sum(a, hm, ml)
+    hm, ml, lo = three_sum(hm, ml, lo)
+    hi, hm, ml = three_hilo_sum(hi, hm, ml)
+    return hi, hm, ml
+end    
+    
 
 """
     two_sum(a, b, c)
@@ -66,6 +80,7 @@ Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
     return fast_vecsum_errbranch(c1,c2,d1,d2)
 end
 =#
+@=
 function four_sum(a::T,b::T,c::T,d::T) where {T}
     a,b,c,d = maxtomin(a,b,c,d)
     t0, t1 = two_sum(a ,  b)
@@ -76,7 +91,7 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     ml, lo = two_sum(t1, t2)
     return hi, hm, ml, lo
 end
-
+=#
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
