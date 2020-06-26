@@ -1,7 +1,9 @@
 """
     ufp(x)
     
-unit in the first place    
+unit in the first place
+
+The function ufp(a) for a != 0 produces the largest power of two not larger than |a|.
 """
 ufp(x::T) where {T} = iszero(x) ? x : 2.0^(floor(log2(abs(x))))
 
