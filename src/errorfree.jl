@@ -143,8 +143,71 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     hm, t2 = two_sum(t0, t3) # here, t0 >= t3
     ml, lo = two_sum(t1, t2)
     return hi, hm, ml, lo
+
 end
 =#
+
+function vecsum(x1, x2, x3)
+    s2, s3 = two_sum(x2, x3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3
+end
+
+function vecsum(x1, x2, x3, x4)
+    s3, s4 = two_sum(x3, x4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3, s4
+end
+
+function vecsum(x1, x2, x3, x4, x5)
+    s4, s5 = two_sum(x4, x5)
+    s3, s4 = two_sum(x3, s4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    return s1, s2, s3, s4, s5
+end
+
+function vecsum2(x1, x2, x3)
+    s2, s3 = two_sum(x2, x3)
+    s1, s2 = two_sum(x1, s2)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3
+end
+
+function vecsum3(x1, x2, x3)
+    s2, s3 = two_sum(x2, x3)
+    s1, s2 = two_sum(x1, s2)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    s2, s3 = two_hilo_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3
+end
+
+function vecsum2(x1, x2, x3, x4)
+    s3, s4 = two_sum(x3, x4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(a1, s2)
+    return s1, s2, s3, s4
+end
+
+function vecsum3(x1, x2, x3, x4)
+    s3, s4 = two_sum(x3, x4)
+    s2, s3 = two_sum(x2, s3)
+    s1, s2 = two_sum(x1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(a1, s2)
+    s3, s4 = two_hilo_sum(s3, s4)
+    s2, s3 = two_hilo_sum(s2, s3)
+    s1, s2 = two_hilo_sum(a1, s2)
+    return s1, s2, s3, s4
+end
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
