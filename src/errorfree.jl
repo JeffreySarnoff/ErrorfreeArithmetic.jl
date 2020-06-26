@@ -30,10 +30,10 @@ Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
 function four_sum(a::T, b::T, c::T, d::T) where {T}
     hm, ml, lo = three_sum(b, c, d)
-    hi, hm, ml = three_sum(a, hm, ml)
+    hi, hm, ml = three_sum(a, hm, ml) 
     hm, ml, lo = three_sum(hm, ml, lo)
     hi, hm, ml = three_hilo_sum(hi, hm, ml)
-    return hi, hm, ml,lo
+    return hi, hm, ml, lo
 end
     
 
