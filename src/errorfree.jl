@@ -150,6 +150,7 @@ function ieee_three_prod(a::T, b::T, c::T) where {T}
 end
 
 
+
 #=
 function four_sum(a::T, b::T, c::T, d::T) where {T}
     hm, ml, lo = three_sum(b, c, d)
@@ -158,7 +159,6 @@ function four_sum(a::T, b::T, c::T, d::T) where {T}
     hi, hm, ml = three_hilo_sum(hi, hm, ml)
     return hi, hm, ml, lo
 end
-=#
 
 """
     five_sum(a, b, c, d, e)
@@ -913,3 +913,4 @@ function twosum(p1,p2,p3,p4)
 
     
     
+=#
