@@ -35,7 +35,44 @@ end
     hi = reinterpret(Float64, if_else(flag, a, b))
     lo = reinterpret(Float64, if_else(flag, b, a))
     return hi,lo
-end  
+end
+
+@inline two_sum(a,b) = two_hilo_sum(hilo_magnitude(a,b))
+
+@inline function two_hilo_sum(x::NTuple{2, T}) where {T}
+    a,b = x; hi = a + b
+    lo = b - (hi - a)
+    return hi, lo
+end
+
+@inline function two_sum(a::T, b::T) where {T<:Union{Float64, Float32}}
+    flag = abs(a) > abs(b)
+    hi0 = reinterpret(Float64, if_else(flag, a, b))
+    lo = reinterpret(Float64, if_else(flag, b, a))
+    hi = hi0 + lo
+    lo = lo - (hi0 - hi)
+    return hi, lo
+end
+
+@inline function hilo_magnitude(a::Float64, b::Float64)
+    absa = abs(a)
+    absb = abs(b)
+    flag = absa > absb
+    inta = reinterpret(Int64, a)
+    intb = reinterpret(Int64, b)
+    inthi = if_else(flag, inta, intb)
+    intlo = xor(xor(inta, intb), inthi)
+    return reinterpret(Float64, inthi), reinterpret(Float64, intlo)
+end
+
+@inline function two_sum(a::Float64, b::Float64)
+    inta = reinterpret(Int64, a)
+    intb = reinterpret(Int64, b)
+    flag = abs(a) > abs(b)
+    inthi = if_else(flag, inta, intb)
+    intlo = xor(xor(inta, intb), inthi)
+    return two_hilo_sum(reinterpret(Float64, inthi), reinterpret(Float64, intlo))
+end
 
 #=
 julia> if_else(true, 6, 10)
