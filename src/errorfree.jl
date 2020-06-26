@@ -26,12 +26,44 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 """
+   fast_three_sum(a, b, c)
+    
+Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
+- Does not presort magnitudes
+"""
+function fast_three_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_sum(b, c) 
+    hi, md = two_sum(a, md)
+    md, lo = two_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
+   ieee_fast_three_sum(a, b, c)
+    
+Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
+- Handles `Inf` properly.
+- Does not presort magnitudes
+"""
+function ieee_fast_three_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_sum(b, c) 
+    hi, md = two_sum(a, md)
+    isinf(hi) && return (hi, zero(T), zero(T))
+    md, lo = two_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
    three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
 """
 function three_sum(a::T, b::T, c::T) where {T}
+    a, b, c = magnitude_maxtomin(a, b, c)
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     md, lo = two_sum(md, lo)
@@ -46,6 +78,7 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Handles `Inf` properly.
 """
 function ieee_three_sum(a::T, b::T, c::T) where {T}
+    a, b, c = magnitude_maxtomin(a, b, c)
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     isinf(hi) && return (hi, zero(T), zero(T))
@@ -55,12 +88,54 @@ function ieee_three_sum(a::T, b::T, c::T) where {T}
 end
 
 """
+    fast_four_sum(a, b, c, d)
+    
+Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
+- Does not presort magnitudes
+"""
+function four_sum(a::T, b::T, c::T, d::T) where {T}
+    s3, s4 = two_sum(c, d)
+    s2, s3 = two_sum(b, s3)
+    s1, s2 = two_sum(a, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3, s4
+end
+
+"""
+    ieee_fast_four_sum(a, b, c, d)
+    
+Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
+- Handles `Inf` properly.
+- Does not presort magnitudes
+"""
+function ieee_fast_four_sum(a::T, b::T, c::T, d::T) where {T}
+    s3, s4 = two_sum(c, d)
+    s2, s3 = two_sum(b, s3)
+    s1, s2 = two_sum(a, s2)
+    isinf(s1) && return (s1, zero(T), zero(T), zero(T))
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    s3, s4 = two_sum(s3, s4)
+    s2, s3 = two_sum(s2, s3)
+    s1, s2 = two_hilo_sum(s1, s2)
+    return s1, s2, s3, s4
+end
+
+"""
     four_sum(a, b, c, d)
     
 Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
 """
 function four_sum(a::T, b::T, c::T, d::T) where {T}
+    a, b, c, d = magnitude_maxtomin(a, b, c, d)
     s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
     s1, s2 = two_sum(a, s2)
@@ -80,6 +155,7 @@ Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lo
 - Handles `Inf` properly.
 """
 function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
+    a, b, c, d = magnitude_maxtomin(a, b, c, d)
     s3, s4 = two_sum(c, d)
     s2, s3 = two_sum(b, s3)
     s1, s2 = two_sum(a, s2)
@@ -128,6 +204,7 @@ Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
 """
 function three_diff(a::T,b::T,c::T) where {T}
+    a, b, c = magnitude_maxtomin(a, b, c)
     s, t = two_diff(-b, c)
     x, u = two_sum(a, s)
     y, z = two_sum(u, t)
@@ -142,6 +219,7 @@ Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 - Handles `Inf` properly
 """
 function three_diff(a::T,b::T,c::T) where {T}
+    a, b, c = magnitude_maxtomin(a, b, c)
     s, t = two_diff(-b, c)
     x, u = two_sum(a, s)
     isinf(x) && return(x, zero(T), zero(T))
