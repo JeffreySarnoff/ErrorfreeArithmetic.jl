@@ -223,7 +223,42 @@ function ieee_three_prod(a::T, b::T, c::T) where {T}
     return hi, md, lo
 end
 
+"""
+    four_prod(a, b, c, d)
 
+Computes `hi = fl(a*b*c*d)` `mdhi = fl(a*b*c*d - hi)`  `mdlo = fl(a*b*c*d - hi - mdhi)` and `lo = fl(err(mdlo))`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
+"""
+function four_prod(a::T, b::T, c::T, d::T) where {T}
+    abchi, abcmd, abclo = three_prod(a, b, c)
+    abchidhi, abchidlo = two_prod(abchi, d)
+    abcmddhi, abcmddlo = two_prod(abcmd, d)
+    abclodhi, abclodlo = two_prod(abclo, d)
+    abcmddhi, abcmddlo, abclodhi = three_sum(abcmddhi, abcmddlo, abclodhi)
+    abchidlo, abcmddhi, abcmddlo = three_sum(abchidlo, abcmddhi, abcmddlo)
+    abcmddlo += abclodhi + abclodlo
+    abchidhi, abchidlo, abcmddhi = three_sum(abchidhi, abchidlo, abcmddhi)
+    return abchidhi, abchidlo, abcmddhi, abcmddlo
+end
+    
+"""
+    ieee_four_prod(a, b, c, d)
+
+Computes `hi = fl(a*b*c*d)` `mdhi = fl(a*b*c*d - hi)`  `mdlo = fl(a*b*c*d - hi - mdhi)` and `lo = fl(err(mdlo))`.
+- Handles `Inf` properly
+"""
+function ieee_four_prod(a::T, b::T, c::T, d::T) where {T}
+    abchi, abcmd, abclo = three_prod(a, b, c)
+    abchidhi, abchidlo = two_prod(abchi, d)
+    isinf(abchidhi) && return (abchidhi, zero(T), zero(T), zero(T))
+    abcmddhi, abcmddlo = two_prod(abcmd, d)
+    abclodhi, abclodlo = two_prod(abclo, d)
+    abcmddhi, abcmddlo, abclodhi = three_sum(abcmddhi, abcmddlo, abclodhi)
+    abchidlo, abcmddhi, abcmddlo = three_sum(abchidlo, abcmddhi, abcmddlo)
+    abcmddlo += abclodhi + abclodlo
+    abchidhi, abchidlo, abcmddhi = three_sum(abchidhi, abchidlo, abcmddhi)
+    return abchidhi, abchidlo, abcmddhi, abcmddlo
+end
 
 #=
 function four_sum(a::T, b::T, c::T, d::T) where {T}
