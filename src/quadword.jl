@@ -154,7 +154,8 @@ Takahiro Nagai, Hitoshi Yoshida, Hisayasu Kuroda, and Yasumasa Kanada
 M. Bubak et al. (Eds.): ICCS 2008, Part I, LNCS 5101, pp. 446–455, 2008.
 (c) Springer-Verlag Berlin Heidelberg 2008
 =#
-function two_sum((ahi::T, alo::T, bhi::T, blo::T) where {T}
+
+function two_sum_sr(ahi::T, alo::T, bhi::T, blo::T) where {T}
     t, r = two_sum(ahi, bhi)
     e = r + alo + blo
     hi = t + e
@@ -162,7 +163,7 @@ function two_sum((ahi::T, alo::T, bhi::T, blo::T) where {T}
     return hi, lo
 end
 
-function two_diff((ahi::T, alo::T, bhi::T, blo::T) where {T}
+function two_diff_sr(ahi::T, alo::T, bhi::T, blo::T) where {T}
     t, r = two_diff(ahi, bhi)
     e = r + alo - blo
     hi = t + e
@@ -170,7 +171,7 @@ function two_diff((ahi::T, alo::T, bhi::T, blo::T) where {T}
     return hi, lo
 end
     
-function two_prod(ahi::T, alo::T, bhi::T, blo::T) where {T}
+function two_prod_sr(ahi::T, alo::T, bhi::T, blo::T) where {T}
     r  = ahi * blo
     t  = fma(alo, bhi, r)
     hi = fma(ahi, bhi, t)
@@ -179,7 +180,7 @@ function two_prod(ahi::T, alo::T, bhi::T, blo::T) where {T}
     return hi, lo
 end
 
-function two_divide(ahi::T, alo::T, bhi::T, blo::T) where {T}
+function two_divide_sr(ahi::T, alo::T, bhi::T, blo::T) where {T}
      d1 = inv(bhi)
      m1 = ahi * d1
      e1 = -fma(bhi, m1, -ahi)
@@ -195,3 +196,45 @@ function two_divide(ahi::T, alo::T, bhi::T, blo::T) where {T}
      lo = m2 + e2
      return hi, lo
 end
+
+#=
+Quadruple-precision BLAS using Bailey’s arithmetic with FMA instruction
+Susumu YAMADA, Toshiyuki IMAMURA, Takuya Ina, Yasuhiro IDOMURA, Narimasa SASA, Masahiko MACHIDA
+iWAPT 2017
+=#
+
+function two_sum_ba(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    p1 = ahi + alo # p1 == ahi
+    p2 = p1 - ahi  # p2 == 0.0
+    1o = (ahi - (p1 - p2)) + (bhi - p2)
+    hi = p1
+    lo = lo + alo + blo
+    s1 = hi + lo
+    lo = lo - (s1 - hi)
+    hi = s1
+    return hi, lo
+end
+
+function two_sum_ba(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    #p1 = ahi + alo # p1 == ahi
+    #p2 = p1 - ahi  # p2 == 0.0
+    #lo = (ahi - (ahi - 0.0)) + (bhi - 0.0)
+    lo = bhi
+    hi = ahi
+    lo = lo + alo + blo
+    s1 = hi + lo
+    lo = lo - (s1 - hi)
+    hi = s1
+    return hi, lo
+end
+    
+function two_prod_ba(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    p1 = ahi * bhi
+    p2 = fma(ahi, bhi, -p1)
+    # p2 = p2 + (alo * bhi) + (ahi * blo)
+    p2 = fma(alo, bhi, p2) + (ahi * blo)
+    hi = p1 + p2
+    lo = p2 - (hi - p1)
+    return hi, lo
+end
+    
