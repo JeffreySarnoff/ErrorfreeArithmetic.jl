@@ -159,7 +159,7 @@ function two_sum((ahi::T, alo::T, bhi::T, blo::T) where {T}
     e = r + alo + blo
     hi = t + e
     lo = t - hi + e
-    return hi, lo    
+    return hi, lo
 end
 
 function two_diff((ahi::T, alo::T, bhi::T, blo::T) where {T}
@@ -167,8 +167,8 @@ function two_diff((ahi::T, alo::T, bhi::T, blo::T) where {T}
     e = r + alo - blo
     hi = t + e
     lo = t - hi + e
-    return hi, lo    
-end    
+    return hi, lo
+end
     
 function two_prod(ahi::T, alo::T, bhi::T, blo::T) where {T}
     r  = ahi * blo
