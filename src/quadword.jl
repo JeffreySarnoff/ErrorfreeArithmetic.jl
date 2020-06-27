@@ -193,5 +193,5 @@ function two_divide(ahi::T, alo::T, bhi::T, blo::T) where {T}
      hi = m1 + m2
      e2 = m1 - hi
      lo = m2 + e2
-     return hi, lo     
+     return hi, lo
 end
