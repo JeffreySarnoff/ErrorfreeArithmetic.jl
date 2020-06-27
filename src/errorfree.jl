@@ -23,6 +23,23 @@ function three_sum(a::T,b::T,c::T) where {T}
     return hi, md, lo
 end
 
+function three_sum(a::T, b::T, c::T) where {T}
+    b, c = two_sum(b, c)
+    a, b = two_sum(a, b)
+    b, c = two_sum(b, c)
+    a, b = two_sum(a, b)
+    return a,b,c
+end
+
+function three_sum_magnitudes(a::T, b::T, c::T) where {T}
+    a, b, c = magnitude_maxtomin(a, b, c)
+    b, c = two_hilo_sum(b, c)
+    a, b = two_hilo_sum(a, b)
+    b, c = two_hilo_sum(b, c)
+    a, b = two_hilo_sum(a, b)
+    return a,b,c
+end
+
 """
     two_sum(a, b, c)
     
