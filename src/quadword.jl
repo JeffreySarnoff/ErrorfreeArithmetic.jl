@@ -192,6 +192,6 @@ function two_divide(ahi::T, alo::T, bhi::T, blo::T) where {T}
      m2 = fma(d1, m2, m3)
      hi = m1 + m2
      e2 = m1 - hi
-     lo = m2 + e2       
-     return hi, lo            
+     lo = m2 + e2
+     return hi, lo     
 end
