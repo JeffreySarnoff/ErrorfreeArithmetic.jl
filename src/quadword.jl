@@ -147,3 +147,53 @@ function tst4(n,x)
       end
    end
  end
+
+#=
+Fast Quadruple Precision Arithmetic Library on Parallel Computer SR11000/J2
+Takahiro Nagai, Hitoshi Yoshida, Hisayasu Kuroda, and Yasumasa Kanada
+M. Bubak et al. (Eds.): ICCS 2008, Part I, LNCS 5101, pp. 446–455, 2008.
+(c) Springer-Verlag Berlin Heidelberg 2008
+=#
+function two_sum((ahi::T, alo::T, bhi::T, blo::T) where {T}
+    t, r = two_sum(ahi, bhi)
+    e = r + alo + blo
+    hi = t + e
+    lo = t - hi + e
+    return hi, lo    
+end
+
+function two_diff((ahi::T, alo::T, bhi::T, blo::T) where {T}
+    t, r = two_diff(ahi, bhi)
+    e = r + alo - blo
+    hi = t + e
+    lo = t - hi + e
+    return hi, lo    
+end    
+    
+function two_prod(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    r  = ahi * blo
+    t  = fma(alo, bhi, r)
+    hi = fma(ahi, bhi, t)
+    r  = fma(ahi, bhi, -hi)
+    lo = t + r
+    return hi, lo
+end
+
+function two_divide(ahi::T, alo::T, bhi::T, blo::T) where {T}
+     d1 = inv(bhi)
+     m1 = ahi * d1
+     e1 = -fma(bhi, m1, -ahi)
+     m1 = fma(d1, e1, m1)
+     m2 = -fma(bhi, m1, ahi)
+     m2 += alo
+     m2 = -fma(blo, m1, -m2)
+     m3 = d1 * m2
+     m2 = -fma(bhi, m3, -m2)
+     m2 = fma(d1, m2, m3)
+     hi = m1 + m2
+     e2 = m1 - hi
+     lo = m2 + e2       
+     return hi, lo            
+end
+        
+        
