@@ -238,3 +238,48 @@ function two_prod_ba(ahi::T, alo::T, bhi::T, blo::T) where {T}
     return hi, lo
 end
     
+#=
+Development of quadruple precision arithmetic toolbox QuPAT on Scilab
+Tsubasa Saito, Emiko Ishiwata, and Hidehiko Hasegawa
+(c) 2010
+=#
+
+function two_sum_qu(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    shi, ehi = two_sum(ahi, bhi)
+    slo, elo = two_sum(alo, blo)
+    se = ehi + slo
+    shi, se = two_hilo_sum(shi, se)
+    se = se + elo
+    hi, lo = two_hilo_sum(shi, se)
+    return hi, lo
+end
+
+function two_diff_qu(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    shi, ehi = two_diff(ahi, bhi)
+    slo, elo = two_diff(alo, blo)
+    se = ehi + slo
+    shi, se = two_hilo_sum(shi, se)
+    se = se + elo
+    hi, lo = two_hilo_sum(shi, se)
+    return hi, lo
+end
+    
+function two_prod_qu(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    p1, p2 = two_prod(ahi, bhi)
+    p2 = fma(ahi, blo, p2)
+    p2 = fma(alo, bhi, p2)
+    hi, lo = two_hilo_sum(pp1, p2)
+    return hi, lo
+end
+
+function two_divide_qu(ahi::T, alo::T, bhi::T, blo::T) where {T}
+    c = ahi / bhi
+    p, e = two_prod(c, bhi)
+#    d = (ahi - p - e + alo - c * blo) / bhi
+#    d = (ahi - p - e - fma(c, blo, alo)) / bhi
+    d = ahi - p - e
+    d = (d - fma(c, blo, alo)) / bhi
+    hi, lo = two_hilo_sum(c, d)
+    return hi, lo
+end
+
