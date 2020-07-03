@@ -29,7 +29,7 @@ for (F,U,I) in ((:Float64, :UInt64, :Int64), (:Float32, :UInt32, :Int32),
     floattype(::Type{$U}) = $F
     floattype(::Type{$I}) = $F
     UIntType(x::$F) = reinterpret(uinttype($F), x)
-    IntType(x::$F) = reinterpret(sinttype($F), x)
+    IntType(x::$F) = reinterpret(inttype($F), x)
     FloatType(x::$F) = reinterpret(floattype($F), x)
   end
 end
