@@ -1,0 +1,5 @@
+Base.reinterpret(unsigned, Float64) = UInt64
+Base.reinterpret(unsigned, Float32) = UInt32
+Base.reinterpret(unsigned, Float16) = UInt16
+
+significant_bits(::Type{T}) where {T} = Base.significand_bits(T) + 1
