@@ -1,6 +1,45 @@
 ##### All floating point types conform to the IEEE754-2019 Standard for Floating Point Arithmetic.
 ----
 
+We use Float64, Float32 and Float16 types and, sometimes, Signed and Unsigned machine integer types.
+```
+using Base: IEEEFloat
+
+using Base.Math: 
+    sign, signbit, 
+    exponent, exponent_mask, exponent_bits, exponent_bias, exponent_max,
+    significand, significand_mask, significand_bits
+
+# complements `exponent_max`, appropriate for use in `ldexp(prevfloat(one(T)), exponent_min(T))`
+exponent_min(::Type{T}) where {T<:IEEEFloat} = -exponent_max(T) + 3
+exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} = exponent_min(T) - significand_bits(T)
+```
+# support floating point reinterpretation using '%'` 
+# 1.0 % Unsigned, UInt64(1) % Float
+
+struct Float end
+
+for (F,U,I) in ((:Float64, :UInt64, :Int64), (:Float32, :UInt32, :Int32), (:Float16, :UInt16, :Int16))
+  @eval begin
+    Base.rem(x::$F, ::Type{Unsigned}) = reinterpret($U,x)
+    Base.rem(x::$F, ::Type{Signed})   = reinterpret($I,x)
+    Base.rem(x::$U, ::Type{Float})    = reinterpret($F,x)
+    Base.rem(x::$U, ::Type{Float})    = reinterpret($F,x)
+    Base.rem(x::$I, ::Type{Float})    = reinterpret($F,x)
+    Base.rem(x::$I, ::Type{Float})    = reinterpret($F,x)
+  end
+end
+```
+
+struct Float end
+
+
+    Base.c(unsigned, $F) = $U
+    Base.reinterpret(signed, $F) = $I
+    Base.reinterpret(float, $U) = $F
+    Base.reinterpret(float, $I) = $F
+    
+
 
 
 
