@@ -11,7 +11,8 @@ using Base.Math:
     exponent, exponent_mask, exponent_bits, exponent_bias, exponent_max,
     significand, significand_mask, significand_bits
 
-# complements `exponent_max`, appropriate for use in `ldexp(prevfloat(one(T)), exponent_min(T))`
+# complements `exponent_max`
+#  appropriate for use in `ldexp(prevfloat(one(T)), exponent_min(T))`
 exponent_min(::Type{T}) where {T<:IEEEFloat} = -exponent_max(T) + 3
 exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} = exponent_min(T) - significand_bits(T)
 ```
