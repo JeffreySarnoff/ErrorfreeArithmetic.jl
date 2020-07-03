@@ -30,4 +30,7 @@ hi, lo = errorfree_transformation(x, y)
 hi === arithmetic_operation(x, y)
 hi + lo === hi # hi, lo do not overlap
 ```
+There are error-free transformations of e.g. the sum of three or four floating point values, fma and some other operations.  The error-free transformations for the sum of three values and for fma return 3 values, and  that for the sum of four values returns 4 values.  Most of this discussion focuses on 2-argument functions.
+
+
 
