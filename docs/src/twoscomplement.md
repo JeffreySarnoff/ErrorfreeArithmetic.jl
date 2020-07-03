@@ -13,7 +13,7 @@ using Base.Math:
 
 # complements `exponent_max`
 #  appropriate for use in `ldexp(prevfloat(one(T)), exponent_min(T))`
-exponent_min(::Type{T}) where {T<:IEEEFloat} = -exponent_max(T) + 3
+exponent_min(::Type{T}) where {T<:IEEEFloat} = 3 - exponent_max(T)
 exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} =
     exponent_min(T) - significand_bits(T)
 ```
@@ -43,13 +43,14 @@ https://ieeexplore.ieee.org/document/8766229
 [^Boldo-Daumas-2003]
 
 
-[^Boldo-Daumas-2003]: 
+[^Boldo-Daumas-2003]:
+``` text
 Sylvie Boldo, Marc Daumas. 
 "Properties of two's complement floating point notation"
 Intl J Softw Tools Technol Transfer (2003)
 Digital Object Identifier (DOI) 10.1007/s10009-003-0120-y
 url = https://hal.archives-ouvertes.fr/file/index/docid/157268/filename/BolDau04a.pdf
-
+```
 
 
 <sup>[[1]](#boldo-daumas-2003)</sup>
