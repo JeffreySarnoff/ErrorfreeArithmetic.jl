@@ -14,7 +14,8 @@ using Base.Math:
 # complements `exponent_max`
 #  appropriate for use in `ldexp(prevfloat(one(T)), exponent_min(T))`
 exponent_min(::Type{T}) where {T<:IEEEFloat} = -exponent_max(T) + 3
-exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} = exponent_min(T) - significand_bits(T)
+exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} =
+    exponent_min(T) - significand_bits(T)
 ```
 
 ``` julia
