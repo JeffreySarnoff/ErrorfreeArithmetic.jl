@@ -14,10 +14,13 @@ Here is another example
 ```
 flsum_errorfree = errorfree_sum(sqrt(3.0), sqrt(3.0)/1024)
 flsum_errorfree == (1.7337422634356436, 3.686287386450715e-17)
-# verified
+
+# checked
 bigsum = BigFloat(sqrt(3.0)) + BigFloat(sqrt(3.0)/1024);
 hi = Float64(bigsum); lo = Float64(bigsum - Float64(bigsum)); hi, lo
 # (1.7337422634356436, 3.686287386450715e-17)
+
+# verified
 Float64(bigsum - hi - lo) # all non-zero value has been preserved
 # 0.0
 ```
