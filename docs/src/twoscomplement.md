@@ -3,7 +3,7 @@
 
 We use Float64, Float32 and Float16 types and, sometimes, Signed and Unsigned machine integer types.
 ```
-using Base: IEEEFloat
+using Base: IEEEFloat, uinttype
 
 using Base.Math: 
     sign, signbit, 
@@ -19,26 +19,18 @@ exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} = exponent_min(T) - signi
 
 struct Float end
 
+# like `Base.uinttype` for Signed, IEEEFloat types
 for (F,U,I) in ((:Float64, :UInt64, :Int64), (:Float32, :UInt32, :Int32), (:Float16, :UInt16, :Int16))
   @eval begin
-    Base.rem(x::$F, ::Type{Unsigned}) = reinterpret($U,x)
-    Base.rem(x::$F, ::Type{Signed})   = reinterpret($I,x)
-    Base.rem(x::$U, ::Type{Float})    = reinterpret($F,x)
-    Base.rem(x::$U, ::Type{Float})    = reinterpret($F,x)
-    Base.rem(x::$I, ::Type{Float})    = reinterpret($F,x)
-    Base.rem(x::$I, ::Type{Float})    = reinterpret($F,x)
+    inttype(::Type{$F}) = $I
+    floattype(::Type{$U}) = $F
+    floattype(::Type{$I}) = $F
+    UIntType(x::$F) = reinterpret(uinttype($F), x)
+    IntType(x::$F) = reinterpret(sinttype($F), x)
+    FloatType(x::$F) = reinterpret(floattype($F), x)
   end
 end
 ```
-
-struct Float end
-
-
-    Base.c(unsigned, $F) = $U
-    Base.reinterpret(signed, $F) = $I
-    Base.reinterpret(float, $U) = $F
-    Base.reinterpret(float, $I) = $F
-    
 
 
 
