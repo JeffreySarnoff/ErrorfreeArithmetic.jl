@@ -1,6 +1,6 @@
 ## Introduction
 
-An _error-free transformation_ is a transformation of a floating point realization of a mathematical operation that preserves the information inherent in the operation.  Ordinary floating point addition of two `Float64` values returns only that information about the sum which fits within a `Float64` variable.  For example
+An _error-free transformation_ [EFT] is a transformation of a floating point realization of a mathematical operation that preserves the information inherent in the operation.  Ordinary floating point addition of two `Float64` values returns only that information about the sum which fits within a `Float64` variable.  For example
 ```
 flsum = 1.0 + 2.0^(-60)
 flsum == 1.0
@@ -30,7 +30,7 @@ hi, lo = errorfree_transformation(x, y)
 hi === arithmetic_operation(x, y)
 hi + lo === hi # hi, lo do not overlap
 ```
-There are error-free transformations of e.g. the sum of three or four floating point values, fma and some other operations.  The error-free transformations for the sum of three values and for fma return 3 values, and  that for the sum of four values returns 4 values.  Most of this discussion focuses on 2-argument functions.
+There are error-free transformations that return more than 2 values.  The EFTs for the sum of three values and for fma return 3 values, and  that for the sum of four values returns 4 values.  Most of this discussion focuses on 2-argument functions.
 
 
 
