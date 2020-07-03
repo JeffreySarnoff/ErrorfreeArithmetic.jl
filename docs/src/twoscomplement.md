@@ -1,6 +1,6 @@
-[^1] Boldo-Daumas-2003
+Boldo-Daumas-2003 [^a]
 
-[^1]: 
+[^a]: 
 "Properties of two's complement floating point notation"
 Intl J Softw Tools Technol Transfer (2003)
 Digital Object Identifier (DOI) 10.1007/s10009-003-0120-y
