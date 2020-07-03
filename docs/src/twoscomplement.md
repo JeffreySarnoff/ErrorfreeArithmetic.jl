@@ -1,7 +1,7 @@
 ##### All floating point types conform to the IEEE754-2019 Standard for Floating Point Arithmetic.
 ----
 
-We use Float64, Float32 and Float16 types and, sometimes, Signed and Unsigned machine integer types.
+We use Float64, Float32 and Float16 types, Signed and Unsigned machine integer types.
 ```
 using Base: IEEEFloat, uinttype
 
@@ -14,11 +14,6 @@ using Base.Math:
 exponent_min(::Type{T}) where {T<:IEEEFloat} = -exponent_max(T) + 3
 exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} = exponent_min(T) - significand_bits(T)
 ```
-# support floating point reinterpretation using '%'` 
-# 1.0 % Unsigned, UInt64(1) % Float
-
-struct Float end
-
 # like `Base.uinttype` for Signed, IEEEFloat types
 for (F,U,I) in ((:Float64, :UInt64, :Int64), (:Float32, :UInt32, :Int32), (:Float16, :UInt16, :Int16))
   @eval begin
