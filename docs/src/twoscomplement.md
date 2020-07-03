@@ -1,4 +1,4 @@
-#### - Binary floating point types and operations follow the IEEE754-2019 Standard for Floating Point Arithmetic.
+##### Binary floating point types and operations follow the IEEE754-2019 Standard for Floating Point Arithmetic.
 
 
 
