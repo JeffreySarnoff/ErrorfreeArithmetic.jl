@@ -18,7 +18,8 @@ exponent_min_subnormal(::Type{T}) where {T<:IEEEFloat} = exponent_min(T) - signi
 
 ``` julia
 # like `Base.uinttype` for Signed, IEEEFloat types
-for (F,U,I) in ((:Float64, :UInt64, :Int64), (:Float32, :UInt32, :Int32), (:Float16, :UInt16, :Int16))
+for (F,U,I) in ((:Float64, :UInt64, :Int64), (:Float32, :UInt32, :Int32), 
+                (:Float16, :UInt16, :Int16))
   @eval begin
     inttype(::Type{$F}) = $I
     floattype(::Type{$U}) = $F
