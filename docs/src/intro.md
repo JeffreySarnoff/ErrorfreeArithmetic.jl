@@ -1,6 +1,6 @@
 ## Introduction
 
-An _error-free transformation_ [EFT] is a transformation of a floating point realization of a mathematical operation that preserves the information inherent in the operation.  Ordinary floating point addition of two `Float64` values returns only that information about the sum which fits within a `Float64` variable.  For example, where `flsum` is short for `ordinary_Float64_sum` and `flsum_errorfree` is `ordinary_Float64_sum_and_the_smaller_Float64_part_that_usually_is_lost`.
+An _error-free transformation_ [EFT] is a transformation of a floating point realization of a mathematical operation that preserves the information inherent in the operation.  Ordinary floating point addition of two `Float64` values returns only that information about the sum which fits within a `Float64` variable.  For example, where `flsum` is short for `ordinary_Float64_sum` and `flsum_errorfree` is `flsum with the smaller, usually lost, value`.
 ```
 flsum = 1.0 + 2.0^(-60)
 flsum == 1.0
