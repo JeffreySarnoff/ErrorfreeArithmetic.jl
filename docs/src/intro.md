@@ -20,12 +20,14 @@ flsum_errorfree = errorfree_sum(sqrt(3.0), sqrt(3.0)/1024)
 flsum_errorfree == (1.7337422634356436, 3.686287386450715e-17)
 
 # we can check that the result is as accurate as possible
-# (here, through the last bit of the `lo` part) 
+# (here, through the last bit of the `lo` part)
+
 bigsum = BigFloat(sqrt(3.0)) + BigFloat(sqrt(3.0)/1024);
 hi = Float64(bigsum); lo = Float64(bigsum - Float64(bigsum)); hi, lo
 # (1.7337422634356436, 3.686287386450715e-17)
 
 # we can verify that we captured and preserved all the non-zero value
+
 Float64(bigsum - hi - lo) # all non-zero value has been preserved
 # 0.0
 ```
