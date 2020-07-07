@@ -1,6 +1,6 @@
 ## Introduction
 
-An _error-free transformation_ [EFT] is a transformation of a floating point realization of a mathematical operation that preserves the information inherent in the operation.  Ordinary floating point addition of two `Float64` values returns only that information about the sum which fits within a `Float64` variable.  For example
+An _error-free transformation_ [EFT] is a transformation of a floating point realization of a mathematical operation that preserves the information inherent in the operation.  Ordinary floating point addition of two `Float64` values returns only that information about the sum which fits within a `Float64` variable.  For example, where `flsum` is short for `ordinary_Float64_sum` and `flsum_errorfree` is `ordinary_Float64_sum_and_the_smaller_Float64_part_that_usually_is_lost`.
 ```
 flsum = 1.0 + 2.0^(-60)
 flsum == 1.0
@@ -11,16 +11,21 @@ flsum_errorfree = errorfree_sum(1.0, 2.0^(-60))
 flsum_errorfree = (1.0, 2.0^(-60))
 ```
 Here is another example
+- we will check the result
+    - finding it accurate through the last bit of the `lo` part
+- we will verify the result
+    - determining it obtains and preserves all non-zero value
 ```
 flsum_errorfree = errorfree_sum(sqrt(3.0), sqrt(3.0)/1024)
 flsum_errorfree == (1.7337422634356436, 3.686287386450715e-17)
 
-# checked
+# we can check that the result is as accurate as possible
+# (here, through the last bit of the `lo` part) 
 bigsum = BigFloat(sqrt(3.0)) + BigFloat(sqrt(3.0)/1024);
 hi = Float64(bigsum); lo = Float64(bigsum - Float64(bigsum)); hi, lo
 # (1.7337422634356436, 3.686287386450715e-17)
 
-# verified
+# we can verify that we captured and preserved all the non-zero value
 Float64(bigsum - hi - lo) # all non-zero value has been preserved
 # 0.0
 ```
