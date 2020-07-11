@@ -32,8 +32,8 @@ const SysFloat = Union{Float64, Float32}
 Floats with FMA support fused multiply-add, fma(x,y,z)
 """ FloatWithFMA
 
-if isdefined(Main, :DoubleFloats)
-    const FloatWithFMA = Union{Float64, Float32, Float16, Double64, Double32, Double16}
+if isdefined(Main, :Quadmath)
+    const FloatWithFMA = Union{Float128, Float64, Float32, Float16}
 else
     const FloatWithFMA = Union{Float64, Float32, Float16}
 end
