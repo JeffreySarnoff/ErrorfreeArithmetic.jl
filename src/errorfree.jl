@@ -48,7 +48,7 @@ function two_sum(a::T,b::T,c::T,d::T) where {T}
     t0, t1 = two_sum(a,  b)
     t2, t3 = two_sum(c,  d)
     hi, t4 = two_sum(t0, t2)
-    lo = two_sum(t4, t1+t3)
+    lo = t4 + (t1+t3)
     hi, lo = two_hilo_sum(hi, lo)
     return hi, lo
 end
