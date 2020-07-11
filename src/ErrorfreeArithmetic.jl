@@ -47,17 +47,15 @@ else
     const FloatWithFMA = Union{Float64, Float32, Float16}
 end
 
-include("sortbymag.jl")
+include("modules/FirstAndLastPlaceValues.jl")
+using .FirstAndLastPlaceValues
+include("modules/SortByMagnitude.jl")
+using .SortByMagnitude
 
 include("errorfree.jl")
 include("errorfree_tuple.jl")
 include("errorfree_tuples.jl")
 include("leasterror.jl")
 include("remainder.jl")
-
-include("modules/FirstAndLastPlaceValues.jl")
-using .FirstAndLastPlaceValues
-include("modules/SortByMagnitude.jl")
-using .SortByMagnitude
 
 end # ErrorfreeArithmetic
