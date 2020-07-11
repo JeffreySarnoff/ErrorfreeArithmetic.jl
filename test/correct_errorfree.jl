@@ -1,4 +1,5 @@
 greatermagnitude(x,y) = abs(y) < abs(x)
+bigfloat(x) = BigFloat(x)
 
 # error-free sums
 
