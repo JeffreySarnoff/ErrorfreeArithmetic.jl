@@ -1,6 +1,8 @@
 module Permute
 
-function permute2(a,b)
+export permute
+
+function permute(a,b)
     result = [
         (a,b),
         (b,a),
@@ -8,7 +10,7 @@ function permute2(a,b)
      return result
 end
 
-function permute3(a,b,c)
+function permute(a,b,c)
     result = [
         (a,b,c),
         (a,c,b),
@@ -20,7 +22,7 @@ function permute3(a,b,c)
      return result
 end
 
-function permute4(a,b,c,d)
+function permute(a,b,c,d)
     result = [
         (a,b,c,d),
         (a,b,d,c),
@@ -50,7 +52,7 @@ function permute4(a,b,c,d)
      return result
 end
 
-function permute5(a,b,c,d,e)
+function permute(a,b,c,d,e)
     result = [
         (a,b,c,d,e),
         (a,b,c,e,d),
