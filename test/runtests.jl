@@ -15,9 +15,12 @@ bigfloat(x) = BigFloat(x)
 trials = 100
 # ----------
 
+
+include("modules/Permute.jl")
+using .Permute
+
 include("specialrands.jl")
-include("permutations.jl")
-include("errorfree.jl")
+include("correct_errorfree.jl")
 
 include("resolvefloats.jl")
 
