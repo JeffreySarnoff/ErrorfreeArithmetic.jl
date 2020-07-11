@@ -21,7 +21,7 @@ export IEEEFloat, SysFloat,
        # least-error transformations (two arguments)
        two_div,
        # least-error transformations (three arguments)
-       a_minus_bc. ab_minus_c,
+       a_minus_bc, ab_minus_c,
        # least-error transformations (four arguments)
        ad_minus_bc
 
