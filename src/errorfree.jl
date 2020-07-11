@@ -72,6 +72,7 @@ function ieee_three_hilo_sum(a::T, b::T, c::T) where {T}
     return hi, md, lo
 end
 
+#=
 """
    three_sum(a, b, c)
     
@@ -102,6 +103,7 @@ function ieee_three_sum(a::T, b::T, c::T) where {T}
     hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
+=#
 
 """
     ieee_fast_four_sum(a, b, c, d)
@@ -188,6 +190,7 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
     return hi, lo
 end
 
+#=
 """
     three_diff(a, b, c)
     
@@ -218,6 +221,7 @@ function three_diff(a::T,b::T,c::T) where {T}
     x, y = two_hilo_sum(x, y)
     return x, y, z
 end
+=#
 
 """
     four_diff(a, b, c, d)
