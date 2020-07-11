@@ -362,6 +362,17 @@ Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
 """
 ieee_four_diff(a::T, b::T, c::T, d::T) where {T} = ieee_four_sum(a, -b, -c, -d)
 
+"""
+    two_square(a)
+
+Computes `hi = fl(a^2)` and `lo = fl(err(a^2))`.
+- Unchecked Precondition: !(isinf(a) | isinf(b))
+"""
+@inline function two_square(a::T) where {T}
+    hi = a * a
+    lo = fma(a, a, -hi)
+    hi, lo
+end
 
 """
     two_prod(a, b)
