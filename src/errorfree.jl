@@ -187,7 +187,7 @@ function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
 end
 
 # arguments sorted by magnitude
-#=
+
 """
     two_hilo_sum(a, b)
 
@@ -267,7 +267,6 @@ Computes `hi = fl(a-b)` and `lo = err(a-b)`.
     hi, lo
 end
 
-=#
 #=
 """
     three_diff(a, b, c)
