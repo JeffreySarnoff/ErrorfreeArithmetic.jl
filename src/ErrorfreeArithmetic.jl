@@ -2,7 +2,7 @@ module ErrorfreeArithmetic
 
 export IEEEFloat, SysFloat,
        # error-free transformations (single argument)
-       two_square
+       two_square,
        # error-free transformations (unsorted arguments)
        two_sum, three_sum, four_sum,
        two_diff, three_diff, four_diff,
