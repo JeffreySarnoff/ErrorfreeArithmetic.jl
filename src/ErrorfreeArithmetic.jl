@@ -46,4 +46,7 @@ include("errorfree_tuples.jl")
 include("leasterror.jl")
 include("remainder.jl")
 
+include("modules/FirstAndLastPlaceValues.jl")
+using FirstAndLastPlaceValues
+
 end # ErrorfreeArithmetic
