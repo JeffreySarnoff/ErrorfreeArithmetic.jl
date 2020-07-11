@@ -40,6 +40,20 @@ function three_sum(a::T, b::T, c::T) where {T}
 end
 
 """
+    four_sum(a, b, c, d)
+    
+Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
+"""
+function three_sum(a::T, b::T, c::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    hi, t4 = two_sum(t0, c)
+    md, lo = two_sum(t4, t1)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
    three_hilo_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
@@ -48,12 +62,22 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Does not presort magnitudes
 """
 function three_hilo_sum(a::T, b::T, c::T) where {T}
+    t0, t1 = two_hilo_sum(a,  b)
+    hi, t4 = two_hilo_sum(t0, c)
+    md, lo = two_sum(t4, t1)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+#=
+function three_hilo_sum(a::T, b::T, c::T) where {T}
     md, lo = two_hilo_sum(b, c) 
     hi, md = two_sum(a, md)
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
+=#
 
 """
    ieee_fast_three_sum(a, b, c)
