@@ -69,6 +69,24 @@ function three_sum(a::T, b::T, c::T) where {T}
 end
 
 """
+    three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d),  lo = err(s2)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
+"""
+function three_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
+    t5, t  = two_sum(t1, t3)
+    md, lo = two_hilo_sum(t4, t5)
+    lo = lo + t
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
    three_hilo_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
