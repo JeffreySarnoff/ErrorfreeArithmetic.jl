@@ -288,6 +288,23 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
 end
 
 """
+   three_diff(a, b, c)
+    
+Computes `hi = fl(a-b-c)` and `md = err(a-b-c), lo = err(md)`.
+- Does not presort magnitudes
+"""
+function three_diff(a::T, b::T, c::T) where {T}
+    md, lo = two_diff(b, c) 
+    hi, md = two_sum(a, md)
+    md, lo = two_diff(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+four_diff(a::T, b::T, c::T, d::T) where {T} =
+    four_sum(a, -b, -c, -d)
+
+"""
     two_hilo_diff(a, b)
     
 *unchecked* requirement `|a| ≥ |b|`
