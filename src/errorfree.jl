@@ -150,18 +150,16 @@ end
 Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
 """
-function four_sum(a::T, b::T, c::T, d::T) where {T}
-    a, b, c, d = magnitude_mintomax(a, b, c, d)
-    s3, s4 = two_sum(c, d)
-    s2, s3 = two_sum(b, s3)
-    s1, s2 = two_sum(a, s2)
-    s3, s4 = two_sum(s3, s4)
-    s2, s3 = two_sum(s2, s3)
-    s1, s2 = two_hilo_sum(s1, s2)
-    s3, s4 = two_sum(s3, s4)
-    s2, s3 = two_sum(s2, s3)
-    s1, s2 = two_hilo_sum(s1, s2)
-    return s1, s2, s3, s4
+function four_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
+    t5, lo = two_sum(t1, t3)
+    hm, ml = two_sum(t4, t5)
+    ml, lo = two_hilo_sum(ml, lo)
+    hm, ml = two_hilo_sum(hm, ml)
+    hi, hm = two_hilo_sum(hi,hm)
+    return hi, hm, ml, lo
 end
 
 """
@@ -171,20 +169,17 @@ Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lo
 - Handles `Inf` properly.
 """
 function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
-    a, b, c, d = magnitude_mintomax(a, b, c, d)
-    s3, s4 = two_sum(c, d)
-    s2, s3 = two_sum(b, s3)
-    s1, s2 = two_sum(a, s2)
-    isinf(s1) && return (s1, zero(T), zero(T), zero(T))
-    s3, s4 = two_sum(s3, s4)
-    s2, s3 = two_sum(s2, s3)
-    s1, s2 = two_hilo_sum(s1, s2)
-    s3, s4 = two_sum(s3, s4)
-    s2, s3 = two_sum(s2, s3)
-    s1, s2 = two_hilo_sum(s1, s2)
-    return s1, s2, s3, s4
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
+    isinf(hi) && return (hi, zero(T), zero(T), zero(T))    
+    t5, lo = two_sum(t1, t3)
+    hm, ml = two_sum(t4, t5)
+    ml, lo = two_hilo_sum(ml, lo)
+    hm, ml = two_hilo_sum(hm, ml)
+    hi, hm = two_hilo_sum(hi,hm)
+    return hi, hm, ml, lo
 end
-
 
 """
     two_diff(a, b)
