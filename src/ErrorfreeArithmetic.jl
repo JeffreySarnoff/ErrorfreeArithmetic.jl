@@ -7,7 +7,7 @@ export IEEEFloat, SysFloat,
        two_sum, three_sum, four_sum,
        two_diff, three_diff, four_diff,
        two_prod, three_prod, four_prod,
-       two_fma, three_fma.
+       two_fma, three_fma,
        # error-free transformations (magnitude sorted arguments)
        two_hilo_sum, three_hilo_sum, four_hilo_sum,
        two_hilo_diff, three_hilo_diff, four_hilo_diff,
