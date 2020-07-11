@@ -186,6 +186,34 @@ function ieee_four_sum(a::T, b::T, c::T, d::T) where {T}
     return hi, hm, ml, lo
 end
 
+ arguments sorted by magnitude
+
+"""
+    two_hilo_sum(a, b)
+
+*unchecked* requirement `|a| ≥ |b|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_hilo_sum(a::T, b::T) where {T}
+    hi = a + b
+    lo = b - (hi - a)
+    return hi, lo
+end
+
+"""
+    two_lohi_sum(a, b)
+
+*unchecked* requirement `|b| ≥ |a|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_lohi_sum(a::T, b::T) where {T}
+    hi = b + a
+    lo = a - (hi - b)
+    return hi, lo
+end
+
 """
     two_diff(a, b)
 
@@ -211,6 +239,32 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
     v  = hi - a
     lo = (a - (hi - v)) - (b + v)
     return hi, lo
+end
+
+"""
+    two_hilo_diff(a, b)
+    
+*unchecked* requirement `|a| ≥ |b|`
+
+Computes `hi = fl(a-b)` and `lo = err(a-b)`.
+"""
+@inline function two_hilo_diff(a::T, b::T) where {T}
+    hi = a - b
+    lo = (a - hi) - b
+    hi, lo
+end
+
+"""
+    two_lohi_diff(a, b)
+    
+*unchecked* requirement `|b| ≥ |a|`
+
+Computes `hi = fl(a-b)` and `lo = err(a-b)`.
+"""
+@inline function two_lohi_diff(a::T, b::T) where {T}
+    hi = b - a
+    lo = (b - hi) - a
+    hi, lo
 end
 
 #=
