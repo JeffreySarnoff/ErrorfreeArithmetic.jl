@@ -1,5 +1,13 @@
-greatermagnitude(x,y) = abs(y) < abs(x)
+# 512. (sigbits + extrabits) * (4 + 1) [4+1 from renormalize(a,b,c,d,e)]
+const BigFloatOldPrec = precision(BigFloat)
+const BigFloatPrec = nextpow(2, ((Base.significand_bits(Float64) + 1 + 36) * 5)) 
+setprecision(BigFloat, BigFloatPrec)
+
+# select one of these two approaches
+# bigfloat(x) = BigFloat(string(x))
 bigfloat(x) = BigFloat(x)
+
+greatermagnitude(x,y) = abs(y) < abs(x)
 
 # error-free sums
 
