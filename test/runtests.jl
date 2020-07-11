@@ -1,5 +1,7 @@
 using ErrorfreeArithmetic, Random, Test
 
+BigFloatOldPrec = precision(BigFloat)
+
 Random.seed!(0xface)  # ensure tests that use rands are repeatable
 
 # ----------
