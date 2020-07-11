@@ -56,6 +56,8 @@ include("leasterror.jl")
 include("remainder.jl")
 
 include("modules/FirstAndLastPlaceValues.jl")
-using FirstAndLastPlaceValues
+using .FirstAndLastPlaceValues
+include("modules/SortByMagnitude.jl")
+using .SortByMagnitude
 
 end # ErrorfreeArithmetic
