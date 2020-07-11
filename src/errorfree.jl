@@ -78,6 +78,18 @@ function three_sum(a::T,b::T,c::T,d::T) where {T}
     t0, t1 = two_sum(a,  b)
     t2, t3 = two_sum(c,  d)
     hi, t4 = two_sum(t0, t2)
+    t5, lo = two_sum(t1, t3)
+    hm, ml = two_sum(t4, t5)
+    ml, lo = two_hilo_sum(ml, lo)
+    hm, ml = two_hilo_sum(hm, ml)
+    hi, hm = two_hilo_sum(hi,hm)
+    return hi, hm, ml
+end
+#=
+function three_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
     t5, t  = two_sum(t1, t3)
     md, lo = two_hilo_sum(t4, t5)
     lo = lo + t
@@ -85,7 +97,7 @@ function three_sum(a::T,b::T,c::T,d::T) where {T}
     hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
-
+=#
 """
    three_hilo_sum(a, b, c)
     
