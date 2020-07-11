@@ -26,16 +26,31 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 """
-   fast_three_sum(a, b, c)
+   three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
-- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
 - Does not presort magnitudes
 """
-function fast_three_sum(a::T, b::T, c::T) where {T}
+function three_sum(a::T, b::T, c::T) where {T}
     md, lo = two_sum(b, c) 
     hi, md = two_sum(a, md)
     md, lo = two_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
+   three_hilo_sum(a, b, c)
+    
+Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
+- Unchecked Precondition: abs(a) >= abs(b) >= abs(c)
+- Does not presort magnitudes
+"""
+function three_hilo_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_hilo_sum(b, c) 
+    hi, md = two_sum(a, md)
+    md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
@@ -45,13 +60,14 @@ end
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Handles `Inf` properly.
+- Unchecked Precondition: abs(a) >= abs(b) >= abs(c)
 - Does not presort magnitudes
 """
-function ieee_fast_three_sum(a::T, b::T, c::T) where {T}
-    md, lo = two_sum(b, c) 
+function ieee_three_hilo_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_hilo_sum(b, c) 
     hi, md = two_sum(a, md)
     isinf(hi) && return (hi, zero(T), zero(T))
-    md, lo = two_sum(md, lo)
+    md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
