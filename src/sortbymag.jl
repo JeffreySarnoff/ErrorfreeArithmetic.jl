@@ -43,5 +43,5 @@ mag_maxtomin(x::NTuple{4, T}) where {T} = mag_maxtomin(x[1], x[2], x[3], x[4])
 
 mag_mintomax(x::NTuple{2, T}) where {T} = mag_mintomax(x[1], x[2])
 mag_mintomax(x::NTuple{3, T}) where {T} = mag_mintomax(x[1], x[2], x[3])
-mag_mintomax(x::NTuple{4, T}) where {T} = mag_mintomax(x[1], x[2], x[3], x[4]
+mag_mintomax(x::NTuple{4, T}) where {T} = mag_mintomax(x[1], x[2], x[3], x[4])
 
