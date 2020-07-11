@@ -1,3 +1,5 @@
+module Permute
+
 function permute2(a,b)
     result = [
         (a,b),
@@ -173,3 +175,5 @@ function permute5(a,b,c,d,e)
     ]
     return result
 end
+
+end  # Permute
