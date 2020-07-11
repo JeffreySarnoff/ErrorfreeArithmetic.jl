@@ -104,26 +104,6 @@ function ieee_three_sum(a::T, b::T, c::T) where {T}
 end
 
 """
-    fast_four_sum(a, b, c, d)
-    
-Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
-- Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
-- Does not presort magnitudes
-"""
-function four_sum(a::T, b::T, c::T, d::T) where {T}
-    s3, s4 = two_sum(c, d)
-    s2, s3 = two_sum(b, s3)
-    s1, s2 = two_sum(a, s2)
-    s3, s4 = two_sum(s3, s4)
-    s2, s3 = two_sum(s2, s3)
-    s1, s2 = two_hilo_sum(s1, s2)
-    s3, s4 = two_sum(s3, s4)
-    s2, s3 = two_sum(s2, s3)
-    s1, s2 = two_hilo_sum(s1, s2)
-    return s1, s2, s3, s4
-end
-
-"""
     ieee_fast_four_sum(a, b, c, d)
     
 Computes `s1 = fl(a+b+c+d)` and `s2 = err(a+b+c+d),  s3 = err(himd), s4 = err(lomd)`.
