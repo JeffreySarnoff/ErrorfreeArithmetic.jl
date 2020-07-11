@@ -1,6 +1,6 @@
 module ErrorfreeArithmetic
 
-export SysFloat,
+export IEEEFloat, SysFloat,
        # error-free transformations (single argument)
        two_square
        # error-free transformations (unsorted arguments)
