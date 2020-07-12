@@ -3,7 +3,7 @@ b = sqrt(987654.0)
 c = cbrt(2.0)
 d = cbrt(987654.0)
 
-@testset "two_op" begin
+@testset "two_arith" begin
   
   x, y = two_sum(a, b)
   @test x == a + b && x + y == x
