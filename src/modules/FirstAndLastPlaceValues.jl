@@ -115,13 +115,21 @@ true
 julia> overlaps(1.0,eps(1.0)/2)
 false
 =#
-to_be_gte(x::T, y::T) where {T} = to_be_gte_(maxminmag(x, y)...)
 overlaps(x::T, y::T) where {T} = overlaps_(maxminmag(x, y)...)
-overlapsby(x::T, y::T) where {T} = copysign(overlapsby_(maxminmag(x, y)...), absx_minus_absy(x,y))
-
-to_be_gte_(x::T, y::T) where {T} = bfp(x) - bfp(y) + (significand(abs(x)) > significand(abs(y)))
 overlaps_(x::T, y::T) where {T} = to_be_gte(x, y) < implicit_precision(T)
+
+overlapsby(x::T, y::T) where {T} = copysign(overlapsby_(maxminmag(x, y)...), absx_minus_absy(x,y))
 overlapsby_(x::T, y::T) where {T} = implicit_precision(T) - to_be_gte(x, y)
+
+# without considering trailing zero bits, overlapsby
+nzoverlapsby(x::T, y::T) where {T} = copysign(nzoverlapsby_(maxminmag(x, y)...), absx_minus_absy(x,y))
+nzoverlapsby_(x::T, y::T) where {T} = implicit_precision(T) - nz_to_be_gte(x, y)
+
+to_be_gte(x::T, y::T) where {T} = to_be_gte_(maxminmag(x, y)...)
+to_be_gte_(x::T, y::T) where {T} = bfp(x) - bfp(y) + (significand(abs(x)) > significand(abs(y)))
+
+nz_to_be_gte(x::T, y::T) where {T} = nz_to_be_gte_(maxminmag(x, y)...)
+nz_to_be_gte_(x::T, y::T) where {T} = bls(x) - bls(y) + (significand(abs(x)) > significand(abs(y)))
 
 maxminmag(x::T, y::T) where {T} = signbit(abs(x) - abs(y)) ? (y, x) : (x, y)
 absx_minus_absy(x::T, y::T) where {T} = abs(x) - abs(y)
