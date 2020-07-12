@@ -12,10 +12,12 @@ x, y = two_sum(a, b, c, d)
 
 x, y = two_diff(a, b)
 @test x == a - b && x + y == x
+#=
 x, y = two_diff(a, b, c)
 @test x == a - b - c&& x + y == x
 x, y = two_diff(a, b, c, d)
 @test x == a - b - c - d && x + y == x
+=#
 
 x, y = two_square(a)
 @test x == a * a && x + y == x
