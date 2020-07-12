@@ -103,6 +103,20 @@ fast_ufp(x::Float16) = reinterpret(Float16, reinterpret(UInt16, x) & 0xfff0)
 
 # overlapping bits
 #=
+  Let a, b in F with 0 < |a| < |b|. Then a and b are nonoverlapping if and only if msb(a) < lsb(b).
+
+  lemma 9 from Verantwortlich für diese Ausgabe:
+Otto-von-Guericke-Universität Magdeburg
+Fakultät für Informatik
+Postfach 4120
+39016 Magdeburg
+E-Mail:
+http://www.cs.uni-magdeburg.de/Technical_reports.html
+Technical report (Internet)
+ISSN 1869-5078
+=#
+
+#=
 julia> overlapsby(1.0,0.275)
 51
 
