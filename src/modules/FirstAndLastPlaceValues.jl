@@ -1,6 +1,6 @@
 module FirstAndLastPlaceValues
 
-export ufp, ulp, uls, rre, ε⁻, ε⁺, eta
+export ufp, ulp, uls, rre, ε⁻, ε⁺, eta, overlaps, overlapsby
 
 #=
 References
