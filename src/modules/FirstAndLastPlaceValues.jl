@@ -82,7 +82,7 @@ const ets = floatmin(Float64)     # 2.0^(53-1074) / 2  # smallest positive norma
 =#
 
 explicit_precision(::Type{T}) where {T} = trailing_ones(Base.significand_mask(T))
-implicit_precision(::Type{T}) where {T} = one(T) + explicit_precision(T)
+implicit_precision(::Type{T}) where {T} = 1 + explicit_precision(T)
 
 reu(::Type{T}) where {T} = one(T) - prevfloat(one(T))
 eta(::Type{T}) where {T} = nextfloat(zero(T))
@@ -100,5 +100,30 @@ bls(x) = round(Int, log2(uls(x)))
 fast_ufp(x::Float64) = reinterpret(Float64, reinterpret(UInt64, x) & 0xfff0000000000000)
 fast_ufp(x::Float32) = reinterpret(Float32, reinterpret(UInt32, x) & 0xfff0_0000)
 fast_ufp(x::Float16) = reinterpret(Float16, reinterpret(UInt16, x) & 0xfff0)
+
+# overlapping bits
+#=
+julia> overlapsby(1.0,0.275)
+51
+
+julia> overlapsby(0.275,1.0)
+-51
+
+julia> overlaps(1.0,eps(1.0))
+true
+
+julia> overlaps(1.0,eps(1.0)/2)
+false
+=#
+to_be_gte(x::T, y::T) where {T} = to_be_gte_(maxminmag(x, y)...)
+overlaps(x::T, y::T) where {T} = overlaps_(maxminmag(x, y)...)
+overlapsby(x::T, y::T) where {T} = copysign(overlapsby_(maxminmag(x, y)...), absx_minus_absy(x,y))
+
+to_be_gte_(x::T, y::T) where {T} = bfp(x) - bfp(y) + (significand(abs(x)) > significand(abs(y)))
+overlaps_(x::T, y::T) where {T} = to_be_gte(x, y) < implicit_precision(T)
+overlapsby_(x::T, y::T) where {T} = implicit_precision(T) - to_be_gte(x, y)
+
+maxminmag(x::T, y::T) where {T} = signbit(abs(x) - abs(y)) ? (y, x) : (x, y)
+absx_minus_absy(x::T, y::T) where {T} = abs(x) - abs(y)
 
 end # FirstAndLastPlaceValues
