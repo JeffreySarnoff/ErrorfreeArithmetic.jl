@@ -3,7 +3,7 @@
     overlap = rand(-2:20)
     shift = rand(-18:18)
     aa, bb = tworands_hi2lo(overlap, shift=shift)
-    p = permute(aa, bb)
+    p = allpermutations(aa, bb)
     ab = two_sum.(p)
     xy = correct_two_sum.(p)
     @test ab == xy
@@ -15,7 +15,7 @@ end
     overlap = rand(-2:9)
     shift = rand(-18:18)
     aa, bb, cc = threerands_hi2lo(overlap, shift=shift)
-    p = permute(aa, bb, cc)
+    p = allpermutations(aa, bb, cc)
     ab = two_sum.(p)
     xy = correct_two_sum.(p)
     @test ab == xy
@@ -27,7 +27,7 @@ end
     overlap = rand(-2:7)
     shift = rand(-18:18)
     aa, bb, cc, dd = fourrands_hi2lo(overlap, shift=shift)
-    p = permute(aa, bb, cc, dd)
+    p = allpermutations(aa, bb, cc, dd)
     ab = two_sum.(p)
     xy = correct_two_sum.(p)
     @test ab == xy
@@ -39,7 +39,7 @@ end
     overlap = rand(-2:9)
     shift = rand(-18:18)
     aa, bb, cc = threerands_hi2lo(overlap, shift=shift)
-    p = permute(aa, bb, cc)
+    p = allpermutations(aa, bb, cc)
     ab = three_sum.(p)
     xy = correct_three_sum.(p)
     @test ab == xy
@@ -51,7 +51,7 @@ end
     overlap = rand(-2:7)
     shift = rand(-18:18)
     aa, bb, cc, dd = fourrands_hi2lo(overlap, shift=shift)
-    p = permute(aa, bb, cc, dd)
+    p = allpermutations(aa, bb, cc, dd)
     ab = three_sum.(p)
     xy = correct_three_sum.(p)
     @test ab == xy
@@ -64,7 +64,7 @@ end
     overlap = rand(-2:6)
     shift = rand(-18:18)
     aa, bb, cc, dd = fourrands_hi2lo(overlap, shift=shift)
-    p = permute(aa, bb, cc, dd)
+    p = allpermutations(aa, bb, cc, dd)
     ab = four_sum.(p)
     xy = correct_four_sum.(p)
     @test ab == xy
