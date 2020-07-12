@@ -363,6 +363,7 @@ function three_diff(a::T,b::T,c::T) where {T}
 end
 =#
 
+#=
 """
     four_diff(a, b, c, d)
     
@@ -370,6 +371,7 @@ Computes `s = fl(a-b-c-d)` and `e1 = err(a-b-c-d), e2 = err(e1), e3 = err(e2)`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
 """
 four_diff(a::T, b::T, c::T, d::T) where {T} = four_sum(a, -b, -c, -d)
+=#
 
 """
     ieee_four_diff(a, b, c, d)
