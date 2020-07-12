@@ -1,8 +1,10 @@
 module Permute
 
-export permute
+export allpermutations
 
-function permute(a,b)
+allpermutations(x::NTuple{N,T}) where {T, N} = allpermutations(x...)
+
+function allpermutations(a,b)
     result = [
         (a,b),
         (b,a),
@@ -10,7 +12,7 @@ function permute(a,b)
      return result
 end
 
-function permute(a,b,c)
+function allpermutations(a,b,c)
     result = [
         (a,b,c),
         (a,c,b),
@@ -22,7 +24,7 @@ function permute(a,b,c)
      return result
 end
 
-function permute(a,b,c,d)
+function allpermutations(a,b,c,d)
     result = [
         (a,b,c,d),
         (a,b,d,c),
@@ -52,7 +54,7 @@ function permute(a,b,c,d)
      return result
 end
 
-function permute(a,b,c,d,e)
+function allpermutations(a,b,c,d,e)
     result = [
         (a,b,c,d,e),
         (a,b,c,e,d),
