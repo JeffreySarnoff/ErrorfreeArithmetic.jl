@@ -16,19 +16,11 @@ end
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
 function three_sum(a::T,b::T,c::T) where {T}
-    hi1, lo1 = two_sum(b, c)
-    hi2, lo2 = two_sum(a, hi1)
-    md2, lo  = two_sum(lo2, lo1)
-    hi, md   = two_hilo_sum(hi2, md2)
+    t0, t1 = two_sum(a,  b)
+    hi, t2 = two_sum(t0, c)
+    md, lo = two_sum(t1, t2)
+    hi, md = two_hilo_sum(hi,md)
     return hi, md, lo
-end
-
-function three_sum(a::T, b::T, c::T) where {T}
-    b, c = two_sum(b, c)
-    a, b = two_sum(a, b)
-    b, c = two_sum(b, c)
-    a, b = two_sum(a, b)
-    return a,b,c
 end
 
 function three_sum_magnitudes(a::T, b::T, c::T) where {T}
