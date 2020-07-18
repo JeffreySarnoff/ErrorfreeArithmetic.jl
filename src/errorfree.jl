@@ -264,9 +264,8 @@ function two_fma(a::T, b::T, c::T) where {T}
      hi0, lo0 = two_prod(a, b)
      hi1, lo1 = two_sum(c, lo0)
      hi2, lo2 = two_sum(hi0, hi1)
-     dhi = hi2 - hi
-     lo3 = lo1 + lo2
-     lo = dhi + lo3
+     lo2 += lo1
+     lo = (hi2 - hi) + lo2
      return hi, lo
 end
 
