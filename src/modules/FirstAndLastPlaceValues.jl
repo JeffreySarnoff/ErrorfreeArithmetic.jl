@@ -129,6 +129,11 @@ const neg_rre32 = -rre32
 const neg_tworre32 = -tworre32
 const neg_halfrre32 = -halfrre32
 
+const previnf   = prevfloat(Inf)
+const previnfui = reinterpret(UInt64,previnf)
+
+@inline cleaninf(c) = reinterpret(Float64, (reinterpret(UInt64,c) & previnfui))
+
 # without special handling for subnormals
 # fast_[next,prev]float(x::subnormal) is [next,prev]float(x,2)
 
@@ -139,9 +144,15 @@ function fast_nextfloat(c::Float64)
 end
 
 function fast_prevfloat(c::Float64)
+    u = fast_ufp_signed(c)
+    v = fma(neg_rre64, cleaninf(u), c)
+    return v
+end
+
+function fast_prevfloat(c::Float64)
     t = ifelse(is_pow2(c) , neg_halfrre64 , neg_rre64)
     u = fast_ufp_signed(c)
-    v = fma(t, u, c)
+    v = fma(t, cleaninf(u), c)
     return v
 end
 
