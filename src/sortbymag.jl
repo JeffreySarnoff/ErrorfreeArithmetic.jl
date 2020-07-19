@@ -23,7 +23,7 @@ function maxtominmag(a,b,c)
     end
 end
 
-function mintomaxmag(a,b,c)
+@inline function mintomaxmag(a,b,c)
     absa = abs(a); absb = abs(b); absc = abs(c)
     if absa < absb
       if absb < absc
