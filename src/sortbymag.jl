@@ -1,3 +1,45 @@
+@inline function mintomax_mag(a::T, b::T) where {T}
+    if abs(a) < abs(b)
+        a,b
+    else
+        b,a
+    end
+end
+
+function maxtominmag(a,b,c)
+    absa = abs(a); absb = abs(b); absc = abs(c)
+    if absb < absa
+       if absc < absb
+           a,b,c
+       elseif absc < absa
+           a,c,b
+       else
+           c,a,b
+       end
+    elseif absc < absa # absa <= absb
+       b,a,c
+    else
+       b,c,a
+    end
+end
+
+function mintomaxmag(a,b,c)
+    absa = abs(a); absb = abs(b); absc = abs(c)
+    if absa < absb
+      if absb < absc
+          a,b,c
+      elseif absa < absc # (absa,absc) < absb
+          a,c,b
+      else
+          c,a,b
+      end
+    elseif absc < absb # absb < absa
+      c,b,a
+    else
+      b,c,a
+    end
+end
+
 @inline mag_maxmin(x, y) = signbit(abs(y) - abs(x)) ? (x, y) : (y, x)
 @inline mag_minmax(x, y) = signbit(abs(x) - abs(y)) ? (x, y) : (y, x)
 
