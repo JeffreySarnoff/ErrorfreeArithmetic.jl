@@ -7,15 +7,20 @@ References
 Accurate Floating-Point Summation Part I: Faithful Rounding
 Siegfried M. Rump, Takeshi Ogita and Shin'ichi Oishi
 http://oishi.info.waseda.ac.jp/~oishi/papers/RuOgOi07I.pdf
+
 Fast quadruple-double floating point format
 Naoya Yamanaka and Shin’ichi Oishi
 2014-Jan-01
+
 Error Estimation of Floating-Point Summation and Dot Product
 Siegfried M. Rump
+
 On the definition of ulp(x)
 Jean-Michel Muller
+
 Computing predecessor and successor in rounding to nearest
 Siegfried Rump, Paul Zimmermann, Sylvie Boldo, Guillaume Melquiond
+
 On various ways to split a floating-point number
 Claude-Pierre Jeannerod, Jean-Michel Muller, Paul Zimmermann
 =#
@@ -30,12 +35,14 @@ two(::Type{Float16}) = Float16(2.0)
   Algorithms for triple-word arithmetic.
   IEEE Transactions on Computers, Institute of Electrical and Electronics Engineers, 2019, 68 (11), pp.1573-1583.
   10.1109/TC.2019.2918451. hal-01869009v2
+  
   Sylvie Boldo, Mioara Joldes, Jean-Michel Muller, Valentina Popescu.
   Formal Verification of a FloatingPoint Expansion Renormalization Algorithm.
   8th International Conference on Interactive Theorem Proving (ITP’2017), Sep 2017, Brasilia, Brazil. 
   hal-01512417f
-  ACCURATE FLOATING-POINT SUMMATION PART I: FAITHFUL ROUNDING
-  SIEGFRIED M. RUMP, TAKESHI OGITA, AND SHIN’ICHI OISHI
+  
+  Accurate Floating-Point Summation Part I: Faithful Rounding
+  Siegfried M. Rump, Takeshi Ogita, AND Shin'ichi Oishi
   in SIAM J. Sci. Comput. Volume 31, Issue 1, pp. 189-224 (2008)
 =#
 
