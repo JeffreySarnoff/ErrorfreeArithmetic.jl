@@ -101,6 +101,27 @@ fast_ufp(x::Float64) = reinterpret(Float64, reinterpret(UInt64, x) & 0xfff000000
 fast_ufp(x::Float32) = reinterpret(Float32, reinterpret(UInt32, x) & 0xfff0_0000)
 fast_ufp(x::Float16) = reinterpret(Float16, reinterpret(UInt16, x) & 0xfff0)
 
+
+const rre = ldexp(1.0,-52)        #  2.220446049250313e-16
+const tworre = ldexp(1.0,-51)     #  4.440892098500626e-16
+const recip2rre = inv(tworre)+1.0 #  2.251799813685249e15
+const negrre = -rre               # -2.220446049250313e-16
+const negtworre = -tworre         # -4.440892098500626e-16
+const negrecip2rre = -recip2rre   # -2.251799813685249e15
+
+# @inline unitfirstplace(x::Float64) = fma(abs(x), recip2rre, negonemrre)
+@inline unitfirstplace(x::Float64) = ifelse(signbit(x), fma(x, negrecip2rre, negrre), fma(x, recip2rre, negrre))
+# @inline unitfirstplace(x::Float64) = fma(x, recip2rre, negonemrre)
+
+@inline is_pow2(x::Float64) = reinterpret(UInt64,x) & Base.significand_mask(Float64) === 0x0000000000000001
+
+function fast_prevfloat(c)
+    t =  ifelse(is_pow2(c) , negtworre , negrre)
+    u = unitfirstplace(c)
+    if signbit(c); v = -fma(t, u, -c); else; v = fma(t, u, c); end
+    return v
+end
+
 # overlapping bits
 #=
   Let a, b in F with 0 < |a| < |b|. Then a and b are nonoverlapping if and only if msb(a) < lsb(b).
