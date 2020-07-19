@@ -65,6 +65,26 @@ function three_sum(a::T, b::T, c::T) where {T}
     hi, md = two_sum(a, md)
     md, lo = two_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
+    ieee_three_sum(a, b, c)
+
+Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
+- Does not presort magnitudes
+- Handles `Inf` properly.
+"""
+function ieee_three_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_sum(b, c) 
+    hi, md = two_sum(a, md)
+    isinf(hi) && return (hi, zero(T), zero(T))
+    md, lo = two_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
 
@@ -85,19 +105,7 @@ function three_sum(a::T,b::T,c::T,d::T) where {T}
     hi, hm = two_hilo_sum(hi,hm)
     return hi, hm, ml
 end
-#=
-function three_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, t  = two_sum(t1, t3)
-    md, lo = two_hilo_sum(t4, t5)
-    lo = lo + t
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    return hi, md, lo
-end
-=#
+
 """
    three_hilo_sum(a, b, c)
     
@@ -107,22 +115,14 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 - Does not presort magnitudes
 """
 function three_hilo_sum(a::T, b::T, c::T) where {T}
-    t0, t1 = two_hilo_sum(a,  b)
-    hi, t4 = two_hilo_sum(t0, c)
-    md, lo = two_sum(t4, t1)
-    hi, md = two_hilo_sum(hi, md)
-    return hi, md, lo
-end
-
-#=
-function three_hilo_sum(a::T, b::T, c::T) where {T}
-    md, lo = two_hilo_sum(b, c) 
+    md, lo = two_hilo_sum(b, c)
     hi, md = two_sum(a, md)
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
-    return hi, md, lo
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi,md,lo
 end
-=#
 
 """
    ieee_fast_three_sum(a, b, c)
