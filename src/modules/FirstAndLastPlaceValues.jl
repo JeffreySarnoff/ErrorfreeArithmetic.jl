@@ -108,26 +108,83 @@ fast_ufp(x::Float64) = reinterpret(Float64, reinterpret(UInt64, x) & 0x7ff000000
 fast_ufp(x::Float32) = reinterpret(Float32, reinterpret(UInt32, x) & 0x7ff0_0000)
 fast_ufp(x::Float16) = reinterpret(Float16, reinterpret(UInt16, x) & 0x7ff0)
 
+fast_ufp_signed(x::Float64) = reinterpret(Float64, reinterpret(UInt64, x) & 0xfff0000000000000)
+fast_ufp_signed(x::Float32) = reinterpret(Float32, reinterpret(UInt32, x) & 0xfff0_0000)
+fast_ufp_signed(x::Float16) = reinterpret(Float16, reinterpret(UInt16, x) & 0xfff0)
 
-const rre = ldexp(1.0,-52)        #  2.220446049250313e-16
-const tworre = ldexp(1.0,-51)     #  4.440892098500626e-16
-const recip2rre = inv(tworre)+1.0 #  2.251799813685249e15
-const negrre = -rre               # -2.220446049250313e-16
-const negtworre = -tworre         # -4.440892098500626e-16
-const negrecip2rre = -recip2rre   # -2.251799813685249e15
+@inline is_pow2(x::Float64) = reinterpret(UInt64,x) & Base.significand_mask(Float64) === 0x0000000000000000
+@inline is_pow2(x::Float32) = reinterpret(UInt32,x) & Base.significand_mask(Float32) === 0x00000000
 
-# @inline unitfirstplace(x::Float64) = fma(abs(x), recip2rre, negonemrre)
-@inline unitfirstplace(x::Float64) = ifelse(signbit(x), fma(x, negrecip2rre, negrre), fma(x, recip2rre, negrre))
-# @inline unitfirstplace(x::Float64) = fma(x, recip2rre, negonemrre)
+const rre64 = ldexp(1.0,-52)        #  2.220446049250313e-16
+const tworre64 = ldexp(1.0,-51)     #  4.440892098500626e-16
+const halfrre64 = ldexp(1.0,-53)    #  
+const neg_rre64 = -rre64
+const neg_tworre64 = -tworre64
+const neg_halfrre64 = -halfrre64
 
-@inline is_pow2(x::Float64) = reinterpret(UInt64,x) & Base.significand_mask(Float64) === 0x0000000000000001
+const rre32 = ldexp(1.0,-23)        #  1.1920929f-7
+const tworre32 = ldexp(1.0,-22)     #  2.3841858f-7
+const halfrre32 = ldexp(1.0,-24)    #  
+const neg_rre32 = -rre32
+const neg_tworre32 = -tworre32
+const neg_halfrre32 = -halfrre32
 
-function fast_prevfloat(c)
-    t =  ifelse(is_pow2(c) , negtworre , negrre)
-    u = unitfirstplace(c)
-    if signbit(c); v = -fma(t, u, -c); else; v = fma(t, u, c); end
+# without special handling for subnormals
+# fast_[next,prev]float(x::subnormal) is [next,prev]float(x,2)
+
+function fast_nextfloat(c::Float64)
+    u = fast_ufp_signed(c)
+    v = fma(rre64, u, c)
     return v
 end
+
+function fast_prevfloat(c::Float64)
+    t = ifelse(is_pow2(c) , neg_halfrre64 , neg_rre64)
+    u = fast_ufp_signed(c)
+    v = fma(t, u, c)
+    return v
+end
+
+function fast_nextfloat(c::Float32)
+    u = fast_ufp_signed(c)
+    v = fma(rre32, u, c)
+    return v
+end
+
+function fast_prevfloat(c::Float32)
+    t = ifelse(is_pow2(c) , neg_halfrre32 , neg_rre32)
+    u = fast_ufp_signed(c)
+    v = fma(t, u, c)
+    return v
+end
+
+# without special handling for prevfloat(x::powerof2)
+# faster_prevfloat(x::powerof2) = prevfloat(x,2)
+
+function faster_nextfloat(c::Float64)
+    u = fast_ufp_signed(c)
+    v = fma(rre64, u, c)
+    return v
+end
+
+function faster_prevfloat(c::Float64)
+    u = fast_ufp_signed(c)
+    v = fma(neg_rre64, u, c)
+    return v
+end
+
+function faster_nextfloat(c::Float32)
+    u = fast_ufp_signed(c)
+    v = fma(rre32, u, c)
+    return v
+end
+
+function faster_prevfloat(c::Float32)
+    u = fast_ufp_signed(c)
+    v = fma(neg_rre32, u, c)
+    return v
+end
+
 
 # overlapping bits
 #=
