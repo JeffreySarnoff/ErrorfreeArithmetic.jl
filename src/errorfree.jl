@@ -124,6 +124,16 @@ function three_hilo_sum(a::T, b::T, c::T) where {T}
     return hi,md,lo
 end
 
+#=
+function three_hilo_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_hilo_sum(b, c)
+    hi, md = two_sum(a, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi,md,lo
+end
+=#
+
 """
    ieee_fast_three_sum(a, b, c)
     
