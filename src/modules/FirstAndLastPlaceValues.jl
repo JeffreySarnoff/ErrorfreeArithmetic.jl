@@ -117,7 +117,7 @@ ISSN 1869-5078
 =#
 msb(x) = ufp(x)
 # msb(0) = 0; msb(x) = 2^floor(Int, log2(abs(x))
-lsb(x::T) = msb(x) / 2.0^explicit_precision(T)
+lsb(x::T) where {T} = msb(x) / 2.0^explicit_precision(T)
 # lsb(x) = max(sigma | x in sigma Z, sigma = 2^k, k in Z )
 # lsb(0) = 0; lsb(x) = 
 #=
