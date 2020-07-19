@@ -325,12 +325,12 @@ end
 
 Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
-function three_hilo_sum(a::T,b::T,c::T) where {T}
-    s, t = two_hilo_sum(b, c)
-    x, u = two_hilo_sum(a, s)
-    y, z = two_hilo_sum(u, t)
-    x, y = two_hilo_sum(x, y)
-    return x, y, z
+function three_hilo_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_hilo_sum(b, c)
+    hi, md = two_sum(a, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi,md,lo
 end
 
 """
@@ -341,11 +341,11 @@ end
 Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
 function three_lohi_sum(a::T,b::T,c::T) where {T}
-    s, t = two_hilo_sum(b, a)
-    x, u = two_hilo_sum(c, s)
-    y, z = two_hilo_sum(u, t)
-    x, y = two_hilo_sum(x, y)
-    return x, y, z
+    md, lo = two_lohi_sum(a, b)
+    hi, md = two_sum(c, md)
+    md, lo = two_lohi_sum(lo, md)
+    hi, md = two_lohi_sum(md, hi)
+    return hi,md,lo
 end
 
 """
@@ -356,11 +356,11 @@ end
 Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
 function three_hilo_diff(a::T,b::T,c::T) where {T}
-    s, t = two_hilo_diff(b, -c)
-    x, u = two_hilo_sum(a, s)
-    y, z = two_hilo_sum(u, t)
-    x, y = two_hilo_sum(x, y)
-    return x, y, z
+    md, lo = two_hilo_sum(-b, -c)
+    hi, md = two_sum(a, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi,md,lo 
 end
 
 """
@@ -371,11 +371,7 @@ end
 Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
 function three_lohi_diff(c::T,b::T,a::T) where {T}
-    s, t = two_hilo_diff(b, -c)
-    x, u = two_hilo_sum(a, s)
-    y, z = two_hilo_sum(u, t)
-    x, y = two_hilo_sum(x, y)
-    return x, y, z
+    three_lohi_sum(c, -b, -a)
 end
 
 """
