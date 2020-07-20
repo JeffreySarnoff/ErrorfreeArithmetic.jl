@@ -112,6 +112,8 @@ fast_ufp_signed(x::Float64) = reinterpret(Float64, reinterpret(UInt64, x) & 0xff
 fast_ufp_signed(x::Float32) = reinterpret(Float32, reinterpret(UInt32, x) & 0xfff0_0000)
 fast_ufp_signed(x::Float16) = reinterpret(Float16, reinterpret(UInt16, x) & 0xfff0)
 
+fast_ufp_signed_inf(x::Float64) = reinterpret(Float64, reinterpret(UInt64, x) & 0xffe0000000000000)
+
 @inline is_pow2(x::Float64) = reinterpret(UInt64,x) & Base.significand_mask(Float64) === 0x0000000000000000
 @inline is_pow2(x::Float32) = reinterpret(UInt32,x) & Base.significand_mask(Float32) === 0x00000000
 
@@ -153,6 +155,13 @@ function fast_prevfloat(c::Float64)
     t = ifelse(is_pow2(c) , neg_halfrre64 , neg_rre64)
     u = fast_ufp_signed(c)
     v = fma(t, cleaninf(u), c)
+    return v
+end
+
+function fast_prevfloat(c::Float64)
+    t = ifelse(is_pow2(c) , neg_halfrre64 , neg_rre64)
+    u = fast_ufp_signed_inf(c)
+    v = fma(t, u, c)
     return v
 end
 
