@@ -12,7 +12,15 @@ NOLTA'07, Vancouver, Canada, September 16-19, 2007
     return hi, lo
 end
 
+@inline function one_sum(a::Complex{T}, b::Complex{T}) where {T<:Real}
+    hi1, lo1 = two_sum(a.re, b.re)
+    hi2, lo2 = two_sum(a.im, b.im)
+    hi = Complex{T}(hi1, hi2)
+    return hi
+end
+
 two_hilo_sum(a::Complex{T}, b::Complex{T}) where {T<:Real} = two_sum(a, b)
+one_hilo_sum(a::Complex{T}, b::Complex{T}) where {T<:Real} = one_sum(a, b)
 
 @inline function two_diff(a::Complex{T}, b::Complex{T}) where {T<:Real}
     hi1, lo1 = two_diff(a.re, b.re)
@@ -22,7 +30,15 @@ two_hilo_sum(a::Complex{T}, b::Complex{T}) where {T<:Real} = two_sum(a, b)
     return hi, lo
 end
 
+@inline function one_diff(a::Complex{T}, b::Complex{T}) where {T<:Real}
+    hi1, lo1 = two_diff(a.re, b.re)
+    hi2, lo2 = two_diff(a.im, b.im)
+    hi = Complex{T}(hi1, hi2)
+    return hi
+end
+
 two_hilo_diff(a::Complex{T}, b::Complex{T}) where {T<:Real} = two_diff(a, b)
+one_hilo_diff(a::Complex{T}, b::Complex{T}) where {T<:Real} = one_diff(a, b)
 
 #=
 from "Error-free transformations in real and complex floating point arithmetics"
@@ -75,3 +91,15 @@ end
     q = Complex{T}(re, im)
     return p, q
 end
+
+@inline function one_prod(a::Complex{T}, b::Complex{T}) where {T<:Real}
+    hi1, lo1 = two_prod(a.re, b.re)
+    hi2, lo2 = two_prod(a.im, b.im)
+    hi3, lo3 = two_prod(a.re, b.im)
+    hi4, lo4 = two_prod(a.im, b.re)
+    hi5, lo5 = two_diff(hi1, hi2)
+    hi6 = hi3 + hi4
+    p = Complex{T}(hi5, hi6)
+    return p
+end
+
