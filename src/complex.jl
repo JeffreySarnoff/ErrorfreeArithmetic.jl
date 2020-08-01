@@ -40,7 +40,7 @@ N.B. modified to order q,r,s
     s = Complex{T}(-lo2, lo4)
     r, s = two_sum(r, s)
     q, r = two_sum(q, r)
-    return p,q,r,s
+    return p, q, r, s
 end
 
 @inline function three_prod(a::Complex{T}, b::Complex{T}) where {T<:Real}
@@ -55,7 +55,7 @@ end
     r = Complex{T}(lo1, lo3)
     s = Complex{T}(-lo2, lo4)
     q, r = two_sum(q, r, s)
-    return p,q,r
+    return p, q, r
 end
 
 @inline function two_prod(a::Complex{T}, b::Complex{T}) where {T<:Real}
@@ -66,8 +66,8 @@ end
     hi5, lo5 = two_diff(hi1, hi2)
     hi6, lo6 = two_sum(hi3, hi4)
     p = Complex{T}(hi5, hi6)
-    re = two_sum(lo5, lo1, lo2)
-    im = two_sum(lo6, lo3, lo4)
+    re = one_sum(lo5, lo1, lo2)
+    im = one_sum(lo6, lo3, lo4)
     q = Complex{T}(re, im)
-    return p,q
+    return p, q
 end
