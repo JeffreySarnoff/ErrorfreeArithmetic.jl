@@ -42,5 +42,6 @@ include("errorfree.jl")
 include("errorfree_tuples.jl")
 include("leasterror.jl")
 include("remainder.jl")
+include("complex.jl")
 
 end # ErrorfreeArithmetic
