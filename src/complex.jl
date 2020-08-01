@@ -39,3 +39,17 @@ NOLTA'07, Vancouver, Canada, September 16-19, 2007
     s = Complex{T}(-lo2, lo4)
     return p,q,r,s
 end
+
+@inline function two_prod(a::Complex{T}, b::Complex{T}) where {T<:Real}
+    hi1, lo1 = two_prod(a.re, b.re)
+    hi2, lo2 = two_prod(a.im, b.im)
+    hi3, lo3 = two_prod(a.re, b.im)
+    hi4, lo4 = two_prod(a.im, b.re)
+    hi5, lo5 = two_sum(hi1, -hi2)
+    hi6, lo6 = two_sum(hi3, hi4)
+    p = Complex{T}(hi5, hi6)
+    r = one_sum(lo5, lo1, -lo2)
+    s = one_sum(lo6, lo3, lo4)
+    q = Complex{T}(r, s)
+    return p,q
+end
