@@ -12,6 +12,8 @@ NOLTA'07, Vancouver, Canada, September 16-19, 2007
     return hi, lo
 end
 
+two_hilo_sum(a::Complex{T}, b::Complex{T}) where {T<:Real} = two_sum(a, b)
+
 @inline function two_diff(a::Complex{T}, b::Complex{T}) where {T<:Real}
     hi1, lo1 = two_diff(a.re, b.re)
     hi2, lo2 = two_diff(a.im, b.im)
@@ -19,6 +21,8 @@ end
     lo = Complex{T}(lo1, lo2)
     return hi, lo
 end
+
+two_hilo_diff(a::Complex{T}, b::Complex{T}) where {T<:Real} = two_diff(a, b)
 
 #=
 from "Error-free transformations in real and complex floating point arithmetics"
