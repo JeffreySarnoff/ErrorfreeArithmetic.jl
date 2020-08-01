@@ -431,10 +431,21 @@ end
 """
     three_prod(a, b, c)
 
+
 Computes `hi = fl(a*b*c)` `md = fl(a*b*c - hi)` and `lo = fl(err(md))`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c))
+
+a,b,c = (3.141592653589793, 0.5641895835477563, 1.4142135623730951)
+julia> three_prod3(a,b,c)
+(2.5066282746310007, -1.4371699047167184e-16, -4.4346586356447294e-35)
+
+julia> three_prod3(c,a,b)
+(2.5066282746310007, -1.4371699047167186e-16, 2.4607556701800172e-32)
 """
 function three_prod(a::T, b::T, c::T) where {T}
+    a, b = maxmin(a,b)
+    a, c = maxmin(a,c)
+    b, c = maxmin(b,c)
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     ablochi, abloclo = two_prod(ablo, c)
@@ -443,6 +454,9 @@ function three_prod(a::T, b::T, c::T) where {T}
     return hi, md, lo
 end
 
+@inline maxmin(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
+
+
 """
     ieee_three_prod(a, b)
 
@@ -450,6 +464,9 @@ Computes `hi = fl(a*b*c)` `md = fl(a*b*c - hi)` and `lo = fl(err(md))`.
 - Handles `Inf` properly
 """
 function ieee_three_prod(a::T, b::T, c::T) where {T}
+    a, b = maxmin(a,b)
+    a, c = maxmin(a,c)
+    b, c = maxmin(b,c)
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     isinf(hi) && return (hi, zero(T), zero(T))
@@ -461,6 +478,7 @@ end
 
 """
     four_prod(a, b, c, d)
+????????????
 
 Computes `hi = fl(a*b*c*d)` `mdhi = fl(a*b*c*d - hi)`  `mdlo = fl(a*b*c*d - hi - mdhi)` and `lo = fl(err(mdlo))`.
 - Unchecked Precondition: !(isinf(a) | isinf(b) | isinf(c) | isinf(d))
