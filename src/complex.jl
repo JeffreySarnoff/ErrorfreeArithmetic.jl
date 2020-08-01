@@ -53,3 +53,21 @@ end
     q = Complex{T}(r, s)
     return p,q
 end
+
+#=
+try different orders
+a,b,c =
+(1.4142135623730951 + 0.7071067811865476im, 1.4142135623730953e-15 + 7.071067811865476e-16im, 5.026525695313479 + 7.080698751085013im)
+=#
+"""
+    three_prod(a, b, c)
+    
+Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
+"""
+function three_prod(a::Complex{T}, b::Complex{T}, c::Complex{T}) where {T}
+    abhi, ablo = two_prod(a, b)
+    hi, abhiclo = two_prod(abhi, c)
+    ablochi, abloclo = two_prod(ablo, c)
+    md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
+    return hi, md, lo
+end
