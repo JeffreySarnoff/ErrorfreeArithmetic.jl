@@ -254,12 +254,18 @@ end
 Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
 function three_prod(a::T, b::T, c::T) where {T}
+    a, b = maxmin(a,b)
+    a, c = maxmin(a,c)
+    b, c = maxmin(b,c)
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     ablochi, abloclo = two_prod(ablo, c)
     md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
+    hi, md = two_sum(hi, md)
     return hi, md, lo
 end
+
+@inline maxmin(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
 
 #=
    three_fma algorithm from
