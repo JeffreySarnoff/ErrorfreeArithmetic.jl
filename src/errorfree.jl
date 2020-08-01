@@ -73,6 +73,60 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     return hi, hm, ml, lo
 end
 
+
+"""
+    three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d), lo = err(md)`.
+"""
+function three_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
+    t5, t6 = two_sum(t1, t3)
+    md, lo = two_sum(t4, t5)
+    lo = lo + t6
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi, md, lo
+end
+
+"""
+    two_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
+"""
+function two_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
+    t5, t6 = two_sum(t1, t3)
+    lo, t7 = two_sum(t4, t5)
+    t7 = t7 + t6
+    lo, t7 = two_hilo_sum(lo, t7)
+    hi, lo = two_hilo_sum(hi, lo)
+    return hi, lo
+end
+
+"""
+    one_sum(a, b, c, d)
+    
+Computes `fl(a+b+c+d)`.
+"""
+function one_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_sum(a,  b)
+    t2, t3 = two_sum(c,  d)
+    hi, t4 = two_sum(t0, t2)
+    t5, t6 = two_sum(t1, t3)
+    lo, t7 = two_sum(t4, t5)
+    t7 = t7 + t6
+    lo, t7 = two_hilo_sum(lo, t7)
+    hi = hi + lo
+    return hi
+end
+
+
+
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
     s2, e3 = two_sum(x2, s3)
@@ -109,35 +163,6 @@ function foursum(x1::T, x2::T, x3::T, x4::T) where {T}
     e1to4 = vec_sum(c1,c2,d1,d2)
     y = vsum_errbranch(e1to4)
     return (y...,)
-end
-
-"""
-    three_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d), lo = err(md)`.
-"""
-function three_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a ,  b)
-    t0, t2 = two_sum(t0,  c)
-    hi, t3 = two_sum(t0,  d)
-    t0, t1 = two_sum(t1, t2)
-    hm, t2 = two_sum(t0, t3) # here, t0 >= t3
-    ml     = t1 + t2
-    return hi, hm, ml
-end
-
-"""
-    two_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
-"""
-function two_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a ,  b)
-    t0, t2 = two_sum(t0,  c)
-    hi, t3 = two_sum(t0,  d)
-    t0, t1 = two_sum(t1, t2)
-    lo     = t0 + t3
-    return hi, lo
 end
 
 """
