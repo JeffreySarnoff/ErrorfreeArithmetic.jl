@@ -11,6 +11,15 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 """
+    one_sum(a, b)
+
+Computes `fl(a+b)`.
+"""
+@inline function one_sum(a::T, b::T) where {T<:Real}
+    return a + b
+end
+
+"""
    three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
@@ -28,12 +37,23 @@ end
     
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
-function two_sum(a::T,b::T,c::T) where {T}
+@inline function two_sum(a::T,b::T,c::T) where {T}
     hi1, lo1 = two_sum(b, c)
     hi2, lo2 = two_sum(a, hi1)
     lo12     = lo1 + lo2
     hi, lo   = two_hilo_sum(hi2, lo12)
     return hi, lo
+end
+
+"""
+    one_sum(a, b, c)
+    
+Computes `fl(a+b+c)`
+"""
+@inline function one_sum(a::T,b::T,c::T) where {T}
+    hi1, lo1 = two_sum(b, c)
+    hi2, lo2 = two_sum(a, hi1)
+    return hi2 + (lo1 + lo2)
 end
 
 """
