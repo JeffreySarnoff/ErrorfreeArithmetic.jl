@@ -287,7 +287,7 @@ end
     
 Computes `hi = fl(a*b*c)` and `himd = err(a*b*c), lomd = err(himd), lo = err(lomd)`.
 """
-@inline four_prod(a::T, b::T, c::T) where {T}
+@inline function four_prod(a::T, b::T, c::T) where {T}
     thi, tlo = two_prod(b, c)
     hihi, hilo = two_prod(a, thi)
     lohi, lolo = two_prod(a, tlo)
