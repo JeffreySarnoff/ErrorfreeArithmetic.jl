@@ -255,7 +255,7 @@ assumes no underflow in four_prod
     
 Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
-@inline three_prod(a::T, b::T, c::T) where {T}
+@inline function three_prod(a::T, b::T, c::T) where {T}
     hi, himd, lomd, lo = four_prod(a, b, c)
     himd, lomd = two_hilo_sum(himd, lomd)
     lomd = lomd + lo
