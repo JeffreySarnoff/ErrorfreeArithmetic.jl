@@ -523,6 +523,15 @@ function ieee_four_prod(a::T, b::T, c::T, d::T) where {T}
     return abchidhi, abchidlo, abcmddhi, abcmddlo
 end
 
+function three_fma(a::T, b::T, c::T) where {T<:Real}
+    x = fma(a,b,c)
+    u1, u2 = two_prod(a,b)
+    a1, z  = two_sum(c, u2)
+    b1, b2 = two_sum(u1, a1)
+    y = (b1 - x) + b2
+    y,z = two_hilo_sum(y,z)
+    return (x,y,z)
+end
 #=
 function four_sum(a::T, b::T, c::T, d::T) where {T}
     hm, ml, lo = three_sum(b, c, d)
