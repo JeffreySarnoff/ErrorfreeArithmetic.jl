@@ -15,6 +15,22 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
 @inline function two_sum(a::T, b::T) where {T}
     hi = a + b
+    db = b - (hi - a)
+    da = a - (hi - b)
+    lo = da + db
+    return (hi, lo)
+end
+
+#=
+    one more instruction used here
+"""
+    two_sum(a, b)
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+- Unchecked Precondition: !(isinf(a) | isinf(b))
+"""
+@inline function two_sum(a::T, b::T) where {T}
+    hi = a + b
     v  = hi - a
     lo = (a - (hi - v)) + (b - v)
     return hi, lo
