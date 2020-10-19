@@ -22,7 +22,12 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 #=
-    one more instruction used here
+above from
+Terje Mathisen Jan 20, 2014, 3:38:12 PM
+https://groups.google.com/g/comp.arch/c/zy8HC-i3lM0/m/SB64V3VCC4cJ?pli=1
+
+one more instruction used here
+
 """
     two_sum(a, b)
 
