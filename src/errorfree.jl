@@ -18,7 +18,7 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     db = b - (hi - a)
     da = a - (hi - b)
     lo = da + db
-    return (hi, lo)
+    return hi, lo
 end
 
 #=
@@ -35,6 +35,7 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     lo = (a - (hi - v)) + (b - v)
     return hi, lo
 end
+=#
 
 """
     ieee_two_sum(a, b)
@@ -45,8 +46,9 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 @inline function ieee_two_sum(a::T, b::T) where {T}
     hi = a + b
     isinf(hi) && return (hi, zero(T))
-    v  = hi - a
-    lo = (a - (hi - v)) + (b - v)
+    db = b - (hi - a)
+    da = a - (hi - b)
+    lo = da + db
     return hi, lo
 end
 
@@ -303,8 +305,9 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
 @inline function two_diff(a::T, b::T) where {T}
     hi = a - b
-    v  = hi - a
-    lo = (a - (hi - v)) - (b + v)
+    db = (a - hi) - b
+    da = a - (hi + b)
+    lo = da + db
     return hi, lo
 end
 
@@ -317,8 +320,9 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
 @inline function ieee_two_diff(a::T, b::T) where {T}
     hi = a - b
     isinf(hi) && return (hi, zero(T))
-    v  = hi - a
-    lo = (a - (hi - v)) - (b + v)
+    db = (a - hi) - b
+    da = a - (hi + b)
+    lo = da + db
     return hi, lo
 end
 
