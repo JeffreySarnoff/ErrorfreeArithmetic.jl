@@ -200,9 +200,8 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
 """
 @inline function two_diff(a::T, b::T) where {T}
     hi = a - b
-    a1 = hi + b
-    b1 = hi - a1
-    lo = (a - a1) - (b + b1)
+    v  = hi - a
+    lo = (a - (hi - v)) - (b + v)
     return hi, lo
 end
 
