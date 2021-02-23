@@ -1,6 +1,9 @@
 using Random
 using Combinatorics
 
+# how many distinct permutations of k items
+npermutations(k) = length(permutations(1:k))
+
 #=
 julia> upton(n,k) = length(collect(multiset_permutations(collect(1:n),k)))
 
@@ -15,6 +18,26 @@ julia> upto32x4 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,4)) for i=1:32
 
 upto24x5 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,5)) for i=1:24)...)
 (n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 120, n6 = 720, n7 = 2520, n8 = 6720, n9 = 15120, n10 = 30240, n11 = 55440, n12 = 95040, n13 = 154440, n14 = 240240, n15 = 360360, n16 = 524160, n17 = 742560, n18 = 1028160, n19 = 1395360, n20 = 1860480, n21 = 2441880, n22 = 3160080, n23 = 4037880, n24 = 5100480)
+=#
+#=
+atatime(m) = collect(multiset_permutations(collect(1:m),m));
+multitimes(m,k) =  collect(n .+ t for n in atatime(m) for t=0:m:m*k);
+allpermsby(nargs,nsets) = Tuple.(sort(multitimes(nargs,nsets-1), lt=(a,b)->sort(a) < sort(b)));
+eachpermset(nargs, nsets) = reshape(allpermsby(nargs,nsets), (npermutations(nargs), nsets));
+
+julia> eachpermset(2,3)
+2×3 Array{Tuple{Int64,Int64},2}:
+ (1, 2)  (3, 4)  (5, 6)
+ (2, 1)  (4, 3)  (6, 5)
+
+julia> eachpermset(3,2)
+6×2 Array{Tuple{Int64,Int64,Int64},2}:
+ (1, 2, 3)  (4, 5, 6)
+ (1, 3, 2)  (4, 6, 5)
+ (2, 1, 3)  (5, 4, 6)
+ (2, 3, 1)  (5, 6, 4)
+ (3, 1, 2)  (6, 4, 5)
+ (3, 2, 1)  (6, 5, 4)
 =#
 
 setprecision(BigFloat, 6*64)
