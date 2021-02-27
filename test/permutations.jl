@@ -42,10 +42,17 @@ julia> eachpermset(3,2)
 
 setprecision(BigFloat, 6*64)
 
-bigflrng = seed!(124);
-floatrng = seed!(1618);
-scalerng = seed!(141421);
-boolrng  = seed!(6180);
+if isdefined(:seed!)
+  bigflrng = seed!(124);
+  floatrng = seed!(1618);
+  scalerng = seed!(141421);
+  boolrng  = seed!(6180);
+else
+  bigflrng = MersenneTwister(124);
+  floatrng = MersenneTwister(1618);
+  scalerng = MersenneTwister(141421);
+  boolrng  = MersenneTwister(6180);
+end
 
 const permute1 = Tuple(Tuple.(permutations((1,))));        # n=   1
 const permute2 = Tuple(Tuple.(permutations((1,2))));       # n=   2
@@ -141,6 +148,14 @@ function randbig(scalemax=60, scalemin=0)
     xp  = shift_exp_updown_by(scalemax, scalemin)
     fl  = shift_exp(fl, xp)
     return fl
+end
+
+function randfloats(n; scalemax=60, scalemin=0)
+   Tuple(sort([randfloat(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
+end
+
+function randbigs(n; scalemax=60, scalemin=0)
+   Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
 
