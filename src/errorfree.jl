@@ -92,8 +92,8 @@ function three_prod(a::T, b::T, c::T) where {T}
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     ablochi, abloclo = two_prod(ablo, c)
-    md, lo, tmp  = three_sum(ablochi, abhiclo, abloclo)
-    hi, md = two_sum(hi, md)
+    md, lo  = two_sum(ablochi, abhiclo, abloclo)
+    hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
 end
 
