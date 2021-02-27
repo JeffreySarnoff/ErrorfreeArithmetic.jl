@@ -200,14 +200,10 @@ This means that the computed approximation is as good as
 we can expect in the working precision."
 -- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
 
-While the sqrt algorithm is not strictly an errorfree transformation,
-it is known to be reliable and is recommended for general use.
-"Augmented precision square roots, 2-D norms and
-   discussion on correctly reounding xsqrt(x^2 + y^2)"
-by Nicolas Brisebarre, Mioara Joldes, Erik Martin-Dorel,
-   Jean-Michel Muller, Peter Kornerup
+"While the sqrt algorithm is not strictly an errorfree transformation,
+it is known to be reliable and is recommended for general use."
+-- https://hal-ens-lyon.archives-ouvertes.fr/ensl-00545591v2/document
 =#
-
 
 @inline function two_div(a::T, b::T) where {T}
      hi = a / b
