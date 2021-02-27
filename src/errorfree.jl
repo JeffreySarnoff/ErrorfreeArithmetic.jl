@@ -255,20 +255,7 @@ Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
     hi, lo
 end
 
-#=
-assumes no underflow in four_prod
-"""
-    three_prod(a, b, c)
-    
-Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
-"""
-@inline function three_prod(a::T, b::T, c::T) where {T}
-    hi, himd, lomd, lo = four_prod(a, b, c)
-    himd, lomd = two_hilo_sum(himd, lomd)
-    lomd = lomd + lo
-    return hi, himd, lomd
-end
-=#
+@inline max_min(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
 
 """
     three_prod(a, b, c)
@@ -276,9 +263,9 @@ end
 Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
 function three_prod(a::T, b::T, c::T) where {T}
-    a, b = maxmin(a,b)
-    a, c = maxmin(a,c)
-    b, c = maxmin(b,c)
+    a, b = max_min(a,b)
+    a, c = max_min(a,c)
+    b, c = max_min(b,c)
     abhi, ablo = two_prod(a, b)
     hi, abhiclo = two_prod(abhi, c)
     ablochi, abloclo = two_prod(ablo, c)
@@ -287,7 +274,7 @@ function three_prod(a::T, b::T, c::T) where {T}
     return hi, md, lo
 end
 
-@inline max_min(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
+
 
 #=
    three_fma algorithm from
