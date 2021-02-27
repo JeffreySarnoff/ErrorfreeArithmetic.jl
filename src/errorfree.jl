@@ -182,16 +182,18 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 """
-    two_lohi_sum(a, b)
+    three_hilo_sum(a, b, c)
+    
+*unchecked* requirement `|a| ≥ |b| ≥ |c|`
 
-*unchecked* requirement `|b| ≥ |a|`
-
-Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
-@inline function two_lohi_sum(a::T, b::T) where {T}
-    hi = b + a
-    lo = a - (hi - b)
-    return hi, lo
+function three_hilo_sum(a::T, b::T, c::T) where {T}
+    md, lo = two_hilo_sum(b, c)
+    hi, md = two_sum(a, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    return hi,md,lo
 end
 
 """
@@ -208,49 +210,6 @@ Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 end
 
 """
-    two_lohi_diff(a, b)
-    
-*unchecked* requirement `|b| ≥ |a|`
-
-Computes `hi = fl(a-b)` and `lo = err(a-b)`.
-"""
-@inline function two_lohi_diff(a::T, b::T) where {T}
-    hi = b - a
-    lo = (b - hi) - a
-    hi, lo
-end
-
-"""
-    three_hilo_sum(a, b, c)
-    
-*unchecked* requirement `|a| ≥ |b| ≥ |c|`
-
-Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
-"""
-function three_hilo_sum(a::T, b::T, c::T) where {T}
-    md, lo = two_hilo_sum(b, c)
-    hi, md = two_sum(a, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    return hi,md,lo
-end
-
-"""
-    three_lohi_sum(a, b, c)
-    
-*unchecked* requirement `|c| ≥ |b| ≥ |a|`
-
-Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
-"""
-function three_lohi_sum(a::T,b::T,c::T) where {T}
-    md, lo = two_lohi_sum(a, b)
-    hi, md = two_sum(c, md)
-    md, lo = two_lohi_sum(lo, md)
-    hi, md = two_lohi_sum(md, hi)
-    return hi,md,lo
-end
-
-"""
     three_hilo_diff(a, b, c)
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c|`
@@ -263,15 +222,4 @@ function three_hilo_diff(a::T,b::T,c::T) where {T}
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     return hi,md,lo 
-end
-
-"""
-    three_lohi_diff(a, b, c)
-    
-*unchecked* requirement `|c| ≥ |b| ≥ |a|`
-
-Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
-"""
-function three_lohi_diff(c::T,b::T,a::T) where {T}
-    three_lohi_sum(c, -b, -a)
 end
