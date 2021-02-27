@@ -27,7 +27,6 @@ end
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
 @inline function two_sum(a::T, b::T, c::T) where {T}
-@inline function two_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = amaxmin(a, b, c) 
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
@@ -152,6 +151,21 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 @inline function two_hilo_sum(a::T, b::T) where {T}
     hi = a + b
     lo = b - (hi - a)
+    return hi, lo
+end
+
+"""
+    two_hilo_sum(a, b, c)
+    
+*unchecked* requirement `|a| ≥ |b| ≥ |c|`
+
+Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
+"""
+function two_hilo_sum(a::T, b::T, c::T) where {T}
+    lo, t = two_hilo_sum(b, c)
+    hi, lo = two_sum(a, lo)
+    lo += t
+    hi, lo = two_hilo_sum(hi, lo)
     return hi, lo
 end
 
