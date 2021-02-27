@@ -189,3 +189,37 @@ function three_hilo_diff(a::T,b::T,c::T) where {T}
     hi, md = two_hilo_sum(hi, md)
     return hi,md,lo 
 end
+
+
+#=
+"Concerning the division, the elementary rounding error is
+generally not a floating point number, so it cannot be computed
+exactly. Hence we cannot expect to obtain an error
+free transformation for the division. ...
+This means that the computed approximation is as good as
+we can expect in the working precision."
+-- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
+
+While the sqrt algorithm is not strictly an errorfree transformation,
+it is known to be reliable and is recommended for general use.
+"Augmented precision square roots, 2-D norms and
+   discussion on correctly reounding xsqrt(x^2 + y^2)"
+by Nicolas Brisebarre, Mioara Joldes, Erik Martin-Dorel,
+   Jean-Michel Muller, Peter Kornerup
+=#
+
+
+@inline function two_div(a::T, b::T) where {T}
+     hi = a / b
+     lo = fma(-hi, b, a)
+     lo /= b
+     return hi, lo
+end
+
+@inline function two_sqrt(a::T) where {T}
+    hi = sqrt(a)
+    lo = fma(-hi, hi, a)
+    lo /= 2
+    lo /= hi
+    return hi, lo
+end
