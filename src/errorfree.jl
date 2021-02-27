@@ -344,8 +344,7 @@ Computes `hi = fl(muladd(a,b,c))` and `lo = fl(err(muladd(a,b,c)))`.
 """
 function two_muladd(a::T, b::T, c::T) where {T}
      hi = fma(a, b, c)
-     c_minus_hi = c - hi
-     lo = muladd(a, b, c_minus_hi)
+     lo = fma(a, b, c-hi)
      return hi, lo
 end    
 
