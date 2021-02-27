@@ -76,24 +76,6 @@ function three_sum(a::T,b::T,c::T,d::T) where {T}
 end
 
 """
-    four_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
-"""
-function four_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, lo = two_sum(t1, t3)
-    hm, ml = two_sum(t4, t5)
-    ml, lo = two_hilo_sum(ml, lo)
-    hm, ml = two_hilo_sum(hm, ml)
-    hi, hm = two_hilo_sum(hi,hm)
-    return hi, hm, ml, lo
-end
-
-
-"""
     two_diff(a, b)
 
 Computes `s = fl(a-b)` and `e = err(a-b)`.
@@ -292,72 +274,4 @@ Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
 """
 function three_lohi_diff(c::T,b::T,a::T) where {T}
     three_lohi_sum(c, -b, -a)
-end
-
-"""
-    four_hilo_sum(a, b, c, d)
-    
-*unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
-
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
-"""
-function four_hilo_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_hilo_sum(a ,  b)
-    t0, t2 = two_hilo_sum(t0,  c)
-    hi, t3 = two_hilo_sum(t0,  d)
-    t0, t1 = two_hilo_sum(t1, t2)
-    hm, t2 = two_hilo_sum(t0, t3) # here, t0 >= t3
-    ml, lo = two_hilo_sum(t1, t2)
-    return hi, hm, ml, lo
-end
-
-"""
-    four_lohi_sum(a, b, c, d)
-    
-*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
-
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
-"""
-function four_lohi_sum(d::T,c::T,b::T,a::T) where {T}
-    t0, t1 = two_hilo_sum(a ,  b)
-    t0, t2 = two_hilo_sum(t0,  c)
-    hi, t3 = two_hilo_sum(t0,  d)
-    t0, t1 = two_hilo_sum(t1, t2)
-    hm, t2 = two_hilo_sum(t0, t3)
-    ml, lo = two_hilo_sum(t1, t2)
-    return hi, hm, ml, lo
-end
-
-"""
-    four_hilo_diff(a, b, c, d)
-    
-*unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
-
-Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
-"""
-function four_hilo_diff(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_hilo_diff(a,  b)
-    t0, t2 = two_hilo_diff(t0,  c)
-    hi, t3 = two_hilo_diff(t0,  d)
-    t0, t1 = two_hilo_sum(t1, t2)
-    hm, t2 = two_hilo_sum(t0, t3) # here, t0 >= t3
-    ml, lo = two_hilo_sum(t1, t2)
-    return hi, hm, ml, lo
-end
-
-"""
-    four_hilo_diff(a, b, c, d)
-    
-*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
-
-Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
-"""
-function four_lohi_diff(d::T,c::T,b::T,a::T) where {T}
-    t0, t1 = two_hilo_diff(a,  b)
-    t0, t2 = two_hilo_diff(t0,  c)
-    hi, t3 = two_hilo_diff(t0,  d)
-    t0, t1 = two_hilo_sum(t1, t2)
-    hm, t2 = two_hilo_sum(t0, t3) # here, t0 >= t3
-    ml, lo = two_hilo_sum(t1, t2)
-    return hi, hm, ml, lo
 end
