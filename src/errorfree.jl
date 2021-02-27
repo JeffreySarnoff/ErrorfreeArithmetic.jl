@@ -287,19 +287,7 @@ function three_prod(a::T, b::T, c::T) where {T}
     return hi, md, lo
 end
 
-@inline maxmin(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
-
-"""
-    four_prod(a, b, c)
-    
-Computes `hi = fl(a*b*c)` and `himd = err(a*b*c), lomd = err(himd), lo = err(lomd)`.
-"""
-@inline function four_prod(a::T, b::T, c::T) where {T}
-    thi, tlo = two_prod(b, c)
-    hihi, hilo = two_prod(a, thi)
-    lohi, lolo = two_prod(a, tlo)
-    return hihi, hilo, lohi, lolo
-end
+@inline max_min(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
 
 #=
    three_fma algorithm from
