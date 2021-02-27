@@ -54,11 +54,11 @@ else
   boolrng  = MersenneTwister(6180);
 end
 
-const permute1 = Tuple(Tuple.(permutations((1,))));        # n=   1
-const permute2 = Tuple(Tuple.(permutations((1,2))));       # n=   2
-const permute3 = Tuple(Tuple.(permutations((1,2,3))));     # n=   6
-const permute4 = Tuple(Tuple.(permutations((1,2,3,4))));   # n=  24
-const permute5 = Tuple(Tuple.(permutations((1,2,3,4,5)))); # n= 120
+const permute1 = collect(permutations((1,)));        # n=   1
+const permute2 = collect(permutations((1,2)));       # n=   2
+const permute3 = collect(permutations((1,2,3)));     # n=   6
+const permute4 = collect(permutations((1,2,3,4)));   # n=  24
+const permute5 = collect(permutations((1,2,3,4,5))); # n= 120
 const permuted = (permute1, permute2, permute3, permute4, permute5)
 
 parts1(x::BigFloat, T=Float64) = T(x)
