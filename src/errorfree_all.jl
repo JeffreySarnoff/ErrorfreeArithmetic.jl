@@ -381,6 +381,21 @@ Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 end
 
 """
+    two_hilo_sum(a, b, c)
+    
+*unchecked* requirement `|a| ≥ |b| ≥ |c|`
+
+Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
+"""
+function two_hilo_sum(a::T, b::T, c::T) where {T}
+    lo, t = two_hilo_sum(b, c)
+    hi, lo = two_sum(a, lo)
+    lo += t
+    hi, lo = two_hilo_sum(hi, lo)
+    return hi, lo
+end
+
+"""
     three_hilo_sum(a, b, c)
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c|`
