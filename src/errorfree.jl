@@ -27,23 +27,6 @@ Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 end
 
 """
-    two_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
-"""
-function two_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, t6 = two_sum(t1, t3)
-    lo, t7 = two_sum(t4, t5)
-    t7 = t7 + t6
-    lo, t7 = two_hilo_sum(lo, t7)
-    hi, lo = two_hilo_sum(hi, lo)
-    return hi, lo
-end
-
-"""
    three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
@@ -53,23 +36,6 @@ function three_sum(a::T, b::T, c::T) where {T}
     hi, md = two_sum(a, md)
     md, lo = two_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    return hi, md, lo
-end
-
-"""
-    three_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d), lo = err(md)`.
-"""
-function three_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, t6 = two_sum(t1, t3)
-    md, lo = two_sum(t4, t5)
-    lo = lo + t6
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     return hi, md, lo
