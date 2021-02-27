@@ -192,7 +192,7 @@ end
 
 
 #=
-"Concerning the division, the elementary rounding error is
+"Concerning the division [and sqrt], the elementary rounding error is
 generally not a floating point number, so it cannot be computed
 exactly. Hence we cannot expect to obtain an error
 free transformation for the division. ...
@@ -200,7 +200,7 @@ This means that the computed approximation is as good as
 we can expect in the working precision."
 -- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
 
-"While the sqrt algorithm is not strictly an errorfree transformation,
+"While the sqrt algorithm [and division] is not strictly an errorfree transformation,
 it is known to be reliable and is recommended for general use."
 -- https://hal-ens-lyon.archives-ouvertes.fr/ensl-00545591v2/document
 =#
