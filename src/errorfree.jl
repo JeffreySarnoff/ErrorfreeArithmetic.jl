@@ -313,13 +313,13 @@ end
 Computes `hi = fl(fma(a,b,c))` and `md = fl(err(fma(a,b,c))), lo = fl(err(md))`.
 """
 function three_fma(a::T, b::T, c::T) where {T}
-     hi = fma(a, b, c) 
-     hi0, lo0 = two_prod(a, b)
-     hi1, lo1 = two_sum(c, lo0)
-     hi2, lo2 = two_sum(hi0, hi1)
-     y = ((hi2 - hi) + lo2)
-     md, lo = two_hilo_sum(y, lo1)
-     return hi, md, lo
+    hi = fma(a, b, c) 
+    hi0, lo0 = two_prod(a, b)
+    hi1, lo1 = two_sum(c, lo0)
+    hi2, lo2 = two_sum(hi0, hi1)
+    y = ((hi2 - hi) + lo2)
+    md, lo = two_hilo_sum(y, lo1)
+    return hi, md, lo
 end
 
 """
@@ -328,13 +328,12 @@ end
 Computes `hi = fl(fma(a,b,c))` and `lo = fl(err(fma(a,b,c)))`.
 """
 function two_fma(a::T, b::T, c::T) where {T}
-     hi = fma(a, b, c) 
-     hi0, lo0 = two_prod(a, b)
-     hi1, lo1 = two_sum(c, lo0)
-     hi2, lo2 = two_sum(hi0, hi1)
-     lo2 += lo1
-     lo = (hi2 - hi) + lo2
-     return hi, lo
+    hi = fma(a, b, c) 
+    hi0, lo0 = two_prod(a, b)
+    hi1, lo1 = two_sum(c, lo0)
+    hi2, lo2 = two_sum(hi0, hi1)
+    lo = ((hi2 - hi) + lo2) + lo1
+    return hi, lo
 end
 
 """
@@ -343,9 +342,9 @@ end
 Computes `hi = fl(muladd(a,b,c))` and `lo = fl(err(muladd(a,b,c)))`.
 """
 function two_muladd(a::T, b::T, c::T) where {T}
-     hi = fma(a, b, c)
-     lo = fma(a, b, c-hi)
-     return hi, lo
+    hi = fma(a, b, c)
+    lo = fma(a, b, c-hi)
+    return hi, lo
 end    
 
 # with arguments sorted by magnitude
