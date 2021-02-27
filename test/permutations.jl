@@ -1,6 +1,43 @@
 using Random
 using Combinatorics
 
+setprecision(BigFloat, 1024);
+
+function bigto1(x::BigFloat; T=Float64)
+    return T(x)
+end
+function bigto2(x::BigFloat; T=Float64)
+    hi = T(x)
+    lo = T(x - hi)
+    return hi, lo
+end
+function bigto3(x::BigFloat; T=Float64)
+    hi = T(x)
+    md = T(x - hi)
+    lo = T(x - hi - md)
+    return hi, md, lo
+end
+function bigto4(x::BigFloat; T=Float64)
+    hi = T(x)
+    himd = T(x - hi)
+    lomd = T(x - hi - himd)
+    lo = T(x - hi - himd - lomd)
+    return hi, himd, lomd, lo
+end
+
+function bigfrom1(x::T) where {T}
+    return BigFloat(x)
+end
+function bigfrom2(x::T, y::T) where {T}
+    return BigFloat(y) + BigFloat(x)
+end
+function bigfrom3(x::T, y::T, z::T) where {T}
+    return BigFloat(z) + BigFloat(y) + BigFloat(x)
+end
+function bigfrom4(w::T, x::T, y::T, z::T) where {T}
+    return BigFloat(z) + BigFloat(y) + BigFloat(x) + BigFloat(w)
+end
+
 # how many distinct permutations of k items
 npermutations(k) = length(permutations(1:k))
 
@@ -158,10 +195,31 @@ function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
+amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
+function amaxmin(x::T, y::T, z::T) where {T}
+     y, z = amaxmin(y, z)
+     x, z = amaxmin(x, z)
+     x, y = amaxmin(x, y)
+     return x, y, z
+end
+
 #=
+function test3(fn, n)
+    for i in 1:n
+        t = randfloats(3)
+        z = [[fn(y...)...] for y in [t[x] for x in permuted3]]
+        ok = all([[0.0, 0.0, 0.0] == x for x in [zz .- z[1] for zz in z]])
+        if !ok
+           println(f, t)
+           break
+        end
+    end
+end
 
 julia> t = randfloats(3)
 (-2.335712860372784e16, 1.9615015456354034e-9, 3.959791116468795e-13)
+t
+(2.66855208182581e14, -504425.86334703304, 0.005953136439487481)
 
 z = [[three_sum(y...)...] for y in [t[x] for x in permuted3]]
 all([[0.0, 0.0, 0.0] == x for x in [zz .- z[1] for zz in z]])
