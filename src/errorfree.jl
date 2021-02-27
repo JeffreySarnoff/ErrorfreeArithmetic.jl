@@ -1,3 +1,13 @@
+# fastest sorting 
+@inline amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
+
+@inline function amaxmin(x::T, y::T, z::T) where {T}
+    y, z = amaxmin(y, z)
+    x, z = amaxmin(x, z)
+    x, y = amaxmin(x, y)
+    return x, y, z
+end
+
 """
     two_sum(a, b)
 
@@ -17,14 +27,14 @@ end
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
 @inline function two_sum(a::T, b::T, c::T) where {T}
-    md, lo = two_sum(b, c) 
-    hi, md = two_sum(a, md)
-    md, lo = two_sum(md, lo)
+@inline function two_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = amaxmin(a, b, c) 
+    md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
-    md = md + lo
-    hi, md = two_hilo_sum(hi, md)
+    md += lo
     return hi, md
 end
+
 
 """
    three_sum(a, b, c)
@@ -32,12 +42,10 @@ end
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
 function three_sum(a::T, b::T, c::T) where {T}
-    md, lo = two_sum(b, c) 
-    hi, md = two_sum(a, md)
-    md, lo = two_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
+    hi, md, lo = amaxmin(a, b, c) 
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
     return hi, md, lo
 end
 
