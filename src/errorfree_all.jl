@@ -5,6 +5,15 @@ function amaxmin(x::T, y::T, z::T) where {T}
      x, y = amaxmin(x, y)
      return x, y, z
 end
+function amaxmin(a::T, b::T, c::T, d::T) where {T}
+    a, b = amaxmin(a, b)
+    c, d = amaxmin(c, d)
+    a, c = amaxmin(a, c)
+    b, d = amaxmin(b, d)
+    b, c = amaxmin(b, c)
+     
+    return a, b, c, d
+end
 
 """
     two_sum(a, b)
