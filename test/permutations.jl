@@ -197,10 +197,10 @@ function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
-function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0, useperm=true)
+function fn_test(fn, bigfn, j, k, n; scalemax=60, scalemin=0, useperm=true)
   ok = true
   perm = permuted[k]
-  partsfn = bigparts[k]
+  partsfn = bigparts[j]
   for i in 1:n
     t = randfloats(k; scalemax, scalemin)
     bigt = BigFloat.(t)
@@ -222,14 +222,14 @@ function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0, useperm=true)
   return ok
 end
 
-function fn_tester(fn, bigfn, k, n; useperm=true)
-    ok = fn_test(fn, bigfn, k, n; scalemax = 5)
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 25, useperm))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 50, useperm))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 65, useperm))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 100, useperm))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 120, useperm))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 160, useperm))
+function fn_tester(fn, bigfn, j, k, n; useperm=true)
+    ok = fn_test(fn, bigfn, j, k, n; scalemax = 5)
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 25, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 50, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 65, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 100, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 120, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 160, useperm))
     return ok
 end
 
