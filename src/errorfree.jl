@@ -85,7 +85,17 @@ Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
     hi, lo
 end
 
-@inline max_min(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
+"""
+    two_prod(a, b, c)
+    
+Computes `hi = fl(a*b*c)` and `lo = err(hi)`.
+"""
+function two_prod(a::T, b::T, c::T) where {T}
+    t,  k = two_prod(a, b)
+    hi, e = two_prod(t, c)
+    lo = fma(c, k, e)
+    return hi, lo
+end
 
 """
     three_prod(a, b, c)
