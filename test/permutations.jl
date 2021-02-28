@@ -79,7 +79,7 @@ julia> eachpermset(3,2)
 
 setprecision(BigFloat, 6*64)
 
-if isdefined(:seed!)
+if isdefined(Main, :seed!)
   bigflrng = seed!(124);
   floatrng = seed!(1618);
   scalerng = seed!(141421);
@@ -129,6 +129,8 @@ function parts5(x::BigFloat, T=Float64)
     lo = T(x - hi - hm - md - lm)
     return hi, hm, md, lm, lo
 end
+
+const bigparts = (parts1, parts2, parts3, parts4, parts5)
 
 function whole(xs::NTuple{N,Float64}) where {N}
     sum(BigFloat.(reverse(xs)))
@@ -195,6 +197,27 @@ function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
+function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0)
+  perm = permuted[k]
+  partsfn = bigparts[k]
+  for i in 1:n
+    t = randfloats(k; scalemax, scalemin)
+    bigt = BigFloat.(t)
+    best = [partsfn(bigfn(bigt...))...]
+    z = [[fn(y...)...] for y in [t[x] for x in perm]]
+    ok = all([best == zz for zz in z])
+    if !ok
+       println("fn = $fn, k = $k, n = $n, i = $i")
+       println("t = $t")
+       println("best = $best")
+       println("fn(..) = $z[1]")        
+       break
+    end
+  end
+  return nothing
+end
+            
+#=
 amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
 function amaxmin(x::T, y::T, z::T) where {T}
      y, z = amaxmin(y, z)
@@ -202,7 +225,7 @@ function amaxmin(x::T, y::T, z::T) where {T}
      x, y = amaxmin(x, y)
      return x, y, z
 end
-
+=#
 #=
 function test3(fn, n)
     for i in 1:n
