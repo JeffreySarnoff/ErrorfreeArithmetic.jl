@@ -198,6 +198,7 @@ function randbigs(n; scalemax=60, scalemin=0)
 end
 
 function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0)
+  ok = true
   perm = permuted[k]
   partsfn = bigparts[k]
   for i in 1:n
@@ -214,8 +215,31 @@ function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0)
        break
     end
   end
-  return nothing
+  return ok
 end
+
+function fn_tester(fn, bigfn, k, n)
+    ok = fn_test(fn, bigfn, k, n; scalemax = 5)
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 25))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 50))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 65))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 100))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 120))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 160))
+    return ok
+end
+
+
+
+#=
+
+julia> fn_tester(two_diff, (a,b)->a-b, 2, 100_000)
+fn = two_diff, k = 2, n = 100000, i = 1
+t = (10.177136541707391, -1.2215647435476806)
+best = [11.398701285255072, -4.440892098500626e-16]
+fn(..) = [[11.398701285255072, -4.440892098500626e-16], [-11.398701285255072, 4.440892098500626e-16]][1]
+=#
+
             
 #=
 amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
