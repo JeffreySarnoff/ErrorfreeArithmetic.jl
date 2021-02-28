@@ -93,8 +93,10 @@ Computes `hi = fl(a*b*c)` and `lo = err(hi)`.
 function two_prod(a::T, b::T, c::T) where {T}
     t,  k = two_prod(a, b)
     hi, e = two_prod(t, c)
-    lo = fma(c, k, e)
-    return hi, lo
+    md, lo = two_fma(c, k, e)
+    hi, md = two_hilo_sum(hi, md)
+    md += lo
+    return hi, md
 end
 
 """
@@ -103,10 +105,9 @@ end
 Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
 """
 function three_prod(a::T, b::T, c::T) where {T}
-    abhi, ablo = two_prod(a, b)
-    hi, abhiclo = two_prod(abhi, c)
-    ablochi, abloclo = two_prod(ablo, c)
-    md, lo  = two_sum(ablochi, abhiclo, abloclo)
+    t,  k = two_prod(a, b)
+    hi, e = two_prod(t, c)
+    md, lo = two_fma(c, k, e)
     hi, md = two_hilo_sum(hi, md)
     md, lo = two_hilo_sum(md, lo)
     return hi, md, lo
