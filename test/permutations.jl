@@ -205,12 +205,15 @@ function fn_test(fn, bigfn, j, k, n; scalemax=60, scalemin=0, useperm=true)
     t = randfloats(k; scalemax, scalemin)
     bigt = BigFloat.(t)
     best = [partsfn(bigfn(bigt...))...]
+    bfsum = sum(best)    
     if useperm    
        z = [[fn(y...)...] for y in [t[x] for x in perm]]
+       zfsums = map(x->sum(BigFloat.(x)), z)     
     else
        z = [fn(t...),]
+       zfsums = sum(BigFloat.(z))     
     end
-    ok = all([best == zz for zz in z])
+    ok = all([bfsum == zs for zs in zfsums])
     if !ok
        println("fn = $fn, k = $k, n = $n, i = $i")
        println("t = $t")
