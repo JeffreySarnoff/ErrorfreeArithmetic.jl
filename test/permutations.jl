@@ -197,7 +197,7 @@ function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
-function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0)
+function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0, useperm=true)
   ok = true
   perm = permuted[k]
   partsfn = bigparts[k]
@@ -205,7 +205,11 @@ function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0)
     t = randfloats(k; scalemax, scalemin)
     bigt = BigFloat.(t)
     best = [partsfn(bigfn(bigt...))...]
-    z = [[fn(y...)...] for y in [t[x] for x in perm]]
+    if useperm    
+       z = [[fn(y...)...] for y in [t[x] for x in perm]]
+    else
+       z = [fn(t...),]
+    end
     ok = all([best == zz for zz in z])
     if !ok
        println("fn = $fn, k = $k, n = $n, i = $i")
@@ -218,14 +222,14 @@ function fn_test(fn, bigfn, k, n; scalemax=60, scalemin=0)
   return ok
 end
 
-function fn_tester(fn, bigfn, k, n)
+function fn_tester(fn, bigfn, k, n; useperm=true)
     ok = fn_test(fn, bigfn, k, n; scalemax = 5)
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 25))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 50))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 65))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 100))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 120))
-    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 160))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 25, useperm))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 50, useperm))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 65, useperm))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 100, useperm))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 120, useperm))
+    ok && (ok = fn_test(fn, bigfn, k, n; scalemax = 160, useperm))
     return ok
 end
 
@@ -233,11 +237,7 @@ end
 
 #=
 
-julia> fn_tester(two_diff, (a,b)->a-b, 2, 100_000)
-fn = two_diff, k = 2, n = 100000, i = 1
-t = (10.177136541707391, -1.2215647435476806)
-best = [11.398701285255072, -4.440892098500626e-16]
-fn(..) = [[11.398701285255072, -4.440892098500626e-16], [-11.398701285255072, 4.440892098500626e-16]][1]
+
 =#
 
             
