@@ -42,19 +42,19 @@ end
 npermutations(k) = length(permutations(1:k))
 
 #=
-julia> upton(n,k) = length(collect(multiset_permutations(collect(1:n),k)))
+upton(n,k) = length(collect(multiset_permutations(collect(1:n),k)));
 
-julia> upto32x2 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,2)) for i=1:32)...)
-(n1 = 0, n2 = 2, n3 = 6, n4 = 12, n5 = 20, n6 = 30, n7 = 42, n8 = 56, n9 = 72, n10 = 90, n11 = 110, n12 = 132, n13 = 156, n14 = 182, n15 = 210, n16 = 240, n17 = 272, n18 = 306, n19 = 342, n20 = 380, n21 = 420, n22 = 462, n23 = 506, n24 = 552, n25 = 600, n26 = 650, n27 = 702, n28 = 756, n29 = 812, n30 = 870, n31 = 930, n32 = 992)
+upto32x2 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,2)) for i=1:32)...);
+# (n1 = 0, n2 = 2, n3 = 6, n4 = 12, n5 = 20, n6 = 30, n7 = 42, n8 = 56, n9 = 72, n10 = 90, n11 = 110, n12 = 132, n13 = 156, n14 = 182, n15 = 210, n16 = 240, n17 = 272, n18 = 306, n19 = 342, n20 = 380, n21 = 420, n22 = 462, n23 = 506, n24 = 552, n25 = 600, n26 = 650, n27 = 702, n28 = 756, n29 = 812, n30 = 870, n31 = 930, n32 = 992)
 
-julia> upto32x3 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,3)) for i=1:32)...)
-(n1 = 0, n2 = 0, n3 = 6, n4 = 24, n5 = 60, n6 = 120, n7 = 210, n8 = 336, n9 = 504, n10 = 720, n11 = 990, n12 = 1320, n13 = 1716, n14 = 2184, n15 = 2730, n16 = 3360, n17 = 4080, n18 = 4896, n19 = 5814, n20 = 6840, n21 = 7980, n22 = 9240, n23 = 10626, n24 = 12144, n25 = 13800, n26 = 15600, n27 = 17550, n28 = 19656, n29 = 21924, n30 = 24360, n31 = 26970, n32 = 29760)
+upto32x3 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,3)) for i=1:32)...);
+# (n1 = 0, n2 = 0, n3 = 6, n4 = 24, n5 = 60, n6 = 120, n7 = 210, n8 = 336, n9 = 504, n10 = 720, n11 = 990, n12 = 1320, n13 = 1716, n14 = 2184, n15 = 2730, n16 = 3360, n17 = 4080, n18 = 4896, n19 = 5814, n20 = 6840, n21 = 7980, n22 = 9240, n23 = 10626, n24 = 12144, n25 = 13800, n26 = 15600, n27 = 17550, n28 = 19656, n29 = 21924, n30 = 24360, n31 = 26970, n32 = 29760)
 
-julia> upto32x4 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,4)) for i=1:32)...)
-(n1 = 0, n2 = 0, n3 = 0, n4 = 24, n5 = 120, n6 = 360, n7 = 840, n8 = 1680, n9 = 3024, n10 = 5040, n11 = 7920, n12 = 11880, n13 = 17160, n14 = 24024, n15 = 32760, n16 = 43680, n17 = 57120, n18 = 73440, n19 = 93024, n20 = 116280, n21 = 143640, n22 = 175560, n23 = 212520, n24 = 255024, n25 = 303600, n26 = 358800, n27 = 421200, n28 = 491400, n29 = 570024, n30 = 657720, n31 = 755160, n32 = 863040)
+upto32x4 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,4)) for i=1:32)...);
+# (n1 = 0, n2 = 0, n3 = 0, n4 = 24, n5 = 120, n6 = 360, n7 = 840, n8 = 1680, n9 = 3024, n10 = 5040, n11 = 7920, n12 = 11880, n13 = 17160, n14 = 24024, n15 = 32760, n16 = 43680, n17 = 57120, n18 = 73440, n19 = 93024, n20 = 116280, n21 = 143640, n22 = 175560, n23 = 212520, n24 = 255024, n25 = 303600, n26 = 358800, n27 = 421200, n28 = 491400, n29 = 570024, n30 = 657720, n31 = 755160, n32 = 863040)
 
-upto24x5 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,5)) for i=1:24)...)
-(n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 120, n6 = 720, n7 = 2520, n8 = 6720, n9 = 15120, n10 = 30240, n11 = 55440, n12 = 95040, n13 = 154440, n14 = 240240, n15 = 360360, n16 = 524160, n17 = 742560, n18 = 1028160, n19 = 1395360, n20 = 1860480, n21 = 2441880, n22 = 3160080, n23 = 4037880, n24 = 5100480)
+upto24x5 = merge(Tuple(NamedTuple{(Symbol(:n,i),)}(upton(i,5)) for i=1:24)...);
+# (n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 120, n6 = 720, n7 = 2520, n8 = 6720, n9 = 15120, n10 = 30240, n11 = 55440, n12 = 95040, n13 = 154440, n14 = 240240, n15 = 360360, n16 = 524160, n17 = 742560, n18 = 1028160, n19 = 1395360, n20 = 1860480, n21 = 2441880, n22 = 3160080, n23 = 4037880, n24 = 5100480)
 =#
 #=
 atatime(m) = collect(multiset_permutations(collect(1:m),m));
@@ -96,7 +96,7 @@ const permute2 = collect(permutations((1,2)));       # n=   2
 const permute3 = collect(permutations((1,2,3)));     # n=   6
 const permute4 = collect(permutations((1,2,3,4)));   # n=  24
 const permute5 = collect(permutations((1,2,3,4,5))); # n= 120
-const permuted = (permute1, permute2, permute3, permute4, permute5)
+const permuted = (permute1, permute2, permute3, permute4, permute5);
 
 parts1(x::BigFloat, T=Float64) = T(x)
 
