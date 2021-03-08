@@ -204,16 +204,46 @@ function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
+
 #=
     fn : the function from ErrorfreeArithmetic.jl to be tested
     bigfn : a work-alike version of `fn` that expects and returns BigFloats
+
     j : separate BigFloat result into this many IEEEFloat parts
     k : how many random floats to generate for each test of `fn` 
         (the number of args that are explicitly set (not defaulted) when calling `fn`)
     n : how many repetitions of the testing loop to perform
-    scalemax :
-    scalemin :
-    useperm  :
+
+    scalemax : max power of two exponent scaling (adds or subtracts this magnitude from the exponent, at most)
+    scalemin : min power of two exponent scaling (adds or subtracts this magnitude from the exponent, at least)
+    useperm  ? permute the random args, retest each permutation : test the args in their given order only
+                     for two_sum, two_prod etc.                            for two_diff, two_div etc.
+=#
+function fn_tester(fn, bigfn, j, k, n; useperm=true)
+    ok = fn_test(fn, bigfn, j, k, n; scalemax = 5)
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 25, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 50, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 65, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 100, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 120, useperm))
+    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 160, useperm))
+    return ok
+end
+
+
+#=
+    fn : the function from ErrorfreeArithmetic.jl to be tested
+    bigfn : a work-alike version of `fn` that expects and returns BigFloats
+
+    j : separate BigFloat result into this many IEEEFloat parts
+    k : how many random floats to generate for each test of `fn` 
+        (the number of args that are explicitly set (not defaulted) when calling `fn`)
+    n : how many repetitions of the testing loop to perform
+
+    scalemax : max power of two exponent scaling (adds or subtracts this magnitude from the exponent, at most)
+    scalemin : min power of two exponent scaling (adds or subtracts this magnitude from the exponent, at least)
+    useperm  ? permute the random args, retest each permutation : test the args in their given order only
+                     for two_sum, two_prod etc.                            for two_diff, two_div etc.
 =#
 function fn_test(fn, bigfn, j, k, n; scalemax=60, scalemin=0, useperm=true)
   ok = true
@@ -242,30 +272,6 @@ function fn_test(fn, bigfn, j, k, n; scalemax=60, scalemin=0, useperm=true)
   end
   return ok
 end
-
-#=
-    fn : the function from ErrorfreeArithmetic.jl to be tested
-    bigfn : a work-alike version of `fn` that expects and returns BigFloats
-    j : separate BigFloat result into this many IEEEFloat parts
-    k : how many random floats to generate for each test of `fn` 
-        (the number of args that are explicitly set (not defaulted) when calling `fn`)
-    n : how many repetitions of the testing loop to perform
-    scalemax :
-    scalemin :
-    useperm  :
-=#
-function fn_tester(fn, bigfn, j, k, n; useperm=true)
-    ok = fn_test(fn, bigfn, j, k, n; scalemax = 5)
-    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 25, useperm))
-    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 50, useperm))
-    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 65, useperm))
-    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 100, useperm))
-    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 120, useperm))
-    ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 160, useperm))
-    return ok
-end
-
-
 
 #=
 
