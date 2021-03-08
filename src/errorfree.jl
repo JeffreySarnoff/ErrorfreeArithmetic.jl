@@ -1,4 +1,4 @@
-# fastest sorting 
+# fastest sorting by decreasing magnitude
 @inline amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
 
 @inline function amaxmin(x::T, y::T, z::T) where {T}
