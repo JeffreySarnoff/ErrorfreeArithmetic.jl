@@ -133,7 +133,14 @@ end
 const bigparts = (parts1, parts2, parts3, parts4, parts5)
 
 function whole(xs::NTuple{N,Float64}) where {N}
-    sum(BigFloat.(reverse(xs)))
+    fwdsum, revsum = 0.0, 1.0
+    while abs(fwdsum - revsum) > eps(big(2)^(8-precision(Bigfloat)))
+        setprecision(BigFloat, precision(BigFloat) + 256)
+        bigs = BigFloat.(xs)
+        fwdsum = sum(bigs)
+        revsum = sum(reverse(bigs))
+    end
+    return (fwdsum/2 + revsum/2)
 end
     
 # x -> x * 2^shift
