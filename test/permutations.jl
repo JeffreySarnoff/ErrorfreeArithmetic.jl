@@ -204,6 +204,17 @@ function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
 
+#=
+    fn : the function from ErrorfreeArithmetic.jl to be tested
+    bigfn : a work-alike version of `fn` that expects and returns BigFloats
+    j :
+    k : how many random floats to generate for each test of `fn` 
+        (the number of args that are explicitly set (not defaulted) when calling `fn`)
+    n : how many repetitions of the testing loop to perform
+    scalemax :
+    scalemin :
+    useperm  :
+=#
 function fn_test(fn, bigfn, j, k, n; scalemax=60, scalemin=0, useperm=true)
   ok = true
   perm = permuted[k]
@@ -232,6 +243,17 @@ function fn_test(fn, bigfn, j, k, n; scalemax=60, scalemin=0, useperm=true)
   return ok
 end
 
+#=
+    fn : the function from ErrorfreeArithmetic.jl to be tested
+    bigfn : a work-alike version of `fn` that expects and returns BigFloats
+    j :
+    k : how many random floats to generate for each test of `fn` 
+        (the number of args that are explicitly set (not defaulted) when calling `fn`)
+    n : how many repetitions of the testing loop to perform
+    scalemax :
+    scalemin :
+    useperm  :
+=#
 function fn_tester(fn, bigfn, j, k, n; useperm=true)
     ok = fn_test(fn, bigfn, j, k, n; scalemax = 5)
     ok && (ok = fn_test(fn, bigfn, j, k, n; scalemax = 25, useperm))
