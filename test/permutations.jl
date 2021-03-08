@@ -207,7 +207,7 @@ end
 #=
     fn : the function from ErrorfreeArithmetic.jl to be tested
     bigfn : a work-alike version of `fn` that expects and returns BigFloats
-    j :
+    j : separate BigFloat result into this many IEEEFloat parts
     k : how many random floats to generate for each test of `fn` 
         (the number of args that are explicitly set (not defaulted) when calling `fn`)
     n : how many repetitions of the testing loop to perform
@@ -246,7 +246,7 @@ end
 #=
     fn : the function from ErrorfreeArithmetic.jl to be tested
     bigfn : a work-alike version of `fn` that expects and returns BigFloats
-    j :
+    j : separate BigFloat result into this many IEEEFloat parts
     k : how many random floats to generate for each test of `fn` 
         (the number of args that are explicitly set (not defaulted) when calling `fn`)
     n : how many repetitions of the testing loop to perform
