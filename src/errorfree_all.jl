@@ -405,7 +405,7 @@ function two_hilo_sum(a::T, b::T, c::T) where {T}
 end
 
 """
-    twp_hilo_sum(a, b, c, d)
+    two_hilo_sum(a, b, c, d)
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
 
@@ -416,6 +416,22 @@ function two_hilo_sum(a::T,b::T,c::T,d::T) where {T}
     t0, t2 = two_hilo_sum(t0,  c)
     hi, t3 = two_hilo_sum(t0,  d)
     t0, t1 = two_hilo_sum(t1, t2)
+    lo = t0 + t3
+    return hi, lo
+end
+
+"""
+    two_lohi_sum(a, b, c, d)
+    
+*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
+
+Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
+"""
+function two_lohi_sum(a::T,b::T,c::T,d::T) where {T}
+    t0, t1 = two_lohi_sum(a ,  b)
+    t0, t2 = two_lohi_sum(t0,  c)
+    hi, t3 = two_lohi_sum(t0,  d)
+    t0, t1 = two_lohi_sum(t1, t2)
     lo = t0 + t3
     return hi, lo
 end
