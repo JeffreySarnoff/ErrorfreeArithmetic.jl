@@ -1,9 +1,8 @@
-desc = "Error-free arithmetic transformations."
-keywords = ["floating-point", "error-free", "extended-precision"]
 name = "ErrorfreeArithmetic"
 uuid = "90fa49ef-747e-5e6f-a989-263ba693cf1a"
+keywords = ["floating-point", "error-free", "extended-precision"]
 repo = "https://github.com/JeffreySarnoff/ErrorfreeArithmetic.jl.git"
-author = "Jeffrey Sarnoff"
+authors = ["Jeffrey A. Sarnoff <jeffrey.sarnoff@gmail.com>"]
 license = "MIT"
 version = "v0.5.2"
 
