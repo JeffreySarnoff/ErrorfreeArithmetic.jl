@@ -1,10 +1,12 @@
 amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
+
 function amaxmin(x::T, y::T, z::T) where {T}
      y, z = amaxmin(y, z)
      x, z = amaxmin(x, z)
      x, y = amaxmin(x, y)
      return x, y, z
 end
+
 function amaxmin(a::T, b::T, c::T, d::T) where {T}
     a, b = amaxmin(a, b)
     c, d = amaxmin(c, d)
