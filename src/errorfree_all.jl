@@ -35,7 +35,7 @@ end
 
 orders (a, b) by descending magnitude
 """
-two_maxmag(a::T, b::T) where {T} = abs(b) < abs(a) ? (a, b), (b, a)
+two_maxmag(a::T, b::T) where {T} = abs(b) < abs(a) ? (a, b) : (b, a)
 
 """
     two_maxmag(a, b, c)
