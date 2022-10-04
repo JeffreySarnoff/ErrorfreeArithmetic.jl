@@ -1,6 +1,10 @@
 using ErrorfreeArithmetic
 using Test
 
+include("bigfloat.jl")
+include("randfloat.jl")
+include("permute.jl")
+
 Base.BigFloat(x::T) where {T} = Base.convert(BigFloat, x)
 
 function hilo(::Type{T}, x::BigFloat) where {T}
