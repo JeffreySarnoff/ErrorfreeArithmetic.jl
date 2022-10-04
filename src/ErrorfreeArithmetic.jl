@@ -18,6 +18,8 @@ export # error-free transformations
 using Base: IEEEFloat
 
 include("min_max.jl")
+include("sum.jl")
+include("diff.jl")
 include("errorfree_all.jl")
 include("errorfree_tuples.jl")
 include("leasterror.jl")
