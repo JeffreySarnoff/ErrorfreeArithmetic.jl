@@ -53,4 +53,16 @@ end
 
 
 for F in (:test_two_div)
+  @eval begin
+    for i in 1:NTRIALS
+      for j in 1:length(EXPMAXS)
+         global tf = $F(trials1[i,j], trials2[i,j])
+         if !tf
+            println("$($F)($(trials1[i,j]), $(trials2[i,j]))")
+            break
+         end 
+      end
+      !tf && break
+    end
+  end
 end
