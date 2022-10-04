@@ -1,3 +1,5 @@
+Base.BigFloat(x::T) where {T} = Base.convert(BigFloat, x)
+
 setprecision(BigFloat, 6*64);
 
 function parts1(x::BigFloat; T=Float64)
