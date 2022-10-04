@@ -10,7 +10,7 @@ trials5 = reshape(zeros(Float64, NTRIALS * length(EXPMAXS)), NTRIALS, length(EXP
 for i in 1:NTRIALS
     for j in 1:length(EXPMAXS)
         expmax = EXPMAXS[j]
-        rands = randfloatssx(5; expmax)
+        rands = randfloatsx(5; expmax)
         trials1[i,j] = rands[1]
         trials2[i,j] = rands[2]
         trials3[i,j] = rands[3]
@@ -66,3 +66,4 @@ for F in (:test_two_div,)
     end
   end
 end
+
