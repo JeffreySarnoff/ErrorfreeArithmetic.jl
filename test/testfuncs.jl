@@ -60,12 +60,6 @@ function test_one_sum(a::T, b::T, c::T) where {T}
     hi === high
 end
 
-function test_one_sum(a::T, b::T, c::T, d::T) where {T}
-    hi = one_sum(a, b, c, d)
-    high = calc_one_sum(a, b, c, d)
-    hi === high
-end
-
 function test_two_sum(a::T, b::T, c::T) where {T}
     hi, lo = two_sum(a, b, c)
     high, low = calc_two_sum(a, b, c)
@@ -100,6 +94,31 @@ function test_three_prod(a::T, b::T, c::T) where {T}
     hi, md, lo = three_prod(a, b, c)
     high, mid, low = calc_three_prod(a, b, c)
     hi === high && md === mid && lo === low
+end
+
+
+function test_one_sum(a::T, b::T, c::T, d::T) where {T}
+    hi = one_sum(a, b, c, d)
+    high = calc_one_sum(a, b, c, d)
+    hi === high
+end
+
+function test_two_sum(a::T, b::T, c::T, d::T) where {T}
+    x, y = two_sum(a, b, c, d)
+    aa, bb = calc_two_sum(a, b, c, d)
+    x === aa && y == bb
+end
+
+function test_three_sum(a::T, b::T, c::T, d::T) where {T}
+    x, y, z = three_sum(a, b, c, d)
+    aa, bb, cc = calc_three_sum(a, b, c, d)
+    x === aa && y === bb && z === cc
+end
+
+function test_four_sum(a::T, b::T, c::T, d::T) where {T}
+    w, x, y, z = four_sum(a, b, c, d)
+    aa, bb, cc, dd = calc_four_sum(a, b, c, d)
+    w === aa && x === bb && y === cc && z === dd
 end
 
 function test_two_sqrt(a::T) where {T}
