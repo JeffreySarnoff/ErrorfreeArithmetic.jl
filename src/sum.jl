@@ -150,6 +150,33 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mdhi, mdlo, lo
 end
 
+# args sorted by decreasing magnitude
+
+"""
+    two_hilo_sum(a, b)
+    
+*unchecked* requirement `|a| ≥ |b|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_hilo_sum(a::T, b::T) where {T}
+    hi = a + b
+    lo = b - (hi - a)
+    return hi, lo
+end
+
+"""
+    two_lohi_sum(a, b)
+    
+*unchecked* requirement `|b| ≥ |a|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_lohi_sum(a::T, b::T) where {T}
+    hi = b + a
+    lo = a - (hi - b)
+    return hi, lo
+end
 
 """
     two_hilo_sum(a, b, c)
