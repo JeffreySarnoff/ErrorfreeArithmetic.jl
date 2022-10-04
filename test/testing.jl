@@ -51,6 +51,7 @@ for F in (:test_one_sum, :test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum,
          global tf = $F(trials1[i,j], trials2[i,j])
          if !tf
             println("$($F)($(trials1[i,j]), $(trials2[i,j])) i=$i j=$j ")
+            println((trials1[i,j], trials2[i,j], trials3[i,j]))
             break
          end 
       end
