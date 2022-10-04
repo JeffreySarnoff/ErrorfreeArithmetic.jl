@@ -1,5 +1,6 @@
 function badrands(rands)
-    diffs = map(abs, diff(map(exponent, sort(rands))))
+    diffs = vcat( map(abs, diff(map(exponent, rands))),
+                  map(abs, diff(map(exponent, sort(rands)))) )
     any( diffs .> 104 )
 end
 
