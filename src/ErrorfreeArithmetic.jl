@@ -23,6 +23,5 @@ include("errorfree_tuples.jl")
 include("leasterror.jl")
 include("remainder.jl")
 include("complex.jl")
-include("polynomial.jl")
 
 end # ErrorfreeArithmetic
