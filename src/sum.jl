@@ -107,7 +107,10 @@ function three_sum(a::T, b::T, c::T, d::T) where {T}
     mdlo, lo = two_hilo_sum(mdlo, lo)
     mdhi, mdlo = two_sum(mdhi, mdlo)
     hi, mdhi = two_sum(hi, mdhi)
-    mdlo, lo = two_hilo_sum(mdlo, lo)    
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
+    mdlo += lo
     mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
     hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi, mdlo
