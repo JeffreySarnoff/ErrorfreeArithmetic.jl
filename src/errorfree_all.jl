@@ -106,6 +106,16 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     return hi, lo
 end
 
+@inline function two_sum(a::T, b::T) where {T}
+    hi = a + b
+    b1 = hi - a
+    eb = b - b1
+    a1 = hi - b1
+    ea = a - a1
+    lo = ea + eb
+    return hi, lo
+end
+
 """
     one_sum(a, b, c)
     
