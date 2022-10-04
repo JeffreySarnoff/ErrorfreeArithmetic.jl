@@ -15,8 +15,9 @@ for i in 1:NTRIALS
         trials3[i,j] = rands[3]
     end
 end
-  
-  
+
+tf = true
+
 for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
   @eval begin
     for i in 1:NTRIALS
@@ -27,11 +28,11 @@ for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
             break
          end 
       end
+      !tf && break
     end
   end
 end
 
-    
 for F in (:test_two_sum, :test_two_diff, :test_two_prod)
   @eval begin
     for i in 1:NTRIALS
@@ -42,6 +43,7 @@ for F in (:test_two_sum, :test_two_diff, :test_two_prod)
             break
          end 
       end
+      !tf && break
     end
   end
 end
