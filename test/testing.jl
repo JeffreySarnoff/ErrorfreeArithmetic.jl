@@ -27,7 +27,7 @@ for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
       for j in 1:length(EXPMAXS)
          global tf = $F(trials1[i,j])
          if !tf
-            println("i = $i, j = $j, t1 = $(trials1[i,j]), fn = $($F)")
+            println("$($F)($(trials1[i,j]))")
             break
          end 
       end
@@ -42,7 +42,7 @@ for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff
       for j in 1:length(EXPMAXS)
          global tf = $F(trials1[i,j], trials2[i,j])
          if !tf
-            println("t1 = $(trials1[i,j]), t2 = $(trials2[i,j]), fn = $($F)")
+            println("$($F)($(trials1[i,j]), $(trials2[i,j]))")
             break
          end 
       end
