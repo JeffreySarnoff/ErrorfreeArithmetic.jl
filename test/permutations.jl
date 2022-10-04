@@ -60,13 +60,6 @@ function whole(v::T, w::T, x::T, y::T, z::T) where {T}
     return BigFloat(z) + (BigFloat(y) + (BigFloat(x) + (BigFloat(w) + BigFloat(v))))
 end
 
-
-bigfloat_rng = Xoshiro(124);
-float_rng = Xoshiro(1618);
-scale_rng = Xoshiro(141421);
-bool_rng  = Xoshiro(6180);
-sign_rng  = Xoshiro(6180);
-
 # x -> x * 2^shift
 function shift_exp(x::T, shift::Int) where {T<:AbstractFloat}
   fr, xp = frexp(x)
@@ -92,31 +85,25 @@ end
     
 =#
 
-function shift_exp_updown_by(scalemax=0, scalemin=0)
-   rand(boolrng, false:true) ? 
-       rand(scalemin:scalemax) : rand(-scalemax:-scalemin)   
-end
-function shift_exp_up_by(scalemax=0, scalemin=0)
-   rand(scalemin:scalemax)
-end
-function shift_exp_down_by(scalemax=0, scalemin=0)
-   rand(-scalemax:-scalemin)
-end
+sign_rng  = Xoshiro(6180);
+exponent_rng = Xoshiro(141421);
+significand_rng = Xoshiro(1618);
+bigfloat_rng = Xoshiro(124);
 
 const EXPMIN =  0
 const EXPMAX = 96
 
-randsign() = rand((-1,1))
-randsign(n) = rand((-1,1), n)
+randsign() = rand(sign_rng,(-1,1))
+randsign(n) = rand(sign_rng,(-1,1), n)
 
-randexp(; expmin=EXPMIN, expmax=EXPMAX) = rand(expmin:expmax)
-randexp(n; expmin=EXPMIN, expmax=EXPMAX) = rand(expmin:expmax, n)
+randexp(; expmin=EXPMIN, expmax=EXPMAX) = rand(exponent_rng, expmin:expmax)
+randexp(n; expmin=EXPMIN, expmax=EXPMAX) = rand(exponent_rng, expmin:expmax, n)
 
 randsexp(; expmin=EXPMIN, expmax=EXPMAX) = randsign() * randexp(; expmin, expmax)
 randsexp(n; expmin=EXPMIN, expmax=EXPMAX) = randsign(n) .* randexp(n; expmin, expmax)
 
-randsig(; T=Float64) = rand(T)
-randsig(n; T=Float64) = rand(T, n)
+randsig(; T=Float64) = rand(significand_rng, T)
+randsig(n; T=Float64) = rand(significand_rng, T, n)
 
 randssig(; T=Float64) = randsign() * randsig(; T)
 randssig(n; T=Float64) = randsign(n) .* randsig(n; T)
@@ -131,31 +118,6 @@ randfloatsx(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatsx(;T, expmi
 randfloatss(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatss(;T, expmin, expmax) for i=1:n]
 randfloatssx(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatssx(;T, expmin, expmax) for i=1:n]
 
-#=
-function randfloat(scalemax=60, scalemin=0)
-    fl = randsign(rand(floatrng))
-            
-    xp  = shift_exp_updown_by(scalemax, scalemin)
-    fl  = shift_exp(fl, xp)
-    return fl
-end
-
-function randbig(scalemax=60, scalemin=0)
-    fl = randsign(rand(bigflrng, BigFloat))
-    xp  = shift_exp_updown_by(scalemax, scalemin)
-    fl  = shift_exp(fl, xp)
-    return fl
-end
-
-function randfloats(n; scalemax=60, scalemin=0)
-   Tuple(sort([randfloat(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
-end
-
-function randbigs(n; scalemax=60, scalemin=0)
-   Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
-end
-=#
-            
 # how many distinct permutations of k items
 npermutations(k) = length(permutations(1:k))
 
