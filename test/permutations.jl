@@ -1,7 +1,7 @@
 using Random
 using Combinatorics
 
-setprecision(BigFloat, 1024);
+setprecision(BigFloat, 6*64);
 
 function parts1(x::BigFloat; T=Float64)
     return T(x)
@@ -60,6 +60,105 @@ function whole(v::T, w::T, x::T, y::T, z::T) where {T}
     return BigFloat(z) + (BigFloat(y) + (BigFloat(x) + (BigFloat(w) + BigFloat(v))))
 end
 
+
+bigfloat_rng = Xoshiro(124);
+float_rng = Xoshiro(1618);
+scale_rng = Xoshiro(141421);
+bool_rng  = Xoshiro(6180);
+sign_rng  = Xoshiro(6180);
+
+# x -> x * 2^shift
+function shift_exp(x::T, shift::Int) where {T<:AbstractFloat}
+  fr, xp = frexp(x)
+  xp += shift 
+  ldexp(fr, xp)
+end
+
+#=
+    generate random value for shift in `shift_exp`
+    
+    s = scaledown,  ± is relative to -128:128
+           s  |   ±
+    ----------|----------
+         0    |   ±128   
+         1    |   ±64   
+         2    |   ±32   
+         3    |   ±16   
+         4    |   ±8   
+         5    |   ±4   
+         6    |   ±2   
+         7    |   ±1   
+         8    |   -1, +0   
+    
+=#
+
+function shift_exp_updown_by(scalemax=0, scalemin=0)
+   rand(boolrng, false:true) ? 
+       rand(scalemin:scalemax) : rand(-scalemax:-scalemin)   
+end
+function shift_exp_up_by(scalemax=0, scalemin=0)
+   rand(scalemin:scalemax)
+end
+function shift_exp_down_by(scalemax=0, scalemin=0)
+   rand(-scalemax:-scalemin)
+end
+
+@inline randsign() = rand((-1,1))
+randsign(n) = rand((-1,1), n)
+
+function randexp(;expmin=0, expmax=60)
+   rand(expmin:expmax)
+end
+
+function randexp(n; expmin=0, expmax=60)
+   rand(expmin:expmax, n)
+end
+
+function randsignedexp(; expmin=0, expmax=60)
+    randsign() * randexp(; expmin, expmax)
+end
+
+function randsignedexp(n ; expmin=0, expmax=60)
+    randsign(n) .* randexp(n; expmin, expmax)
+end
+
+randsig(; T=Float64) = rand(T)
+randsig(n; T=Float64) = rand(T, n)
+randsignedsig(; T=Float64) = randsign() * randsig(; T)
+randsignedsig(n; T=Float64) = randsign(n) .* randsig(n; T)
+
+randfloat(; T=Float64) = ldexp(randsig(; T), randexp())
+randfloatsignedexp(; T=Float64) = ldexp(randsig(; T), randsignedexp())
+randsignedfloatexp(; T=Float64) = ldexp(randsignedsig(; T), randexp())
+randsignedfloatsignedexp(; T=Float64) = ldexp(randsignedsig(; T), randsignedexp())
+
+randfloat(n; T=Float64) = [randfloat(;T) for i=1:n]
+randfloatsignedexp(n; T=Float64) = [randfloatsignedexp(;T) for i=1:n]
+randsignedfloatexp(n; T=Float64) = [randsignedfloatexp(;T) for i=1:n]
+randsignedfloatsignedexp(n; T=Float64) = [randsignedfloatsignedexp(;T) for i=1:n]
+              
+function randfloat(scalemax=60, scalemin=0)
+    fl = randsign(rand(floatrng))
+    xp  = shift_exp_updown_by(scalemax, scalemin)
+    fl  = shift_exp(fl, xp)
+    return fl
+end
+
+function randbig(scalemax=60, scalemin=0)
+    fl = randsign(rand(bigflrng, BigFloat))
+    xp  = shift_exp_updown_by(scalemax, scalemin)
+    fl  = shift_exp(fl, xp)
+    return fl
+end
+
+function randfloats(n; scalemax=60, scalemin=0)
+   Tuple(sort([randfloat(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
+end
+
+function randbigs(n; scalemax=60, scalemin=0)
+   Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
+end
+            
 # how many distinct permutations of k items
 npermutations(k) = length(permutations(1:k))
 
@@ -99,20 +198,6 @@ julia> eachpermset(3,2)
  (3, 2, 1)  (6, 5, 4)
 =#
 
-setprecision(BigFloat, 6*64)
-
-if isdefined(Main, :seed!)
-  bigflrng = seed!(124);
-  floatrng = seed!(1618);
-  scalerng = seed!(141421);
-  boolrng  = seed!(6180);
-else
-  bigflrng = MersenneTwister(124);
-  floatrng = MersenneTwister(1618);
-  scalerng = MersenneTwister(141421);
-  boolrng  = MersenneTwister(6180);
-end
-
 const permute1 = collect(permutations((1,)));        # n=   1
 const permute2 = collect(permutations((1,2)));       # n=   2
 const permute3 = collect(permutations((1,2,3)));     # n=   6
@@ -133,66 +218,6 @@ function whole(xs::NTuple{N,Float64}) where {N}
     return (fwdsum/2 + revsum/2)
 end
     
-# x -> x * 2^shift
-function shift_exp(x::T, shift::Int) where {T<:AbstractFloat}
-  fr, xp = frexp(x)
-  xp += shift 
-  ldexp(fr, xp)
-end
-
-#=
-    generate random value for shift in `shift_exp`
-    
-    s = scaledown,  ± is relative to -128:128
-           s  |   ±
-    ----------|----------
-         0    |   ±128   
-         1    |   ±64   
-         2    |   ±32   
-         3    |   ±16   
-         4    |   ±8   
-         5    |   ±4   
-         6    |   ±2   
-         7    |   ±1   
-         8    |   -1, +0   
-    
-=#
-
-function shift_exp_updown_by(scalemax=0, scalemin=0)
-   rand(boolrng, false:true) ? 
-       rand(scalemin:scalemax) : rand(-scalemax:-scalemin)   
-end
-function shift_exp_up_by(scalemax=0, scalemin=0)
-   rand(scalemin:scalemax)
-end
-function shift_exp_down_by(scalemax=0, scalemin=0)
-   rand(-scalemax:-scalemin)
-end
-
-@inline randsign() = rand(-1,2,1)
-@inline randsign(x) = rand(false:true) ? x : -x
-
-function randfloat(scalemax=60, scalemin=0)
-    fl = randsign(rand(floatrng))
-    xp  = shift_exp_updown_by(scalemax, scalemin)
-    fl  = shift_exp(fl, xp)
-    return fl
-end
-
-function randbig(scalemax=60, scalemin=0)
-    fl = randsign(rand(bigflrng, BigFloat))
-    xp  = shift_exp_updown_by(scalemax, scalemin)
-    fl  = shift_exp(fl, xp)
-    return fl
-end
-
-function randfloats(n; scalemax=60, scalemin=0)
-   Tuple(sort([randfloat(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
-end
-
-function randbigs(n; scalemax=60, scalemin=0)
-   Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
-end
 
 
 #=
