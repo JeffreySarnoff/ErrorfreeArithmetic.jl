@@ -56,5 +56,5 @@ end
 
 function whole(v::T, w::T, x::T, y::T, z::T) where {T}
     v,w,x,y,z = sort([v,w,x,y,z], lt=(x,y)->abs(x)<abs(y))
-    return BigFloat(z) + (BigFloat(y) + (BigFloat(x) + (BigFloat(w) + BigFloat(v)))
+    return BigFloat(z) + (BigFloat(y) + (BigFloat(x) + (BigFloat(w) + BigFloat(v))))
 end
