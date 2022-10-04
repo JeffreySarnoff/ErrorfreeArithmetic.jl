@@ -47,7 +47,7 @@ function calc_two_prod(a::T, b::T, c::T) where {T}
 end
 
 function calc_one_sum(a::T, b::T, c::T, d::T) where {T}
-    aa, bb, cc = BigFloat(a), BigFloat(b), BigFloat(c), BigFloat(d)
+    aa, bb, cc, dd = BigFloat(a), BigFloat(b), BigFloat(c), BigFloat(d)
     abcd = aa + bb + cc + dd
     parts1(abcd; T)
 end
