@@ -128,15 +128,16 @@ randsignedsig(; T=Float64) = randsign() * randsig(; T)
 randsignedsig(n; T=Float64) = randsign(n) .* randsig(n; T)
 
 randfloat(; T=Float64) = ldexp(randsig(; T), randexp())
-randfloatsignedexp(; T=Float64) = ldexp(randsig(; T), randsignedexp())
-randsignedfloatexp(; T=Float64) = ldexp(randsignedsig(; T), randexp())
-randsignedfloatsignedexp(; T=Float64) = ldexp(randsignedsig(; T), randsignedexp())
+randfloatsx(; T=Float64) = ldexp(randsig(; T), randsignedexp())
+randsfloatss(; T=Float64) = ldexp(randsignedsig(; T), randexp())
+randfloatssx(; T=Float64) = ldexp(randsignedsig(; T), randsignedexp())
 
 randfloat(n; T=Float64) = [randfloat(;T) for i=1:n]
-randfloatsignedexp(n; T=Float64) = [randfloatsignedexp(;T) for i=1:n]
-randsignedfloatexp(n; T=Float64) = [randsignedfloatexp(;T) for i=1:n]
-randsignedfloatsignedexp(n; T=Float64) = [randsignedfloatsignedexp(;T) for i=1:n]
-              
+randfloatsx(n; T=Float64) = [randfloatsignedexp(;T) for i=1:n]
+randfloatss(n; T=Float64) = [randsignedfloatexp(;T) for i=1:n]
+randfloatssx(n; T=Float64) = [randsignedfloatsignedexp(;T) for i=1:n]
+
+#=
 function randfloat(scalemax=60, scalemin=0)
     fl = randsign(rand(floatrng))
     xp  = shift_exp_updown_by(scalemax, scalemin)
@@ -158,6 +159,7 @@ end
 function randbigs(n; scalemax=60, scalemin=0)
    Tuple(sort([randbig(scalemax, scalemin) for i=1:n], lt=(a,b)->abs(b)<abs(a)))
 end
+=#
             
 # how many distinct permutations of k items
 npermutations(k) = length(permutations(1:k))
