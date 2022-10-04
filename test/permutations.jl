@@ -3,21 +3,24 @@ using Combinatorics
 
 setprecision(BigFloat, 1024);
 
-function bigto1(x::BigFloat; T=Float64)
+function parts1(x::BigFloat; T=Float64)
     return T(x)
 end
-function bigto2(x::BigFloat; T=Float64)
+
+function parts2(x::BigFloat; T=Float64)
     hi = T(x)
     lo = T(x - hi)
     return hi, lo
 end
-function bigto3(x::BigFloat; T=Float64)
+
+function parts3(x::BigFloat; T=Float64)
     hi = T(x)
     md = T(x - hi)
     lo = T(x - hi - md)
     return hi, md, lo
 end
-function bigto4(x::BigFloat; T=Float64)
+
+function parts4(x::BigFloat; T=Float64)
     hi = T(x)
     himd = T(x - hi)
     lomd = T(x - hi - himd)
@@ -25,17 +28,36 @@ function bigto4(x::BigFloat; T=Float64)
     return hi, himd, lomd, lo
 end
 
-function bigfrom1(x::T) where {T}
+function parts5(x::BigFloat; T=Float64)
+    hi = T(x)
+    himd = T(x - hi)
+    mdmd = T(x - hi - himd)
+    lomd = T(x - hi - himd - mdmd)
+    lo = T(x - hi - himd - mdmd - lomd)
+    return hi, himd, mdmd, lomd, lo
+end
+
+function whole(x::T) where {T}
     return BigFloat(x)
 end
-function bigfrom2(x::T, y::T) where {T}
+
+function whole(x::T, y::T) where {T}
     return BigFloat(y) + BigFloat(x)
 end
-function bigfrom3(x::T, y::T, z::T) where {T}
-    return BigFloat(z) + BigFloat(y) + BigFloat(x)
+
+function whole(x::T, y::T, z::T) where {T}
+    x,y,z = sort([v,w,x,y,z], lt=(x,y)->abs(x)<abs(y))
+    return BigFloat(z) + (BigFloat(y) + BigFloat(x))
 end
-function bigfrom4(w::T, x::T, y::T, z::T) where {T}
-    return BigFloat(z) + BigFloat(y) + BigFloat(x) + BigFloat(w)
+
+function whole(w::T, x::T, y::T, z::T) where {T}
+    w,x,y,z = sort([v,w,x,y,z], lt=(x,y)->abs(x)<abs(y))
+    return BigFloat(z) + (BigFloat(y) + (BigFloat(x) + BigFloat(w))))
+end
+
+function whole(v::T, w::T, x::T, y::T, z::T) where {T}
+    v,w,x,y,z = sort([v,w,x,y,z], lt=(x,y)->abs(x)<abs(y))
+    return BigFloat(z) + (BigFloat(y) + (BigFloat(x) + (BigFloat(w) + BigFloat(v))))
 end
 
 # how many distinct permutations of k items
@@ -97,38 +119,6 @@ const permute3 = collect(permutations((1,2,3)));     # n=   6
 const permute4 = collect(permutations((1,2,3,4)));   # n=  24
 const permute5 = collect(permutations((1,2,3,4,5))); # n= 120
 const permuted = (permute1, permute2, permute3, permute4, permute5);
-
-parts1(x::BigFloat, T=Float64) = T(x)
-
-function parts2(x::BigFloat, T=Float64)
-    hi = T(x)
-    lo = T(x - hi)
-    return hi, lo
-end
-
-function parts3(x::BigFloat, T=Float64)
-    hi = T(x)
-    md = T(x - hi)
-    lo = T(x - hi - md)
-    return hi, md, lo
-end
-
-function parts4(x::BigFloat, T=Float64)
-    hi = T(x)
-    hm = T(x - hi)
-    lm = T(x - hi - hm)
-    lo = T(x - hi - hm - lm)
-    return hi, hm, lm, lo
-end
-
-function parts5(x::BigFloat, T=Float64)
-    hi = T(x)
-    hm = T(x - hi)
-    md = T(x - hi - hm)
-    lm = T(x - hi - hm - md)
-    lo = T(x - hi - hm - md - lm)
-    return hi, hm, md, lm, lo
-end
 
 const bigparts = (parts1, parts2, parts3, parts4, parts5)
 
