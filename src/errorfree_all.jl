@@ -127,6 +127,9 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     mdlo, lo = two_hilo_sum(mdlo, lo)
     mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
     hi, mdhi = two_hilo_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi, mdlo, lo
 end
 
@@ -160,7 +163,7 @@ function vsum_errbranch(x::NTuple{4,T}) where {T}
     return y
 end
 
-function foursum(x1::T, x2::T, x3::T, x4::T) where {T}
+function foursumv(x1::T, x2::T, x3::T, x4::T) where {T}
     a1, a2 = two_sum(x1, x2)
     b1, b2 = two_sum(x3, x4)
     c1, c2 = two_sum(a1, b1)
