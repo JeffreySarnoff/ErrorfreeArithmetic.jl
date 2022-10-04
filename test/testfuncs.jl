@@ -51,19 +51,19 @@ end
 function test_two_sum(a::T, b::T, c::T) where {T}
     hi, lo = two_sum(a, b, c)
     high, low = calc_two_sum(a, b, c)
-    hi === high && md === mid && lo === low
+    hi === high && lo === low
 end
 
 function test_two_diff(a::T, b::T, c::T) where {T}
     hi, lo = two_diff(a, b, c)
     high, low = calc_two_diff(a, b, c)
-    hi === high && md === mid && lo === low
+    hi === high && lo === low
 end
 
 function test_two_prod(a::T, b::T, c::T) where {T}
     hi, lo = two_prod(a, b, c)
     high, low = calc_two_prod(a, b, c)
-    hi === high && md === mid && lo === low
+    hi === high && lo === low
 end
 
 function test_three_sum(a::T, b::T, c::T) where {T}
