@@ -52,6 +52,24 @@ function calc_one_sum(a::T, b::T, c::T, d::T) where {T}
     parts1(abcd; T)
 end
 
+function calc_two_sum(a::T, b::T, c::T, d::T) where {T}
+    aa, bb, cc, dd = BigFloat(a), BigFloat(b), BigFloat(c), BigFloat(d)
+    abcd = aa + bb + cc + dd
+    parts2(abcd; T)
+end
+
+function calc_three_sum(a::T, b::T, c::T, d::T) where {T}
+    aa, bb, cc, dd = BigFloat(a), BigFloat(b), BigFloat(c), BigFloat(d)
+    abcd = aa + bb + cc + dd
+    parts3(abcd; T)
+end
+
+function calc_four_sum(a::T, b::T, c::T, d::T) where {T}
+    aa, bb, cc, dd = BigFloat(a), BigFloat(b), BigFloat(c), BigFloat(d)
+    abcd = aa + bb + cc + dd
+    parts4(abcd; T)
+end
+
 function calc_two_square(a::T) where {T}
     aa = BigFloat(a)
     ab = aa * aa
