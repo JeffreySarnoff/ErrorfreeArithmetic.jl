@@ -103,43 +103,38 @@ function shift_exp_down_by(scalemax=0, scalemin=0)
    rand(-scalemax:-scalemin)
 end
 
-@inline randsign() = rand((-1,1))
+const EXPMIN =  0
+const EXPMAX = 64
+            
+randsign() = rand((-1,1))
 randsign(n) = rand((-1,1), n)
 
-function randexp(;expmin=0, expmax=60)
-   rand(expmin:expmax)
-end
+randexp(; expmin=EXPMIN, expmax=EXPMAX) = rand(expmin:expmax)
+randexp(n; expmin=EXPMIN, expmax=EXPMAX) = rand(expmin:expmax, n)
 
-function randexp(n; expmin=0, expmax=60)
-   rand(expmin:expmax, n)
-end
-
-function randsignedexp(; expmin=0, expmax=60)
-    randsign() * randexp(; expmin, expmax)
-end
-
-function randsignedexp(n ; expmin=0, expmax=60)
-    randsign(n) .* randexp(n; expmin, expmax)
-end
+randsexp(; expmin=EXPMIN, expmax=EXPMAX) = randsign() * randexp(; expmin, expmax)
+randsexp(n; expmin=EXPMIN, expmax=EXPMAX) = randsign(n) .* randexp(n; expmin, expmax)
 
 randsig(; T=Float64) = rand(T)
 randsig(n; T=Float64) = rand(T, n)
-randsignedsig(; T=Float64) = randsign() * randsig(; T)
-randsignedsig(n; T=Float64) = randsign(n) .* randsig(n; T)
 
-randfloat(; T=Float64) = ldexp(randsig(; T), randexp())
-randfloatsx(; T=Float64) = ldexp(randsig(; T), randsignedexp())
-randsfloatss(; T=Float64) = ldexp(randsignedsig(; T), randexp())
-randfloatssx(; T=Float64) = ldexp(randsignedsig(; T), randsignedexp())
+randssig(; T=Float64) = randsign() * randsig(; T)
+randssig(n; T=Float64) = randsign(n) .* randsig(n; T)
 
-randfloat(n; T=Float64) = [randfloat(;T) for i=1:n]
-randfloatsx(n; T=Float64) = [randfloatsignedexp(;T) for i=1:n]
-randfloatss(n; T=Float64) = [randsignedfloatexp(;T) for i=1:n]
-randfloatssx(n; T=Float64) = [randsignedfloatsignedexp(;T) for i=1:n]
+randfloat(; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = ldexp(randsig(; T), randexp(; expmin, expmax))
+randfloatsx(; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = ldexp(randsig(; T), randsexp(; expmin, expmax))
+randsfloatss(; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = ldexp(randssig(; T), randexp(; expmin, expmax))
+randfloatssx(; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = ldexp(randssig(; T), randsexp(; expmin, expmax))
+
+randfloat(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloat(;T, expmin, expmax) for i=1:n]
+randfloatsx(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatsx(;T, expmin, expmax) for i=1:n]
+randfloatss(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatss(;T, expmin, expmax) for i=1:n]
+randfloatssx(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatssx(;T, expmin, expmax) for i=1:n]
 
 #=
 function randfloat(scalemax=60, scalemin=0)
     fl = randsign(rand(floatrng))
+            
     xp  = shift_exp_updown_by(scalemax, scalemin)
     fl  = shift_exp(fl, xp)
     return fl
