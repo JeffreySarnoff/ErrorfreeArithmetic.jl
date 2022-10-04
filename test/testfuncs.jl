@@ -1,3 +1,7 @@
+function isfaithful(a::T, b::T) where {T}
+    a === b || a === nextfloat(b) || a === prevfloat(b)
+end
+
 function test_two_sum(a::T, b::T) where {T}
     hi, lo = two_sum(a, b)
     high, low = calc_two_sum(a, b)
@@ -31,27 +35,25 @@ end
 function test_two_sqrt(a::T) where {T}
     hi, lo = two_sqrt(a)
     high, low = calc_two_sqrt(a)     
-    hi === high && isclosest(lo, low)
+    hi === high && isfaithful(lo, low)
 end
 
-#=
 function test_two_cbrt(a::T) where {T}
     hi, lo = two_cbrt(a)
     high, low = calc_two_cbrt(a)     
-    hi === high && isclosest(lo, low)
+    hi === high && isfaithful(lo, low)
 end
-=#
 
 function test_two_inv(a::T) where {T}
     hi, lo = two_inv(a)
     high, low = calc_two_inv(a)     
-    hi === high && isclosest(lo, low)
+    hi === high && isfaithful(lo, low)
 end
 
 function test_two_div(a::T, b::T) where {T}
     hi, lo = two_div(a, b)
     high, low = calc_two_div(a, b)     
-    hi === high && isclosest(lo, low)
+    hi === high && isfaithful(lo, low)
 end
 
 function test_three_sum(a::T, b::T, c::T) where {T}
