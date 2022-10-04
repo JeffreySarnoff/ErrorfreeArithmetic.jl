@@ -52,7 +52,7 @@ for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff
 end
 
 
-for F in (:test_two_div)
+for F in (:test_two_div,)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
