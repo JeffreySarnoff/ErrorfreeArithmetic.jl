@@ -42,10 +42,11 @@ two_maxmag(a::T, b::T) where {T} = abs(b) < abs(a) ? (a, b) : (b, a)
 
 obtains two values with largest magnitudes in order of descending magnitude
 """
-function two_maxmag(a::T, b::T, c::T) where {T}
-     x, y = two_maxmag(a, b)
-     x = one_maxmag(x, c)
-     two_maxmag(x, y)
+function two_maxmag(x::T, y::T, z::T) where {T}
+     y, z = two_maxmag(y, z)
+     x = one_maxmag(x, z)
+     x, y = two_maxmag(x, y)
+     return x, y
 end
 
 """
@@ -54,8 +55,12 @@ end
 obtains two values with largest magnitudes in order of descending magnitude
 """
 function two_maxmag(a::T, b::T, c::T, d::T) where {T}
-    a, b = two_maxmag(a, b, c)
-    two_maxmag(a, b, d)
+    a, b = two_maxmag(a, b)
+    c, d = two_maxmag(c, d)
+    a, c = two_maxmag(a, c)
+    b = one_maxmag(b, d)
+    b = one_maxmag(b, c)
+    a, b
 end
 
 """
