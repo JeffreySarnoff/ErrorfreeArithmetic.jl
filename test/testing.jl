@@ -36,7 +36,7 @@ for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
   end
 end
 
-for F in (:test_two_sum, :test_two_diff, :test_two_prod)
+for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff, :test_two_prod)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
