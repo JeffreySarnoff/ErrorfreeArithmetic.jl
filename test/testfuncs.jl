@@ -2,6 +2,22 @@ function isfaithful(a::T, b::T) where {T}
     a === b || a === nextfloat(b) || a === prevfloat(b)
 end
 
+maxmags(a::T, b::T) where {T} = abs(a) < abs(b) ? (b,a) : (a,b)
+
+function test_two_hilo_sum(a::T, b::T) where {T}
+    a, b = maxmags(a,b)
+    hi, lo = two_hilo_sum(a, b)
+    high, low = calc_two_sum(a, b)
+    hi === high && lo === low
+end
+
+function test_two_hilo_diff(a::T, b::T) where {T}
+    a, b = maxmags(a,b)
+    hi, lo = two_hilo_diff(a, b)
+    high, low = calc_two_diff(a, b)
+    hi === high && lo === low
+end
+
 function test_two_sum(a::T, b::T) where {T}
     hi, lo = two_sum(a, b)
     high, low = calc_two_sum(a, b)
