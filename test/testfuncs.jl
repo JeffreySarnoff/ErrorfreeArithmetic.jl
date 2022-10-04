@@ -2,13 +2,13 @@ function isfaithful(a::T, b::T) where {T}
     a === b || a === nextfloat(b) || a === prevfloat(b)
 end
 
-function isequivalent(a::T, b::T, aa:T, bb::T)
+function isequivalent(a::T, b::T, aa::T, bb::T)
     (a === aa && b === bb) || (BigFloat(a) + BigFloat(b) === BigFloat(aa) + BigFloat(bb))
 end
-function isequivalent(a::T, b::T, c::T, aa:T, bb::T, cc::T)
+function isequivalent(a::T, b::T, c::T, aa::T, bb::T, cc::T)
     (a === aa && b === bb && c === cc) || (BigFloat(a) + BigFloat(b) + BigFloat(c) === BigFloat(aa) + BigFloat(bb) + BigFloat(cc))
 end
-function isequivalent(a::T, b::T, c::T, d::T, aa:T, bb::T, cc::T, dd::T)
+function isequivalent(a::T, b::T, c::T, d::T, aa::T, bb::T, cc::T, dd::T)
     (a === aa && b === bb && c === cc && d === dd) || (BigFloat(a) + BigFloat(b) + BigFloat(c) === BigFloat(aa) + BigFloat(bb) + BigFloat(cc) + BigFloat(dd))
 end
 
