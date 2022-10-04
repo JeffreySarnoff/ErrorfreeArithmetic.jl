@@ -1,3 +1,8 @@
+function calc_one_sum(a::T, b::T) where {T}
+    aa, bb = BigFloat(a), BigFloat(b)
+    ab = aa + bb
+    parts1(ab; T)
+end
 
 function calc_two_sum(a::T, b::T) where {T}
     aa, bb = BigFloat(a), BigFloat(b)
@@ -15,6 +20,12 @@ function calc_two_prod(a::T, b::T) where {T}
     aa, bb = BigFloat(a), BigFloat(b)
     ab = aa * bb
     parts2(ab; T)
+end
+
+function calc_one_sum(a::T, b::T, c::T) where {T}
+    aa, bb, cc = BigFloat(a), BigFloat(b), BigFloat(c)
+    abc = aa + bb + cc
+    parts1(abc; T)
 end
 
 function calc_two_sum(a::T, b::T, c::T) where {T}
