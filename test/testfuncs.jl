@@ -18,6 +18,12 @@ function test_two_hilo_diff(a::T, b::T) where {T}
     hi === high && lo === low
 end
 
+function test_one_sum(a::T, b::T) where {T}
+    hi = one_sum(a, b)
+    high = calc_one_sum(a, b)
+    hi === high
+end
+
 function test_two_sum(a::T, b::T) where {T}
     hi, lo = two_sum(a, b)
     high, low = calc_two_sum(a, b)
@@ -46,6 +52,12 @@ function test_two_prod(a::T, b::T) where {T}
     hi, lo = two_prod(a, b)
     high, low = calc_two_prod(a, b)
     hi === high && lo === low
+end
+
+function test_one_sum(a::T, b::T, c::T) where {T}
+    hi = one_sum(a, b, c)
+    high = calc_one_sum(a, b, c)
+    hi === high
 end
 
 function test_two_sum(a::T, b::T, c::T) where {T}
