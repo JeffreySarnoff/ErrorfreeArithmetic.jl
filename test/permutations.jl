@@ -104,8 +104,8 @@ function shift_exp_down_by(scalemax=0, scalemin=0)
 end
 
 const EXPMIN =  0
-const EXPMAX = 64
-            
+const EXPMAX = 96
+
 randsign() = rand((-1,1))
 randsign(n) = rand((-1,1), n)
 
