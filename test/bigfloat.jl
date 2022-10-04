@@ -2,24 +2,24 @@ Base.BigFloat(x::T) where {T} = Base.convert(BigFloat, x)
 
 setprecision(BigFloat, 6*64);
 
-function parts1(x::BigFloat; T=Float64)
+function parts1(x; T=Float64)
     return T(x)
 end
 
-function parts2(x::BigFloat; T=Float64)
+function parts2(x; T=Float64)
     hi = T(x)
     lo = T(x - hi)
     return hi, lo
 end
 
-function parts3(x::BigFloat; T=Float64)
+function parts3(x; T=Float64)
     hi = T(x)
     md = T(x - hi)
     lo = T(x - hi - md)
     return hi, md, lo
 end
 
-function parts4(x::BigFloat; T=Float64)
+function parts4(x; T=Float64)
     hi = T(x)
     himd = T(x - hi)
     lomd = T(x - hi - himd)
@@ -27,7 +27,7 @@ function parts4(x::BigFloat; T=Float64)
     return hi, himd, lomd, lo
 end
 
-function parts5(x::BigFloat; T=Float64)
+function parts5(x; T=Float64)
     hi = T(x)
     himd = T(x - hi)
     mdmd = T(x - hi - himd)
