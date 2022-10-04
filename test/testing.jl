@@ -51,6 +51,6 @@ for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff
   end
 end
 
-  
+
 for F in (:test_two_div)
 end
