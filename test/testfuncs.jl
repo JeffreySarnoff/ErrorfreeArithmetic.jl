@@ -3,13 +3,13 @@ function isfaithful(a::T, b::T) where {T}
 end
 
 function isequivalent(a::T, b::T, aa::T, bb::T) where {T}
-    (a === aa && b === bb) || (BigFloat(a) + BigFloat(b) === BigFloat(aa) + BigFloat(bb))
+    (a === aa && b === bb) || (a === aa && isfaithful(b,bb)) || (BigFloat(a) + BigFloat(b) === BigFloat(aa) + BigFloat(bb))
 end
 function isequivalent(a::T, b::T, c::T, aa::T, bb::T, cc::T) where {T}
-    (a === aa && b === bb && c === cc) || (BigFloat(a) + BigFloat(b) + BigFloat(c) === BigFloat(aa) + BigFloat(bb) + BigFloat(cc))
+    (a === aa && b === bb && c === cc) ||  (a === aa && b === bb && isfaithful(c,cc)) ||(BigFloat(a) + BigFloat(b) + BigFloat(c) === BigFloat(aa) + BigFloat(bb) + BigFloat(cc))
 end
 function isequivalent(a::T, b::T, c::T, d::T, aa::T, bb::T, cc::T, dd::T) where {T}
-    (a === aa && b === bb && c === cc && d === dd) || (BigFloat(a) + BigFloat(b) + BigFloat(c) === BigFloat(aa) + BigFloat(bb) + BigFloat(cc) + BigFloat(dd))
+    (a === aa && b === bb && c === cc && d === dd) ||  (a === aa && b === bb && c === cc && isfaithful(d,dd)) || (BigFloat(a) + BigFloat(b) + BigFloat(c) + BigFloat(d) === BigFloat(aa) + BigFloat(bb) + BigFloat(cc) + BigFloat(dd))
 end
 
 maxmags(a::T, b::T) where {T} = abs(a) < abs(b) ? (b,a) : (a,b)
