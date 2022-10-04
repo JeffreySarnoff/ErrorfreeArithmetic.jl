@@ -114,8 +114,8 @@ function test_one_sum(a::T, b::T, c::T, d::T) where {T}
 end
 
 function test_two_sum(a::T, b::T, c::T, d::T) where {T}
-    x, y = two_sum(a, b, c, d)
-    aa, bb = calc_two_sum(a, b, c, d)
+    hi, lo = two_sum(a, b, c, d)
+    high, low = calc_two_sum(a, b, c, d)
     isequivalent(hi, lo, high, low)
 end
 
