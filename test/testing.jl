@@ -1,7 +1,6 @@
 function badrands(rands)
-    diffs = diff(sort(rands))
-    exps = map(x->abs(exponent(x)), diffs)
-    any( exps .> 104 )
+    diffs = map(abs, diff(map(exponent, sort(rands))))
+    any( diffs .> 104 )
 end
 
 const NTRIALS = 1024
