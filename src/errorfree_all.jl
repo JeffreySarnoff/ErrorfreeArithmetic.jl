@@ -229,39 +229,49 @@ end
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c)`.
 """
 function two_diff(a::T,b::T,c::T) where {T}
-    s, t = two_diff(-b, c)
-    hi, u = two_sum(a, s)
-    lo = u + t
-    hi, lo = two_hilo_sum(hi, lo)
-    return hi, lo
+    hi, md, lo = three_maxmag(a, -b, -c)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    hi, md
 end
 
 """
     three_diff(a, b, c)
     
-Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
+Computes `hi = fl(a-b-c)` and `md = err(hi), lo = err(md)`.
 """
-function three_diff(a::T,b::T,c::T) where {T}
-    s, t = two_diff(-b, c)
-    x, u = two_sum(a, s)
-    y, z = two_sum(u, t)
-    x, y = two_hilo_sum(x, y)
-    return x, y, z
+function three_diff(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_maxmag(a, -b, -c)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    hi, md, lo
 end
 
 """
     four_diff(a, b, c, d)
     
-Computes `hi = fl(a-b-c-d)` and `hm = err(a-b-c-d), ml = err(hm), lo = err(ml)`.
+Computes `hi = fl(a-b-c-d)` and `hm = err(hi), ml = err(hm), lo = err(ml)`.
 """
 function four_diff(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_diff(a ,  b)
-    t0, t2 = two_diff(t0,  c)
-    hi, t3 = two_diff(t0,  d)
-    t0, t1 = two_sum(t1, t2)
-    hm, t2 = two_sum(t0, t3) # here, t0 >= t3
-    ml, lo = two_sum(t1, t2)
-    return hi, hm, ml, lo
+    hi, mdhi, mdlo, lo = four_maxmag(a, -b, -c, -d)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_sum(mdhi, mdlo)
+    hi, mdhi = two_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
+    hi, mdhi, mdlo, lo
 end
 
 """
