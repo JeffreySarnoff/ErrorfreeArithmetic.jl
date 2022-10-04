@@ -127,7 +127,8 @@ end
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
 @inline function two_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c) 
+    hi, md, lo = three_maxmag(a, b, c)
+    # hi = hi + (md + lo)
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_sum(hi, md)
     md, lo = two_hilo_sum(md, lo)
@@ -141,13 +142,8 @@ end
 Computes `fl(a+b+c)`
 """
 @inline function one_sum(a::T,b::T,c::T) where {T}
-    md, lo = two_sum(b, c) 
-    hi, md = two_sum(a, md)
-    md, lo = two_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    md = md + lo
-    hi = hi + md
-    return hi
+    hi, md, lo = three_maxmag(a, b, c) 
+    hi + (md + lo)
 end
 
 """
