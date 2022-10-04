@@ -287,7 +287,6 @@ function three_prod(a::T, b::T, c::T) where {T}
     return hi, md, lo
 end
 
-
 #=
    three_fma algorithm from
    Sylvie Boldo and Jean-Michel Muller
