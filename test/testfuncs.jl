@@ -60,6 +60,12 @@ function test_one_sum(a::T, b::T, c::T) where {T}
     hi === high
 end
 
+function test_one_sum(a::T, b::T, c::T, d::T) where {T}
+    hi = one_sum(a, b, c, d)
+    high = calc_one_sum(a, b, c, d)
+    hi === high
+end
+
 function test_two_sum(a::T, b::T, c::T) where {T}
     hi, lo = two_sum(a, b, c)
     high, low = calc_two_sum(a, b, c)
