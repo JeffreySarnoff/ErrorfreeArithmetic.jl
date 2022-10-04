@@ -38,12 +38,6 @@ function test_two_sqrt(a::T) where {T}
     hi === high && isfaithful(lo, low)
 end
 
-function test_two_cbrt(a::T) where {T}
-    hi, lo = two_cbrt(a)
-    high, low = calc_two_cbrt(a)     
-    hi === high && isfaithful(lo, low)
-end
-
 function test_two_inv(a::T) where {T}
     hi, lo = two_inv(a)
     high, low = calc_two_inv(a)     
