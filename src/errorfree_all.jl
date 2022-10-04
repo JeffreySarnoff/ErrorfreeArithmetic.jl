@@ -94,7 +94,6 @@ Computes `fl(a+b)`.
     return a + b
 end
 
-
 """
     two_sum(a, b)
 
@@ -108,35 +107,6 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 end
 
 """
-   three_sum(a, b, c)
-    
-Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
-"""
-function three_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c) 
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    hi, md, lo
-end
-
-"""
-    two_sum(a, b, c)
-    
-Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
-"""
-@inline function two_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c)
-    # hi = hi + (md + lo)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    hi, md
-end
-
-"""
     one_sum(a, b, c)
     
 Computes `fl(a+b+c)`
@@ -147,75 +117,79 @@ Computes `fl(a+b+c)`
 end
 
 """
-    four_sum(a, b, c, d)
+    two_sum(a, b, c)
     
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
+Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
-function four_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, lo = two_sum(t1, t3)
-    hm, ml = two_sum(t4, t5)
-    ml, lo = two_hilo_sum(ml, lo)
-    hm, ml = two_hilo_sum(hm, ml)
-    hi, hm = two_hilo_sum(hi,hm)
-    return hi, hm, ml, lo
+@inline function two_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_maxmag(a, b, c)
+    md = md + lo
+    hi, md = two_sum(hi, md)
+    hi, md
 end
 
-
 """
-    three_sum(a, b, c, d)
+   three_sum(a, b, c)
     
-Computes `hi = fl(a+b+c+d)` and `md = err(a+b+c+d), lo = err(md)`.
+Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
-function three_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, t6 = two_sum(t1, t3)
-    md, lo = two_sum(t4, t5)
-    lo = lo + t6
+function three_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_maxmag(a, b, c)
     md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    return hi, md, lo
-end
-
-"""
-    two_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
-"""
-function two_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, t6 = two_sum(t1, t3)
-    lo, t7 = two_sum(t4, t5)
-    t7 = t7 + t6
-    lo, t7 = two_hilo_sum(lo, t7)
-    hi, lo = two_hilo_sum(hi, lo)
-    return hi, lo
+    hi, md = two_sum(hi, md)
+    hi, md, lo
 end
 
 """
     one_sum(a, b, c, d)
     
-Computes `fl(a+b+c+d)`.
+Computes `fl(a+b+c+d)`
 """
-function one_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_sum(a,  b)
-    t2, t3 = two_sum(c,  d)
-    hi, t4 = two_sum(t0, t2)
-    t5, t6 = two_sum(t1, t3)
-    lo, t7 = two_sum(t4, t5)
-    t7 = t7 + t6
-    lo, t7 = two_hilo_sum(lo, t7)
-    hi = hi + lo
-    return hi
+@inline function one_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d) 
+    hi + (mdhi + (mdlo + lo))
 end
 
+"""
+    two_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `lo = err(hi)`.
+"""
+function two_sum(a::T, b::T, c::T, d::T) where {T}
+    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_sum(mdhi, mdlo)
+    hi, mdhi = two_sum(hi, mdhi)
+    hi, mdhi
+end
 
+"""
+   three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `md = err(hi), lo = err(md)`.
+"""
+function three_sum(a::T, b::T, c::T, d::T) where {T}
+    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_sum(mdhi, mdlo)
+    hi, mdhi = two_sum(hi, mdhi)
+    hi, mdhi, mdlo
+end
+
+"""
+    four_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
+"""
+function four_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_sum(mdhi, mdlo)
+    hi, mdhi = two_sum(hi, mdhi)
+    hi, mdhi, mdlo, lo
+end
+
+# vec_sum
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
