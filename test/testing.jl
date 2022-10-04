@@ -36,7 +36,7 @@ for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
   end
 end
 
-for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff, :test_two_prod)
+for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff, :test_two_prod, :test_two_div)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
@@ -51,14 +51,13 @@ for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff
   end
 end
 
-
-for F in (:test_two_div,)
+for F in (:test_two_sum, :test_two_diff, :test_two_prod, :test_three_sum, :test_three_diff, :test_three_prod)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
-         global tf = $F(trials1[i,j], trials2[i,j])
+         global tf = $F(trials1[i,j], trials2[i,j], trials3[i,j])
          if !tf
-            println("$($F)($(trials1[i,j]), $(trials2[i,j]))")
+            println("$($F)($(trials1[i,j]), $(trials2[i,j]), $(trials3[i,j]))")
             break
          end 
       end
