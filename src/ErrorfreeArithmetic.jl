@@ -1,7 +1,6 @@
 module ErrorfreeArithmetic
 
-export SysFloat,
-       # error-free transformations
+export # error-free transformations
        two_sum, two_diff, two_prod, two_square,
        three_sum, three_diff, three_prod,
        four_sum, four_diff,
