@@ -1,5 +1,5 @@
 function badrands(rands)
-    any( map(x->abs(exponent(diff(sort(rands))) > 104, rands) )
+    any( map(x->abs(exponent(diff(sort(rands)))), rands) >. 104) )
 end
 
 const NTRIALS = 1024
