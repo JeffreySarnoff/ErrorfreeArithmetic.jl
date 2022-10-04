@@ -1,3 +1,7 @@
+function badrands(rands)
+    any( map(x->abs(exponent(diff(sort(rands))) > 104) )
+end
+
 const NTRIALS = 1024
 const EXPMAXS = (0, 2, 4, 16, 64, 96)
 
@@ -11,6 +15,9 @@ for i in 1:NTRIALS
     for j in 1:length(EXPMAXS)
         expmax = EXPMAXS[j]
         rands = randfloatsx(5; expmax)
+        while badrands(rands)
+            rands = randfloatsx(5; expmax)
+        end
         trials1[i,j] = rands[1]
         trials2[i,j] = rands[2]
         trials3[i,j] = rands[3]
