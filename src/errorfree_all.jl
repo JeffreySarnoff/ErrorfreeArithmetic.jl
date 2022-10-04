@@ -145,8 +145,10 @@ Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
 function three_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_maxmag(a, b, c)
-    md, lo = two_hilo_sum(md, lo)
+    md, lo = two_sum(md, lo)
     hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
     hi, md, lo
 end
 
@@ -183,6 +185,9 @@ function three_sum(a::T, b::T, c::T, d::T) where {T}
     mdlo, lo = two_hilo_sum(mdlo, lo)
     mdhi, mdlo = two_sum(mdhi, mdlo)
     hi, mdhi = two_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)    
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi, mdlo
 end
 
@@ -196,6 +201,9 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     mdlo, lo = two_hilo_sum(mdlo, lo)
     mdhi, mdlo = two_sum(mdhi, mdlo)
     hi, mdhi = two_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi, mdlo, lo
 end
 
