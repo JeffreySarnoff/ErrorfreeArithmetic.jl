@@ -42,7 +42,7 @@ for F in (:test_two_sum, :test_two_diff, :test_two_prod)
       for j in 1:length(EXPMAXS)
          tf = $F(trials1[i,j], trials2[i,j)
          if !tf
-            println("i = $i, j = $j, t1 = $(trials1[i][j]), fn = $($F)")
+            println("t1 = $(trials1[i][j]), t2 = $(trials2[i][j]), fn = $($F)")
             break
          end 
       end
