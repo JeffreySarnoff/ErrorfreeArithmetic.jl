@@ -290,6 +290,19 @@ Computes `s = fl(a-b)` and `e = err(a-b)`.
 end
 
 """
+    two_diff(a, b, c)
+    
+Computes `s = fl(a-b-c)` and `e1 = err(a-b-c)`.
+"""
+function two_diff(a::T,b::T,c::T) where {T}
+    s, t = two_diff(-b, c)
+    hi, u = two_sum(a, s)
+    lo = u + t
+    hi, lo = two_hilo_sum(hi, lo)
+    return hi, lo
+end
+
+"""
     three_diff(a, b, c)
     
 Computes `s = fl(a-b-c)` and `e1 = err(a-b-c), e2 = err(e1)`.
