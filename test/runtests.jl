@@ -6,6 +6,7 @@ include("randfloat.jl")
 include("permute.jl")
 include("calc.jl")
 include("testfuncs.jl")
+include("testing.jl")
 
 #=
 function hilo(::Type{T}, x::BigFloat) where {T}
