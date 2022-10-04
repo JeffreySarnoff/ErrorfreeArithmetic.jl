@@ -32,3 +32,4 @@ randfloat(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloat(;T, expmin, e
 randfloatsx(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatsx(;T, expmin, expmax) for i=1:n]
 randfloatss(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatss(;T, expmin, expmax) for i=1:n]
 randfloatssx(n; T=Float64, expmin=EXPMIN, expmax=EXPMAX) = [randfloatssx(;T, expmin, expmax) for i=1:n]
+
