@@ -29,6 +29,7 @@ end
     return hi, lo
 end
 
+
 """
     one_sum(a, b, c)
     
@@ -82,8 +83,17 @@ Computes `fl(a+b+c+d)`
 """
 @inline function one_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d) 
-    hi + (mdhi + (mdlo + lo))
-end
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_sum(mdhi, mdlo)
+    hi, mdhi = two_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
+    mdlo += lo
+    mdhi += mdlo
+    hi += mdhi
+    hi
+endend
 
 """
     two_sum(a, b, c, d)
@@ -95,6 +105,12 @@ function two_sum(a::T, b::T, c::T, d::T) where {T}
     mdlo, lo = two_hilo_sum(mdlo, lo)
     mdhi, mdlo = two_sum(mdhi, mdlo)
     hi, mdhi = two_sum(hi, mdhi)
+    mdlo, lo = two_hilo_sum(mdlo, lo)
+    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
+    hi, mdhi = two_hilo_sum(hi, mdhi)
+    mdlo += lo
+    mdhi += mdlo
+    hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi
 end
 
@@ -117,7 +133,6 @@ function three_sum(a::T, b::T, c::T, d::T) where {T}
     hi, mdhi, mdlo
 end
 
-
 """
     four_sum(a, b, c, d)
     
@@ -136,7 +151,6 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi, mdlo, lo
 end
-
 # vec_sum
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
