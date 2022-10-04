@@ -93,7 +93,7 @@ Computes `fl(a+b+c+d)`
     mdhi += mdlo
     hi += mdhi
     hi
-endend
+end
 
 """
     two_sum(a, b, c, d)
