@@ -4,7 +4,7 @@ keywords = ["floating-point", "error-free", "extended-precision"]
 repo = "https://github.com/JeffreySarnoff/ErrorfreeArithmetic.jl.git"
 authors = ["Jeffrey A. Sarnoff <jeffrey.sarnoff@gmail.com>"]
 license = "MIT"
-version = "v0.5.2"
+version = "v0.6.0"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
@@ -13,4 +13,4 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 test = ["Test"]
 
 [compat]
-julia = "1"
+julia = "1.6"
