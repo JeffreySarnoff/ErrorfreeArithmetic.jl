@@ -1,5 +1,5 @@
 const NTRIALS = 1024
-const EXPMAXS = (2, 4, 16, 32, 64, 96)
+const EXPMAXS = (0, 2, 4, 16, 64, 96)
 
 trials1 = reshape(zeros(Float64, NTRIALS * length(EXPMAXS)), NTRIALS, length(EXPMAXS))
 trials2 = reshape(zeros(Float64, NTRIALS * length(EXPMAXS)), NTRIALS, length(EXPMAXS))
