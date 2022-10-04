@@ -1,7 +1,7 @@
 module ErrorfreeArithmetic
 
 export # error-free transformations
-       two_sum, two_diff, two_prod, two_square,
+       one_sum, two_sum, two_diff, two_prod, two_square,
        three_sum, three_diff, three_prod,
        four_sum, four_diff,
        ad_minus_bc, two_fma, three_fma, two_muladd,
