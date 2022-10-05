@@ -132,7 +132,7 @@ function three_sum(a::T, b::T, c::T) where {T}
     hi, md, lo
 end
 =#
-
+#=
 """
     one_sum(a, b, c, d)
     
@@ -146,8 +146,8 @@ function one_sum(a::T,b::T,c::T,d::T) where {T}
     hi += mh
     hi
 end
+=#
 
-#=
 """
     one_sum(a, b, c, d)
     
@@ -166,7 +166,7 @@ Computes `fl(a+b+c+d)`
     hi += mdhi
     hi
 end
-=#
+
 
 """
     two_sum(a, b, c, d)
