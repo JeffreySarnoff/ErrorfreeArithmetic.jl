@@ -1,9 +1,10 @@
-using Documenter, ErrorfreeArithmetic
+using Documenter
 
 makedocs(
     modules = [ErrorfreeArithmetic],
     format = :html,
     sitename = "ErrorfreeArithmetic",
+    authors = "Jeffrey A. Sarnoff and other contributors",
     pages = [
         "Package" => "index.md",
         "Errorfree Arithmetic" => "intro.md",
@@ -15,3 +16,4 @@ deploydocs(
     repo   = "github.com/JeffreySarnoff/ErrorfreeArithmetic.jl.git",
     target = "build"
 )
+
