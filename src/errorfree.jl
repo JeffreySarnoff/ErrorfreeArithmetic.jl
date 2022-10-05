@@ -8,6 +8,37 @@
     return x, y, z
 end
 
+
+#=
+"Concerning the division [and sqrt], the elementary rounding error is
+generally not a floating point number, so it cannot be computed
+exactly. Hence we cannot expect to obtain an error
+free transformation for the division. ...
+This means that the computed approximation is as good as
+we can expect in the working precision."
+-- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
+"While the sqrt algorithm [and division] is not strictly an errorfree transformation,
+it is known to be reliable and is recommended for general use."
+-- https://hal-ens-lyon.archives-ouvertes.fr/ensl-00545591v2/document
+=#
+
+@inline function two_div(a::T, b::T) where {T}
+     hi = a / b
+     lo = fma(-hi, b, a)
+     lo /= b
+     return hi, lo
+end
+
+@inline function two_sqrt(a::T) where {T}
+    hi = sqrt(a)
+    lo = fma(-hi, hi, a)
+    lo /= 2
+    lo /= hi
+    return hi, lo
+end
+
+#=
+
 """
     two_sum(a, b)
 
@@ -222,31 +253,4 @@ function three_hilo_diff(a::T,b::T,c::T) where {T}
 end
 
 
-#=
-"Concerning the division [and sqrt], the elementary rounding error is
-generally not a floating point number, so it cannot be computed
-exactly. Hence we cannot expect to obtain an error
-free transformation for the division. ...
-This means that the computed approximation is as good as
-we can expect in the working precision."
--- http://perso.ens-lyon.fr/nicolas.louvet/LaLo05.pdf
-
-"While the sqrt algorithm [and division] is not strictly an errorfree transformation,
-it is known to be reliable and is recommended for general use."
--- https://hal-ens-lyon.archives-ouvertes.fr/ensl-00545591v2/document
 =#
-
-@inline function two_div(a::T, b::T) where {T}
-     hi = a / b
-     lo = fma(-hi, b, a)
-     lo /= b
-     return hi, lo
-end
-
-@inline function two_sqrt(a::T) where {T}
-    hi = sqrt(a)
-    lo = fma(-hi, hi, a)
-    lo /= 2
-    lo /= hi
-    return hi, lo
-end
