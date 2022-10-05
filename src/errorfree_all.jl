@@ -96,18 +96,20 @@ function two_prod(a::T, b::T, c::T) where {T}
     return hi, md
 end
 
-"""
-    three_prod(a, b, c)
-    
-Computes `hi = fl(a*b*c)` and `md = err(a*b*c), lo = err(md)`.
-"""
+# [LO2020] p.13
+function four_prod(a::T, b::T, c::T) where {T}
+    thi, tlo = two_prod(b, c)
+    shi, smh = two_prod(a, thi)
+    sml, slo = two_prod(a, tlo)
+    shi, smh, sml, slo
+end
+
+# [LO2020] p.14
 function three_prod(a::T, b::T, c::T) where {T}
-    t,  k = two_prod(a, b)
-    hi, e = two_prod(t, c)
-    md, lo = two_fma(c, k, e)
-    hi, md = two_hilo_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    return hi, md, lo
+    s1, t2, t3, t4 = four_prod(a, b, c)
+    s2, t5 = two_hilo_sum(t2, t3)
+    s3 = t5 + t4
+    s1, s2, s3
 end
 
 #=
