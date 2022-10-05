@@ -59,11 +59,6 @@ for F in (:test_one_sum, :test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum,
             println("$($F)($(trials1[i,j]), $(trials2[i,j]))")
             break
          end 
-         global tf = $F(trials2[i,j], trials1[i,j])
-         if !tf
-            println("$($F)($(trials2[i,j]), $(trials1[i,j]))")
-            break
-         end 
       end
       !tf && break
     end
@@ -81,7 +76,8 @@ for F in (:test_one_sum, :test_two_sum, :test_two_diff, :test_two_prod, :test_th
              global tf = $F(currvals...)
              if !tf
                 println("$($F)($(currvals[1]), $(currvals[2]), $(currvals[3]))")
-             break
+                break
+             end
          end
          !tf && break
        end              
@@ -100,7 +96,8 @@ for F in (:test_one_sum, :test_two_sum, :test_three_sum, :test_four_sum)
              global tf = $F(currvals...)
              if !tf
                 println("$($F)($(currvals[1]), $(currvals[2]), $(currvals[3]), $(currvals[4]))")
-             break
+                break
+             end
          end
          !tf && break
        end              
