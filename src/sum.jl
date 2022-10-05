@@ -125,7 +125,7 @@ end
     
 Computes `hi = fl(a+b+c+d)` and `mh = err(hi), ml = err(hm)`.
 """
-function four_sum(a::T,b::T,c::T,d::T) where {T}
+function three_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mh, ml, lo = four_maxmag(a, b, c, d)
     hi, mh  = two_hilo_sum(hi, mh)
     mh, ml  = two_hilo_sum(mh, ml)
