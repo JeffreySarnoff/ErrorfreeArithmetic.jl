@@ -2,7 +2,6 @@ using Documenter
 
 makedocs(
     modules = [ErrorfreeArithmetic],
-    format = :html,
     sitename = "ErrorfreeArithmetic",
     authors = "Jeffrey A. Sarnoff and other contributors",
     source="src",
