@@ -30,18 +30,29 @@ Computes `hi = fl(a*b*c)` and `lo = err(hi)`.
 function two_prod(a::T, b::T, c::T) where {T}
     s1, t2, t3, t4 = unsafe_four_prod(a, b, c)
     s2 = t2 + t3
+    s1, s2 = two_hilo_sum(s1, s2)
     s1, s2
 end
 
-# [LO2020] p.14
 function three_prod(a::T, b::T, c::T) where {T}
-    s1, t2, t3, t4 = unsafe_four_prod(a, b, c)
-    s2, t5 = two_hilo_sum(t2, t3)
-    s3 = t5 + t4
+    thi, tlo = two_prod(b, c)
+    shi, smh = two_prod(a, thi)
+    sml, slo = two_prod(a, tlo)
+    smh, sml = two_hilo_sum(smh, sml)
+    sml += slo
+    shi, smh = two_hilo_sum(shi, smh)
+    smh, sml = two_hilo_sum(smh, sml)
+    shi, smh, sml
+end
+
+# [LO2020] p.13-14
+function unsafe_three_prod(a::T, b::T, c::T) where {T}
+    s1, s2, s3, s4 = unsafe_four_prod(a, b, c)
+    s2, s3 = two_hilo_sum(s2, s3)
+    s3 = s3 + s4
     s1, s2, s3
 end
 
-# [LO2020] p.13
 function unsafe_four_prod(a::T, b::T, c::T) where {T}
     thi, tlo = two_prod(b, c)
     shi, smh = two_prod(a, thi)
