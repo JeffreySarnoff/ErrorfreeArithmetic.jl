@@ -172,6 +172,21 @@ Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
 """
 function four_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mh, ml, lo = four_maxmag(a, b, c, d)
+    # pair hi,ml and mh,lo, follow algorithm 4
+    # Jean-Michel Muller, Laurence Rideau.
+    # Formalization of double-word arithmetic, and comments on
+    sh, sl = two_hilo_sum(hi, mh)
+    th, tl = two_hilo_sum(ml, lo)
+    sl, th = two_sum(sl, th)
+    sh, sl = two_hilo_sum(sh, sl)
+    th, tl = two_hilo_sum(th, tl)
+    sl, th = two_sum(sl, th)
+    sh, sl = two_hilo_sum(sh, sl)
+    sh, sl, th, tl
+end
+#=
+function four_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mh, ml, lo = four_maxmag(a, b, c, d)
     # pair hi,ml and mh,lo, follow algorithm 4 
     # Jean-Michel Muller, Laurence Rideau. 
     # Formalization of double-word arithmetic, and comments on
@@ -181,7 +196,7 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     vh, vl = two_hilo_sum(sh, c)
     w = tl + vl
     zh, zl = two_hilo_sum(vh, w)
-    zh, zl
+    zh, zl, vh, w
 end
 
 #=
