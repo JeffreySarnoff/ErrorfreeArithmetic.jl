@@ -145,14 +145,3 @@ function two_fma(a::T, b::T, c::T) where {T}
     return hi, lo
 end
 
-"""
-   two_muladd(a, b, c)
-
-Computes `hi = fl(muladd(a,b,c))` and `lo = fl(err(muladd(a,b,c)))`.
-"""
-function two_muladd(a::T, b::T, c::T) where {T}
-    hi = fma(a, b, c)
-    lo = fma(a, b, c-hi)
-    return hi, lo
-end    
-
