@@ -1,3 +1,3 @@
-## _Others_
+## _Other Functions_
 
 abcd
