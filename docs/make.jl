@@ -25,8 +25,8 @@ makedocs(
         "API" => Any[
             "add" => "api/addition.md",
             "subtract" => "api/subtraction.md",
-            "multiply" => "api/multiply.md",
-            "divide" => "api/divide.md",
+            "multiplication" => "api/multiply.md",
+            "division" => "api/divide.md",
             "fma" => "api/fma.md",
             "others" => "api/others",
         ],
