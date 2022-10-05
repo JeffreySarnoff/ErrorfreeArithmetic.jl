@@ -42,18 +42,44 @@ Computes `fl(a+b+c)`
     hi
 end
 
+#=
 """
     two_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
-@inline function two_sum(a::T, b::T, c::T) where {T}
+function two_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_maxmag(a, b, c)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    hi, md
+end
+=#
+"""
+    two_sum(a, b, c)
+    
+Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
+"""
+function two_sum(a::T, b::T, c::T) where {T}
+    s, t   = two_sum(b, c)
+    hi, u  = two_sum(a, s)
+    lo     = u + t
+    two_hilo_sum(hi, lo)
+end
+
+#=
+function two_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_maxmag(a, b, c)
     hi, md = two_hilo_sum(hi, md)
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     hi, md
 end 
+=#
 
 function three_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_maxmag(a, b, c)
