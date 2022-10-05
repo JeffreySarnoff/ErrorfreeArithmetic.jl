@@ -1,3 +1,3 @@
-## _API Subtraction_
+## _Subtraction_
 
 abcd
