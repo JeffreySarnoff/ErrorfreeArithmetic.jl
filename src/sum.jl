@@ -134,6 +134,20 @@ end
 =#
 
 """
+    one_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)`.
+"""
+function two_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mh, ml, lo = four_maxmag(a, b, c, d)
+    hi, mh  = two_hilo_sum(hi, mh)
+    mh, ml  = two_hilo_sum(mh, ml)
+    ml, lo  = two_hilo_sum(ml, lo)
+    hi += mh
+    hi
+end
+
+"""
     two_sum(a, b, c, d)
     
 Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(mh), lo = err(ml)`.
