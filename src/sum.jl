@@ -42,7 +42,6 @@ Computes `fl(a+b+c)`
     hi
 end
 
-#=
 """
     two_sum(a, b, c)
     
@@ -58,7 +57,7 @@ function two_sum(a::T, b::T, c::T) where {T}
     hi, md = two_hilo_sum(hi, md)
     hi, md
 end
-=#
+#=
 """
     two_sum(a, b, c)
     
@@ -70,7 +69,7 @@ function two_sum(a::T, b::T, c::T) where {T}
     lo     = u + t
     two_hilo_sum(hi, lo)
 end
-
+=#
 #=
 function two_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_maxmag(a, b, c)
