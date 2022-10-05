@@ -99,7 +99,7 @@ All routines expect Float64 or Float32 or Float16 values.
 
 
 [LO2020]
-SMarko Lange and Shin'ichi Oishi   
+Marko Lange and Shin'ichi Oishi   
 A note on Dekker’s FastTwoSum algorithm  
 Numerische Mathematik (2020) 145:383–403  
 https://doi.org/10.1007/s00211-020-01114-2     
