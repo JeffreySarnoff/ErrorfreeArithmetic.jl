@@ -1,3 +1,5 @@
+using Documenter
+
 makedocs(
     modules = [ErrorfreeArithmetic],
     format = :html,
@@ -31,6 +33,10 @@ makedocs(
             "other functions" => "api/others",
         ],
         "References" => "references.md",
+    pages = [
+        "Package" => "index.md",
+        "Errorfree Arithmetic" => "intro.md",
+        "Basic usage" => "usage.md"
     ]
 )
 
