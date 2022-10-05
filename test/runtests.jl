@@ -1,4 +1,5 @@
 using ErrorfreeArithmetic
+using ErrorfreeArithmetic: amaxmin
 using Test
 
 include("bigfloat.jl")
