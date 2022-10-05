@@ -107,7 +107,23 @@ end
 """
     two_sum(a, b, c, d)
     
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(mh), lo = err(ml)`.
+"""
+function two_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mh, ml, lo = four_maxmag(a, b, c, d)
+    hi, mh  = two_hilo_sum(hi, mh)
+    mh, ml  = two_hilo_sum(mh, ml)
+    ml, lo  = two_hilo_sum(ml, lo)
+    hi, mh  = two_hilo_sum(hi, mh)
+    mh, ml  = two_hilo_sum(mh, ml)
+    ml, lo  = two_hilo_sum(ml, lo)
+    hi, mh
+end
+
+"""
+    three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `mh = err(hi), ml = err(hm)`.
 """
 function four_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mh, ml, lo = four_maxmag(a, b, c, d)
@@ -117,7 +133,7 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mh  = two_hilo_sum(hi, mh)
     mh, ml  = two_hilo_sum(mh, ml)
     ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh
+    hi, mh, ml
 end
 
 """
