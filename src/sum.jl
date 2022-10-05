@@ -514,3 +514,5 @@ function four_lohi_sum(d::T,c::T,b::T,a::T) where {T}
     ml, lo = two_hilo_sum(t1, t2)
     return hi, hm, ml, lo
 end
+=#
+
