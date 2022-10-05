@@ -34,6 +34,21 @@ end
 
 tf = true
 
+for F in (:test_one_sum,)
+  @eval begin
+    for i in 1:NTRIALS
+      for j in 1:length(EXPMAXS)
+         global tf = $F(trials1[i,j])
+         if !tf
+            println("$($F)($(trials1[i,j]))")
+            break
+         end 
+      end
+      !tf && break
+    end
+  end
+end
+
 for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
   @eval begin
     for i in 1:NTRIALS
@@ -49,7 +64,8 @@ for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
   end
 end
 
-for F in (:test_one_sum, :test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff, :test_two_prod, :test_two_div)
+currperms = perms[2]
+for F in (:test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum, :test_two_diff, :test_two_prod, :test_two_div)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
@@ -58,39 +74,51 @@ for F in (:test_one_sum, :test_two_hilo_sum, :test_two_hilo_diff, :test_two_sum,
             println("$($F)($(trials1[i,j]), $(trials2[i,j]))")
             break
          end 
+         global tf = $F(trials2[i,j], trials1[i,j])
+         if !tf
+            println("$($F)($(trials2[i,j]), $(trials1[i,j]))")
+            break
+         end 
       end
       !tf && break
     end
   end
 end
 
+currperms = perms[3]
 for F in (:test_one_sum, :test_two_sum, :test_two_diff, :test_two_prod, :test_three_sum, :test_three_diff, :test_three_prod)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
-         global tf = $F(trials1[i,j], trials2[i,j], trials3[i,j])
-         if !tf
-            println("$($F)($(trials1[i,j]), $(trials2[i,j]), $(trials3[i,j]))")
-            break
-         end 
-      end
-      !tf && break
+         vals = [trials1[i,j], trials2[i,j], trials3[i,j]]
+         for p in currperms
+             currvals = vals[p]
+             global tf = $F(currvals...)
+             if !tf
+                println("$($F)($(currvals[1]), $(currvals[2]), $(currvals[3]))")
+             break
+         end
+         !tf && break
+       end              
     end
   end
 end
 
+currperms = perms[4]
 for F in (:test_one_sum, :test_two_sum, :test_three_sum, :test_four_sum)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
-         global tf = $F(trials1[i,j], trials2[i,j], trials3[i,j], trials4[i,j])
-         if !tf
-            println("$($F)($(trials1[i,j]), $(trials2[i,j]), $(trials3[i,j]), $(trials4[i,j]))")
-            break
-         end 
-      end
-      !tf && break
+         vals = [trials1[i,j], trials2[i,j], trials3[i,j], trials4[i,j]]
+         for p in currperms
+             currvals = vals[p]
+             global tf = $F(currvals...)
+             if !tf
+                println("$($F)($(currvals[1]), $(currvals[2]), $(currvals[3]), $(currvals[4]))")
+             break
+         end
+         !tf && break
+       end              
     end
   end
 end
-
