@@ -29,7 +29,7 @@ makedocs(
             "multiplication" => "api/multiply.md",
             "division" => "api/divide.md",
             "fused multiply-add" => "api/fma.md",
-            "other functions" => "api/others",
+            "other functions" => "api/others.md",
         ],
         "References" => "references.md",
     ]
