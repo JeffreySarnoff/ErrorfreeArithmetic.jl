@@ -1,5 +1,6 @@
 """
     two_square(a)
+
 Computes `hi = fl(a*a)` and `lo = fl(err(a*a))`.
 """
 @inline function two_square(a::T) where {T}
@@ -10,6 +11,7 @@ end
 
 """
     two_prod(a, b)
+
 Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
 """
 @inline function two_prod(a::T, b::T) where {T}
@@ -17,8 +19,6 @@ Computes `hi = fl(a*b)` and `lo = fl(err(a*b))`.
     lo = fma(a, b, -hi)
     hi, lo
 end
-
-@inline max_min(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
 
 """
     two_prod(a, b, c)
