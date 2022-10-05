@@ -27,8 +27,8 @@ makedocs(
             "subtract" => "api/subtraction.md",
             "multiplication" => "api/multiply.md",
             "division" => "api/divide.md",
-            "fma" => "api/fma.md",
-            "others" => "api/others",
+            "fused multiply-add" => "api/fma.md",
+            "other functions" => "api/others",
         ],
     ]
 )
