@@ -1,7 +1,7 @@
 using Documenter, ErrorfreeArithmetic
 
 makedocs(
-    modules = [ErrorfreeArithmetic],
+    # modules = [ErrorfreeArithmetic], (requires use of @doc in source comments)
     sitename = "ErrorfreeArithmetic",
     authors = "Jeffrey A. Sarnoff and other contributors",
     source="src",
