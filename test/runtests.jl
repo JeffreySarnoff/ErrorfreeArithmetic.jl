@@ -6,6 +6,6 @@ include("randfloat.jl")
 include("permute.jl")
 
 include("correct_calcs.jl")
-include("functions.jl")
+include("testable_funcs.jl")
 
 include("tests.jl")
