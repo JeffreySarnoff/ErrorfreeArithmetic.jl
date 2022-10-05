@@ -146,6 +146,24 @@ function two_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mh
 end
 
+
+"""
+    three_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `mh = err(hi), ml = err(hm)`.
+"""
+function three_sum(a::T, b::T, c::T, d::T) where {T}
+    hi, t1 = two_sum(a ,  b)
+    hi, t2 = two_sum(hi,  c)
+    hi, t3 = two_sum(hi,  d)
+    t1, t2, t3 = three_maxmag(t1, t2, t3)
+    md, t2 = two_hilo_sum(t1, t2)
+    lo = t2 + t3
+    md, lo = two_sum(md, lo)
+    return hi, md, lo
+end
+
+#=
 """
     three_sum(a, b, c, d)
     
@@ -161,6 +179,7 @@ function three_sum(a::T,b::T,c::T,d::T) where {T}
     ml, lo  = two_hilo_sum(ml, lo)
     hi, mh, ml
 end
+=#
 
 """
     four_sum(a, b, c, d)
