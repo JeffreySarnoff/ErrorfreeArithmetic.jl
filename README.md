@@ -8,8 +8,6 @@ Error-free transformations are used to get results with extra accuracy.
 
 [![Build Status](https://travis-ci.org/JeffreySarnoff/ErrorfreeArithmetic.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/ErrorfreeArithmetic.jl)
 
-[![Tests (nightly)](https://github.com/JeffreySarnoff/ErrorfreeArithmetic.jl/actions/workflows/tests-nightly.yml/badge.svg)](https://github.com/JeffreySarnoff/ErrorfreeArithmetic.jl/actions/workflows/tests-nightly.yml)
-
 
 -----
 
