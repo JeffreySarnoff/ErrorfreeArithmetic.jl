@@ -20,19 +20,27 @@ end
 
 @inline max_min(a,b) = abs(a) < abs(b) ? (b,a) : (a,b)
 
-# reduced significance variation of [LO2020] p.14
 """
     two_prod(a, b, c)
     
 Computes `hi = fl(a*b*c)` and `lo = err(hi)`.
 """
 function two_prod(a::T, b::T, c::T) where {T}
-    s1, t2, t3, t4 = unsafe_four_prod(a, b, c)
-    s2 = t2 + t3
-    s1, s2 = two_hilo_sum(s1, s2)
-    s1, s2
+    thi, tlo = two_prod(b, c)
+    shi, smh = two_prod(a, thi)
+    sml, slo = two_prod(a, tlo)
+    smh, sml = two_hilo_sum(smh, sml)
+    sml += slo
+    shi, smh = two_hilo_sum(shi, smh)
+    smh += sml
+    shi, smh
 end
 
+"""
+    three_prod(a, b, c)
+    
+Computes `hi = fl(a*b*c)`, `md=err(hi)` and `lo = err(md)`.
+"""
 function three_prod(a::T, b::T, c::T) where {T}
     thi, tlo = two_prod(b, c)
     shi, smh = two_prod(a, thi)
@@ -42,6 +50,19 @@ function three_prod(a::T, b::T, c::T) where {T}
     shi, smh = two_hilo_sum(shi, smh)
     smh, sml = two_hilo_sum(smh, sml)
     shi, smh, sml
+end
+
+# reduced significance variation of [LO2020] p.14
+"""
+    unsafe_two_prod(a, b, c)
+    
+Computes `hi = fl(a*b*c)` and `lo = err(hi)`.
+"""
+function unsafe_two_prod(a::T, b::T, c::T) where {T}
+    s1, t2, t3, t4 = unsafe_four_prod(a, b, c)
+    s2 = t2 + t3
+    s1, s2 = two_hilo_sum(s1, s2)
+    s1, s2
 end
 
 # [LO2020] p.13-14
