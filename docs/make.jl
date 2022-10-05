@@ -20,7 +20,7 @@ makedocs(
             "Floating-Point Arithmetic"=>"intro/arithmetic.md",
             "Accuracy and Precision"=>"intro/accuracy_precision.md",
             "Extending Precision Accurately"=>"intro/extending_precision.md",
-            "Function Naming"=>"intro/naming.md",
+            "A Guide to Function Names"=>"intro/naming.md",
         ],
         "API" => Any[
             "add" => "api/addition.md",
