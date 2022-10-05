@@ -199,7 +199,7 @@ function four_maxmag(a::T, b::T, c::T, d::T) where {T}
 end
 
 # fastest sorting by decreasing magnitude
-@inline amaxmin(x::T, y::T) where {T} = ifelse( abs(x) < abs(y), (y,x), (x,y) )
+amaxmin(x::T, y::T) where {T} = abs(x) < abs(y) ? (y,x) : (x,y)
 
 @inline function amaxmin(x::T, y::T, z::T) where {T}
     y, z = amaxmin(y, z)
