@@ -314,6 +314,7 @@ end
 =#
 
 # args sorted by decreasing magnitude
+=#
 
 """
     two_hilo_sum(a, b)
@@ -450,34 +451,35 @@ function two_lohi_sum(a::T,b::T,c::T,d::T) where {T}
     return hi, lo
 end
 
-"""
-    three_hilo_sum(a, b, c)
-    
-*unchecked* requirement `|a| ≥ |b| ≥ |c|`
 
-Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
 """
-function three_hilo_sum(a::T, b::T, c::T) where {T}
+    three_hilo_sum(a, b, c, d)
+    
+*unchecked* requirement `|a| ≥ |b| ≥ |c| ≥ |d|`
+
+Computes `hi = fl(a+b+c+d)`, `mh = err(hi), ml = err(lo), lo = err(ml)`.
+"""
+function three_hilo_sum(a::T, b::T, c::T, d::T) where {T}
     md, lo = two_hilo_sum(b, c)
     hi, md = two_sum(a, md)
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
-    return hi,md,lo
+    return hi, mh, ml, lo
 end
 
 """
     three_lohi_sum(a, b, c)
     
-*unchecked* requirement `|c| ≥ |b| ≥ |a|`
+*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
 
-Computes `x = fl(a+b+c)` and `y = err(a+b+c), z = err(y)`.
+Computes `hi = fl(a+b+c+d)`, `mh = err(hi), ml = err(mh), lo = err((ml)`.
 """
-function three_lohi_sum(a::T,b::T,c::T) where {T}
+function three_lohi_sum(a::T, b::T, c::T, d::T) where {T}
     md, lo = two_lohi_sum(a, b)
     hi, md = two_sum(c, md)
     md, lo = two_lohi_sum(lo, md)
     hi, md = two_lohi_sum(md, hi)
-    return hi,md,lo
+    return hi, mh, ml, lo
 end
 
 
