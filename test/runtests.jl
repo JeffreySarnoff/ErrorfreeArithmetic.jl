@@ -8,4 +8,4 @@ include("permute.jl")
 include("correct_calcs.jl")
 include("testable_funcs.jl")
 
-include("tests.jl")
+include("comprehensive_tests.jl")
