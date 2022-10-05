@@ -49,6 +49,14 @@ Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
 @inline function two_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_maxmag(a, b, c)
+    hi, md = two_hilo_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    hi, md
+end 
+#=
+@inline function two_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_maxmag(a, b, c)
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_sum(hi, md)
     md, lo = two_hilo_sum(md, lo)
@@ -57,12 +65,21 @@ Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
     hi, md = two_hilo_sum(hi, md)
     hi, md
 end
-
+=#
 """
    three_sum(a, b, c)
     
 Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
 """
+function three_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = three_maxmag(a, b, c)
+    hi, md = two_hilo_sum(hi, md)
+    md, lo = two_hilo_sum(md, lo)
+    hi, md = two_hilo_sum(hi, md)
+    hi, md, lo
+end
+
+#=
 function three_sum(a::T, b::T, c::T) where {T}
     hi, md, lo = three_maxmag(a, b, c)
     md, lo = two_hilo_sum(md, lo)
@@ -72,6 +89,23 @@ function three_sum(a::T, b::T, c::T) where {T}
     md, lo = two_hilo_sum(md, lo)
     hi, md = two_hilo_sum(hi, md)
     hi, md, lo
+end
+=#
+
+"""
+    four_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
+"""
+function four_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mh, ml, lo = four_maxmag(a, b, c, d)
+    hi, mh  = two_hilo_sum(hi, mh)
+    mh, ml  = two_hilo_sum(mh, ml)
+    ml, lo  = two_hilo_sum(ml, lo)
+    hi, mh  = two_hilo_sum(hi, mh)
+    mh, ml  = two_hilo_sum(mh, ml)
+    ml, lo  = two_hilo_sum(ml, lo)
+    hi, mh, ml, lo
 end
 
 """
@@ -93,6 +127,7 @@ Computes `fl(a+b+c+d)`
     hi
 end
 
+#=
 """
     two_sum(a, b, c, d)
     
@@ -149,6 +184,7 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     hi, mdhi = two_hilo_sum(hi, mdhi)
     hi, mdhi, mdlo, lo
 end
+=#
 
 # args sorted by decreasing magnitude
 
