@@ -1,4 +1,3 @@
-
 """
     two_square(a)
 Computes `hi = fl(a*a)` and `lo = fl(err(a*a))`.
