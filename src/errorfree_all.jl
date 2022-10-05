@@ -85,6 +85,7 @@ function four_maxmag(a::T, b::T, c::T, d::T) where {T}
     return a, b, c, d
 end
 
+#=
 """
     one_sum(a, b)
 
@@ -217,7 +218,7 @@ function one_sum(a::T,b::T,c::T,d::T) where {T}
     return hi
 end
 
-
+=#
 
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
