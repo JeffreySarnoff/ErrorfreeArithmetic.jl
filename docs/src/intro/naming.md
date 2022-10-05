@@ -1,1 +1,1 @@
-## Function Naming
+## A Guide to Function Names
