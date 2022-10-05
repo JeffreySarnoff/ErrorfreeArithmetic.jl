@@ -37,7 +37,7 @@ makedocs(
         "Package" => "index.md",
         "Errorfree Arithmetic" => "intro.md",
         "Basic usage" => "usage.md"
-    ]
+    ],
 )
 
 #=
