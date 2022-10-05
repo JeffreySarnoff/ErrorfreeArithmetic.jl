@@ -30,6 +30,7 @@ makedocs(
             "fused multiply-add" => "api/fma.md",
             "other functions" => "api/others",
         ],
+        "References" => "references.md",
     ]
 )
 
