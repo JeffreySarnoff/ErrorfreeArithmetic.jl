@@ -43,7 +43,7 @@ function two_maxmag(x::T, y::T, z::T) where {T}
      y, z = two_maxmag(y, z)
      x = one_maxmag(x, z)
      x, y = two_maxmag(x, y)
-     return x, y
+     (x, y)
 end
 
 """
@@ -57,7 +57,7 @@ function two_maxmag(a::T, b::T, c::T, d::T) where {T}
     a, c = two_maxmag(a, c)
     b = one_maxmag(b, d)
     b = one_maxmag(b, c)
-    a, b
+    (a, b)
 end
 
 """
@@ -69,7 +69,7 @@ function three_maxmag(x::T, y::T, z::T) where {T}
      y, z = two_maxmag(y, z)
      x, z = two_maxmag(x, z)
      x, y = two_maxmag(x, y)
-     return x, y, z
+     (x, y, z)
 end
 
 """
@@ -83,8 +83,7 @@ function four_maxmag(a::T, b::T, c::T, d::T) where {T}
     a, c = two_maxmag(a, c)
     b, d = two_maxmag(b, d)
     b, c = two_maxmag(b, c)
-     
-    return a, b, c, d
+    (a, b, c, d)
 end
 
 # <n>_minmag
@@ -131,7 +130,7 @@ function two_minmag(x::T, y::T, z::T) where {T}
      y, z = two_minmag(y, z)
      x = one_minmag(x, z)
      x, y = two_minmag(x, y)
-     return x, y
+     (x, y)
 end
 
 """
@@ -145,7 +144,7 @@ function two_minmag(a::T, b::T, c::T, d::T) where {T}
     a, c = two_minmag(a, c)
     b = one_minmag(b, d)
     b = one_minmag(b, c)
-    a, b
+    (a, b)
 end
 
 """
@@ -157,7 +156,7 @@ function three_minmag(x::T, y::T, z::T) where {T}
      y, z = two_minmag(y, z)
      x, z = two_minmag(x, z)
      x, y = two_minmag(x, y)
-     return x, y, z
+     (x, y, z)
 end
 
 """
@@ -171,8 +170,7 @@ function three_minmag(a::T, b::T, c::T, d::T) where {T}
     a, c = two_minmag(a, c)
     b, d = two_minmag(b, d)
     b, c = two_minmag(b, c)
-     
-    return a, b, c
+    (a, b, c)
 end
 
 """
@@ -186,6 +184,5 @@ function four_minmag(a::T, b::T, c::T, d::T) where {T}
     a, c = two_minmag(a, c)
     b, d = two_minmag(b, d)
     b, c = two_minmag(b, c)
-     
-    return a, b, c, d
+    (a, b, c, d)
 end
