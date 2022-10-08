@@ -4,7 +4,7 @@
 Computes `fl(a+b)`.
 """
 @inline function one_sum(a::T, b::T) where {T<:Real}
-    return a + b
+    a + b
 end
 
 """
@@ -16,9 +16,10 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     hi = a + b
     v  = hi - a
     lo = (a - (hi - v)) + (b - v)
-    return (hi, lo)
+    (hi, lo)
 end
 #=
+same as
 @inline function two_sum(a::T, b::T) where {T}
     hi = a + b
     b1 = hi - a
@@ -26,7 +27,7 @@ end
     a1 = hi - b1
     ea = a - a1
     lo = ea + eb
-    return hi, lo
+    (hi, lo)
 end
 =#
 
@@ -89,7 +90,7 @@ Computes `fl(a+b+c+d)`
     e2 += e3
     e1 += e2
     s0 += e1
-    return s0
+    s0
 end
 
 """
@@ -108,7 +109,7 @@ function two_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     e2 += e3
     e1 += e2
     s0, e1 = two_hilo_sum(s0, e1)
-    return (s0, e1)
+    (s0, e1)
 end
 
 """
@@ -127,7 +128,7 @@ function three_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     e2 += e3
     e1, e2 = two_hilo_sum(e1, e2)
     s0, e1 = two_hilo_sum(s0, e1)
-    return (s0, e1, e2)
+    (s0, e1, e2)
 end
 
 """
@@ -146,6 +147,6 @@ function four_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     e2, e3 = two_hilo_sum(e2, e3)
     e1, e2 = two_hilo_sum(e1, e2)
     s0, e1 = two_hilo_sum(s0, e1)
-    return (s0, e1, e2, e3)
+    (s0, e1, e2, e3)
 end
 
