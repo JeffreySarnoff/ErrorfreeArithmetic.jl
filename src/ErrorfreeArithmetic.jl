@@ -1,6 +1,7 @@
 module ErrorfreeArithmetic
 
 export # error-free transformations
+       vvec_sum,
        one_sum, two_sum, two_diff, two_prod, two_square,
        three_sum, three_diff, three_prod,
        four_sum, four_diff,
