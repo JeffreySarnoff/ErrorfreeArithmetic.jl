@@ -75,80 +75,6 @@ function three_sum(a::T, b::T, c::T) where {T}
     hi, md, lo
 end
 
-#=
-"""
-    two_sum(a, b, c)
-    
-Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
-"""
-function two_sum(a::T, b::T, c::T) where {T}
-    s, t   = two_sum(b, c)
-    hi, u  = two_sum(a, s)
-    lo     = u + t
-    two_hilo_sum(hi, lo)
-end
-=#
-#=
-function two_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c)
-    hi, md = two_hilo_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    hi, md
-end 
-
-
-function three_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    hi, md, lo
-end
-
-@inline function two_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    hi, md
-end
-
-"""
-   three_sum(a, b, c)
-    
-Computes `hi = fl(a+b+c)` and `md = err(a+b+c), lo = err(md)`.
-"""
-function three_sum(a::T, b::T, c::T) where {T}
-    hi, md, lo = three_maxmag(a, b, c)
-    hi, md = two_hilo_sum(hi, md)
-    md, lo = two_hilo_sum(md, lo)
-    hi, md = two_hilo_sum(hi, md)
-    hi, md, lo
-end
-=#
-#=
-"""
-    one_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)`.
-"""
-function one_sum(a::T,b::T,c::T,d::T) where {T}
-    hi, mh, ml, lo = four_maxmag(a, b, c, d)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi += mh
-    hi
-end
-=#
-
 """
     one_sum(a, b, c, d)
     
@@ -187,40 +113,6 @@ function two_sum(a::T,b::T,c::T,d::T) where {T}
     sh, sl = two_hilo_sum(sh, sl)
     sh, sl
 end
-
-#=
-"""
-    two_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(mh), lo = err(ml)`.
-"""
-function two_sum(a::T,b::T,c::T,d::T) where {T}
-    hi, mh, ml, lo = four_maxmag(a, b, c, d)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh
-end
-
-"""
-    three_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `mh = err(hi), ml = err(hm)`.
-"""
-function three_sum(a::T,b::T,c::T,d::T) where {T}
-    hi, mh, ml, lo = four_maxmag(a, b, c, d)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh, ml
-end
-=#
 
 """
     three_sum(a, b, c, d)
@@ -261,120 +153,6 @@ function four_sum(a::T,b::T,c::T,d::T) where {T}
     sh, sl = two_hilo_sum(sh, sl)
     sh, sl, th, tl
 end
-#=
-function four_sum(a::T,b::T,c::T,d::T) where {T}
-    hi, mh, ml, lo = four_maxmag(a, b, c, d)
-    # pair hi,ml and mh,lo, follow algorithm 4 
-    # Jean-Michel Muller, Laurence Rideau. 
-    # Formalization of double-word arithmetic, and comments on
-    sh, sl = two_sum(hi, mh)
-    th, tl = two_sum(ml, lo)
-    c = sl + th
-    vh, vl = two_hilo_sum(sh, c)
-    w = tl + vl
-    zh, zl = two_hilo_sum(vh, w)
-    zh, zl, vh, w
-end
-
-#=
-"""
-    four_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
-"""
-function four_sum(a::T,b::T,c::T,d::T) where {T}
-    hi, mh, ml, lo = four_maxmag(a, b, c, d)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh  = two_hilo_sum(hi, mh)
-    mh, ml  = two_hilo_sum(mh, ml)
-    ml, lo  = two_hilo_sum(ml, lo)
-    hi, mh, ml, lo
-end
-=#
-
-#=
-"""
-    three_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `mh = err(hi), ml = err(hm)`.
-"""
-function three_sum(a::T, b::T, c::T, d::T) where {T}
-    hi, t1 = two_sum(a ,  b)
-    hi, t2 = two_sum(hi,  c)
-    hi, t3 = two_sum(hi,  d)
-    t1, t2, t3 = three_maxmag(t1, t2, t3)
-    md, t2 = two_hilo_sum(t1, t2)
-    lo = t2 + t3
-    md, lo = two_sum(md, lo)
-    return hi, md, lo
-end
-=#
-
-
-
-#=
-"""
-    two_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `lo = err(hi)`.
-"""
-function two_sum(a::T, b::T, c::T, d::T) where {T}
-    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_sum(mdhi, mdlo)
-    hi, mdhi = two_sum(hi, mdhi)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
-    hi, mdhi = two_hilo_sum(hi, mdhi)
-    mdlo += lo
-    mdhi += mdlo
-    hi, mdhi = two_hilo_sum(hi, mdhi)
-    hi, mdhi
-end
-
-"""
-   three_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `md = err(hi), lo = err(md)`.
-"""
-function three_sum(a::T, b::T, c::T, d::T) where {T}
-    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_sum(mdhi, mdlo)
-    hi, mdhi = two_sum(hi, mdhi)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
-    hi, mdhi = two_hilo_sum(hi, mdhi)
-    mdlo += lo
-    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
-    hi, mdhi = two_hilo_sum(hi, mdhi)
-    hi, mdhi, mdlo
-end
-
-"""
-    four_sum(a, b, c, d)
-    
-Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(hm), lo = err(ml)`.
-"""
-function four_sum(a::T,b::T,c::T,d::T) where {T}
-    hi, mdhi, mdlo, lo = four_maxmag(a, b, c, d)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_sum(mdhi, mdlo)
-    hi, mdhi = two_sum(hi, mdhi)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
-    hi, mdhi = two_hilo_sum(hi, mdhi)
-    mdlo, lo = two_hilo_sum(mdlo, lo)
-    mdhi, mdlo = two_hilo_sum(mdhi, mdlo)
-    hi, mdhi = two_hilo_sum(hi, mdhi)
-    hi, mdhi, mdlo, lo
-end
-=#
-
-# args sorted by decreasing magnitude
-=#
 
 """
     two_hilo_sum(a, b)
@@ -576,5 +354,4 @@ function four_lohi_sum(d::T,c::T,b::T,a::T) where {T}
     ml, lo = two_hilo_sum(t1, t2)
     return hi, hm, ml, lo
 end
-
 
