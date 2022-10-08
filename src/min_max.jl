@@ -77,7 +77,7 @@ end
 
 orders 3 of (a, b, c, d) by descending magnitude
 """
-function three_maxmag(a::T, b::T, c::T, d::T) where {T}
+function four_maxmag(a::T, b::T, c::T, d::T) where {T}
     a, b = two_maxmag(a, b)
     c, d = two_maxmag(c, d)
     a, c = two_maxmag(a, c)
