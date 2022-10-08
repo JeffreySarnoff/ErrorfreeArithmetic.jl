@@ -94,6 +94,12 @@ function test_three_sum(a::T, b::T, c::T) where {T}
     isequivalent(hi, md, lo, high, mid, low)
 end
 
+function test_three_sum(a::T, b::T, c::T) where {T}
+    hi, md, lo = vvec_sum(a, b, c)
+    high, mid, low = calc_three_sum(a, b, c)
+    isequivalent(hi, md, lo, high, mid, low)
+end
+
 function test_three_diff(a::T, b::T, c::T) where {T}
     hi, md, lo = three_diff(a, b, c)
     high, mid, low = calc_three_diff(a, b, c)
