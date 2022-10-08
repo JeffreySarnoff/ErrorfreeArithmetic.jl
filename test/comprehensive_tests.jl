@@ -34,7 +34,7 @@ end
 
 tf = true
 
-for F in (:test_two_inv, :test_two_sqrt, :test_two_square)
+for F in (:test_two_inv, :test_two_sqrt, :test_two_square, :test_two_cube)
   @eval begin
     for i in 1:NTRIALS
       for j in 1:length(EXPMAXS)
