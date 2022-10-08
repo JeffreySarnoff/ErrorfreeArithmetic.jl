@@ -5,6 +5,15 @@ function vec_sum(x0::T, x1::T, x2::T) where {T}
     return s0,e1,e2
 end
 
+function vvec_sum(x0::T, x1::T, x2::T) where {T}
+    s2 = x2
+    s1, e2 = two_sum(x1, s2)
+    s0, e1 = two_sum(x0, s1)
+    s1, e2 = two_sum(e1, e2)
+    e0, e1 = two_sum(e0, s1)
+    (e0, e1, e2)
+end
+
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
     s2, e3 = two_sum(x2, s3)
