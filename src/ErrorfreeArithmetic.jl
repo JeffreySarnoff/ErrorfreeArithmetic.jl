@@ -14,7 +14,6 @@ export # error-free transformations
        # error-free remainders
        div_rem, sqrt_rem
 
-
 using Base: IEEEFloat
 
 include("min_max.jl")
