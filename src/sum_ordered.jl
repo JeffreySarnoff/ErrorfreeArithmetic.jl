@@ -121,7 +121,7 @@ end
 *unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
 Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
 """
-function two_lohi_sum(a::T,b::T,c::T,d::T) where {T}
+function two_lohi_sum(a::T,b::T,c::T, d::T) where {T}
     t0, t1 = two_lohi_sum(a ,  b)
     t0, t2 = two_lohi_sum(t0,  c)
     hi, t3 = two_lohi_sum(t0,  d)
@@ -142,35 +142,6 @@ function three_lohi_sum(a::T,b::T,c::T) where {T}
     md, lo = two_lohi_sum(lo, md)
     hi, md = two_lohi_sum(md, hi)
     return hi,md,lo
-end
-
-"""
-    two_lohi_sum(a, b, c, d)
-    
-*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
-Computes `hi = fl(a+b+c+d)` and `lo = err(a+b+c+d)`.
-"""
-function two_lohi_sum(a::T,b::T,c::T,d::T) where {T}
-    t0, t1 = two_lohi_sum(a ,  b)
-    t0, t2 = two_lohi_sum(t0,  c)
-    hi, t3 = two_lohi_sum(t0,  d)
-    t0, t1 = two_lohi_sum(t1, t2)
-    lo = t0 + t3
-    return hi, lo
-end
-
-"""
-    three_lohi_sum(a, b, c)
-    
-*unchecked* requirement `|d| ≥ |c| ≥ |b| ≥ |a|`
-Computes `hi = fl(a+b+c+d)`, `mh = err(hi), ml = err(mh), lo = err((ml)`.
-"""
-function three_lohi_sum(a::T, b::T, c::T, d::T) where {T}
-    md, lo = two_lohi_sum(a, b)
-    hi, md = two_sum(c, md)
-    md, lo = two_lohi_sum(lo, md)
-    hi, md = two_lohi_sum(md, hi)
-    return hi, mh, ml, lo
 end
 
 """
