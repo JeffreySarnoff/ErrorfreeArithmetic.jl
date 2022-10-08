@@ -136,6 +136,11 @@ function test_four_sum(a::T, b::T, c::T, d::T) where {T}
     aa, bb, cc, dd = calc_four_sum(a, b, c, d)
     isequivalent(w,x,y,z, aa,bb,cc,dd)
 end
+function test_four_sum(a::T, b::T, c::T, d::T) where {T}
+    w, x, y, z = vvec_sum(a, b, c, d)
+    aa, bb, cc, dd = calc_four_sum(a, b, c, d)
+    isequivalent(w,x,y,z, aa,bb,cc,dd)
+end
 
 function test_two_sqrt(a::T) where {T}
     hi, lo = two_sqrt(a)
