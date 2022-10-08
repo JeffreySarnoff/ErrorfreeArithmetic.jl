@@ -94,6 +94,18 @@ function calc_two_div(a::T, b::T) where {T}
     parts2(ab; T)
 end
 
+function calc_two_square(a::T) where {T}
+    aa = BigFloat(a)
+    ab = aa * aa
+    parts2(ab; T)
+end
+
+function calc_two_cube(a::T) where {T}
+    aa = BigFloat(a)
+    ab = aa * aa * aa
+    parts2(ab; T)
+end
+
 function calc_two_sqrt(a::T) where {T}
     aa = BigFloat(a)
     ab = sqrt(aa)
