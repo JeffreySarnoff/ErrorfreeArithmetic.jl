@@ -1,5 +1,6 @@
 """
     one_sum(a, b)
+
 Computes `fl(a+b)`.
 """
 @inline function one_sum(a::T, b::T) where {T<:Real}
@@ -8,6 +9,7 @@ end
 
 """
     two_sum(a, b)
+
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
 @inline function two_sum(a::T, b::T) where {T<:Real}
