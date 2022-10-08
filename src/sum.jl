@@ -16,7 +16,7 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     hi = a + b
     v  = hi - a
     lo = (a - (hi - v)) + (b - v)
-    return hi, lo
+    return (hi, lo)
 end
 #=
 @inline function two_sum(a::T, b::T) where {T}
@@ -42,7 +42,6 @@ function one_sum(x0::T, x1::T, x2::T) where {T}
     s1 = e1 + e2
     s0 + s1
 end
-
 
 """
     two_sum(a, b, c)
@@ -109,7 +108,7 @@ function two_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     e2 += e3
     e1 += e2
     s0, e1 = two_hilo_sum(s0, e1)
-    return s0,e1
+    return (s0, e1)
 end
 
 """
@@ -128,9 +127,8 @@ function three_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     e2 += e3
     e1, e2 = two_hilo_sum(e1, e2)
     s0, e1 = two_hilo_sum(s0, e1)
-    return s0,e1,e2
+    return (s0, e1, e2)
 end
-
 
 """
     four_sum(a, b, c, d)
@@ -148,6 +146,6 @@ function four_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     e2, e3 = two_hilo_sum(e2, e3)
     e1, e2 = two_hilo_sum(e1, e2)
     s0, e1 = two_hilo_sum(s0, e1)
-    return s0,e1,e2,e3
+    return (s0, e1, e2, e3)
 end
 
