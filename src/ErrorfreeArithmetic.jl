@@ -15,6 +15,7 @@ export # error-free transformations
        div_rem, sqrt_rem
 
 using Base: IEEEFloat
+using VectorizationBase
 
 include("min_max.jl")
 include("sum_ordered.jl")
