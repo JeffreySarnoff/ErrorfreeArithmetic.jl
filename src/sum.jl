@@ -17,7 +17,7 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     lo = (a - (hi - v)) + (b - v)
     return hi, lo
 end
-
+#=
 @inline function two_sum(a::T, b::T) where {T}
     hi = a + b
     b1 = hi - a
@@ -27,6 +27,7 @@ end
     lo = ea + eb
     return hi, lo
 end
+=#
 
 """
     one_sum(a, b, c)
@@ -167,7 +168,21 @@ Computes `fl(a+b+c+d)`
     hi
 end
 
+"""
+    two_sum(a, b, c, d)
+    
+Computes `hi = fl(a+b+c+d)` and `hm = err(a+b+c+d), ml = err(mh), lo = err(ml)`.
+"""
+function two_sum(a::T,b::T,c::T,d::T) where {T}
+    hi, mh, ml, lo = four_maxmag(a, b, c, d)
+    hi, ml  = two_hilo_sum(hi, ml)
+    mh, lo  = two_hilo_sum(mh, lo)
+    mh, ml  = two_hilo_sum(mh, ml)
+    hi, mh  = two_hilo_sum(hi, mh)
+    hi, mh
+end
 
+#=
 """
     two_sum(a, b, c, d)
     
@@ -183,6 +198,7 @@ function two_sum(a::T,b::T,c::T,d::T) where {T}
     ml, lo  = two_hilo_sum(ml, lo)
     hi, mh
 end
+=#
 
 """
     three_sum(a, b, c, d)
