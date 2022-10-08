@@ -1,9 +1,36 @@
+function vec_sum(x0::T, x1::T, x2::T) where {T}
+    s2 = x2
+    s1, e2 = two_sum(x1, s2)
+    s0, e1 = two_sum(x0, s1)
+    return s0,e1,e2
+end
+
 function vec_sum(x0::T, x1::T, x2::T, x3::T) where {T}
     s3 = x3
     s2, e3 = two_sum(x2, s3)
     s1, e2 = two_sum(x1, s2)
     s0, e1 = two_sum(x0, s1)
     return s0,e1,e2,e3
+end
+
+function vsum_errbranch(x::NTuple{3,T}) where {T}
+    y = zeros(T, 3)
+    r = zeros(T, 3)
+    e = zeros(T, 3)
+    j = 1
+    e[1] = x[1]
+    for i = 1:1
+        r[i], t = two_sum(e[i], x[i+1])
+        if t !== zero(T)
+            y[j] = r[i]
+            e[i+1] = t
+            j += 1
+        else    
+            e[i+1] = r[i]
+        end    
+    end
+    y[j], y[j+1] = two_sum(e[2], x[3])
+    return y
 end
 
 function vsum_errbranch(x::NTuple{4,T}) where {T}
