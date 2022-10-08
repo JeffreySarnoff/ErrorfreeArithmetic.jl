@@ -52,6 +52,12 @@ function test_two_square(a::T) where {T}
     isequivalent(hi, lo, high, low)
 end
 
+function test_two_sqrt(a::T) where {T}
+    hi, lo = two_sqrt(a)
+    high, low = calc_two_sqrt(a)     
+    isequivalent(hi, lo, high, low)
+end
+
 function test_two_cube(a::T) where {T}
     hi, lo = two_cube(a)
     high, low = calc_two_cube(a)     
