@@ -1,6 +1,4 @@
-using ErrorfreeArithmetic
-using ErrorfreeArithmetic: amaxmin
-using Test
+using ErrorfreeArithmetic, Test
 
 include("bigfloat.jl")
 include("randfloat.jl")
