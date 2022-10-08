@@ -1,15 +1,15 @@
 module ErrorfreeArithmetic
 
 export # error-free transformations
-       vvec_sum,
-       one_sum, two_sum, two_diff, two_prod, two_square, two_cube,
-       three_sum, three_diff, three_prod,
-       four_sum, four_diff,
-       ad_minus_bc, two_fma, three_fma, two_muladd,
+       one_sum, 
+       two_sum, two_diff, two_prod, two_square, two_cube, two_fma, two_muladd,
+       three_sum, three_diff, three_prod, three_fma,
+       four_sum
        # error-free transformations with magnitude sorted arguments
-       two_hilo_sum, two_lohi_sum, two_hilo_diff, two_lohi_diff,
-       three_hilo_sum, three_lohi_sum, three_hilo_diff, three_lohi_diff,
-       four_hilo_sum, four_lohi_sum, four_hilo_diff, four_lohi_diff,
+       two_hilo_sum, three_hilo_sum, four_hilo_sum,
+       two_lohi_sum, three_lohi_sum, four_lohi_sum,
+       two_hilo_diff, three_hilo_diff
+       two_lohi_diff, three_lohi_diff
        # least-error transformations, as close to error-free as possible
        two_inv, two_sqrt, two_div,
        # error-free remainders
