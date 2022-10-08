@@ -18,6 +18,7 @@ export # error-free transformations
 using Base: IEEEFloat
 
 include("min_max.jl")
+include("sum_ordered.jl")
 include("sum.jl")
 include("diff.jl")
 include("prod_fma.jl")
