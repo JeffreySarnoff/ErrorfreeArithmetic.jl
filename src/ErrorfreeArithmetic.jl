@@ -4,7 +4,7 @@ export # error-free transformations
        one_sum, 
        two_sum, two_diff, two_prod, two_square, two_cube, two_fma, two_muladd,
        three_sum, three_diff, three_prod, three_fma,
-       four_sum
+       four_sum,
        # error-free transformations with magnitude sorted arguments
        two_hilo_sum, three_hilo_sum, four_hilo_sum,
        two_lohi_sum, three_lohi_sum, four_lohi_sum,
