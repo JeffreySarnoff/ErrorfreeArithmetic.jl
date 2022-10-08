@@ -6,6 +6,9 @@ authors = ["Jeffrey A. Sarnoff <jeffrey.sarnoff@gmail.com>"]
 license = "MIT"
 version = "v0.5.3"
 
+[deps]
+VectorizationBase = "3d5dd08c-fd9d-11e8-17fa-ed2836048c2f"
+
 [extras]
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
@@ -15,4 +18,5 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 test = ["Random", "Combinatorics", "Test"]
 
 [compat]
+VectorizationBase = ">= 0.21.51"
 julia = "1.7"
