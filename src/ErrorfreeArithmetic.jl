@@ -11,9 +11,8 @@ export # error-free transformations
        two_hilo_diff, three_hilo_diff
        two_lohi_diff, three_lohi_diff
        # least-error transformations, as close to error-free as possible
-       two_inv, two_sqrt, two_div,
-       # error-free remainders
-       div_rem, sqrt_rem
+       two_inv, two_sqrt,
+       two_div
 
 using Base: IEEEFloat
 using VectorizationBase
@@ -26,7 +25,6 @@ include("prod_fma.jl")
 include("vecsum.jl")
 include("errorfree_tuples.jl")
 include("leasterror.jl")
-include("remainder.jl")
 include("complex.jl")
 
 end # ErrorfreeArithmetic
