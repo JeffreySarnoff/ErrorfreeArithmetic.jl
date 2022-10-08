@@ -1,12 +1,28 @@
 """
     two_square(a)
 
-Computes `hi = fl(a*a)` and `lo = fl(err(a*a))`.
+Computes `hi = fl(a*a)` and `lo = fl(err(hi))`.
 """
 @inline function two_square(a::T) where {T}
     hi = a * a
     lo = fma(a, a, -hi)
     hi, lo
+end
+
+"""
+    two_cube(a)
+
+Computes `hi = fl(a*a*a)` and `lo = fl(err(hi))`.
+"""
+@inline function two_cube(a::T) where {T}
+    thi, tlo = two_square(a)
+    shi, smh = two_prod(a, thi)
+    sml, slo = two_prod(a, tlo)
+    smh, sml = two_hilo_sum(smh, sml)
+    sml += slo
+    shi, smh = two_hilo_sum(shi, smh)
+    smh += sml
+    shi, smh
 end
 
 """
