@@ -38,8 +38,7 @@ function one_sum(x0::T, x1::T, x2::T) where {T}
     s1, e2 = two_sum(x1, s2)
     s0, e1 = two_sum(x0, s1)
     s1, e2 = two_sum(e1, e2)
-    e1 += e2
-    s0 += e1
+    s0, e1 = two_hilo_sum(s0, s1)
     s0
 end
 
