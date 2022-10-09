@@ -2,7 +2,6 @@
     random floating point values for testing
 =#
 
-using Random
 using Random: Xoshiro
 
 rng = Xoshiro(618034)
