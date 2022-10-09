@@ -1,4 +1,3 @@
-## A Guide to Function Names
 
 _all error-free transformations are named following the same pattern_
 
