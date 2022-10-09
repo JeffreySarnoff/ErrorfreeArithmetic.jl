@@ -130,6 +130,17 @@ Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 end
 
 """
+    twp_lohi_diff(a, b, c)
+    
+*unchecked* requirement `|c| ≥ |b| ≥ |a|`
+
+Computes `x = fl(a-b-c)` and `y = err(a-b-c), z = err(y)`.
+"""
+function two_lohi_diff(c::T,b::T,a::T) where {T}
+    two_lohi_sum(c, -b, -a)
+end
+
+"""
     three_hilo_diff(a, b, c)
     
 *unchecked* requirement `|a| ≥ |b| ≥ |c|`
