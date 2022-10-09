@@ -4,6 +4,7 @@
 
 For our purposes, `Precision` is given by the number of significant bits in a binary floating point value.
 - some values associated with precision
+- `unit roundoff` (𝓊)
 
 The two common values for Accuracy are *absolute error* and *relative error*.
 - absolute error `abserr` measures the magnitude of the distance from the true value that holds for the obtained value.
