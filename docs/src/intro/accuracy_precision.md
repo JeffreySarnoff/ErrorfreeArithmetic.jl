@@ -1,3 +1,3 @@
 ## Accuracy and Precision
 
-abcd
+`Accuracy` is the correctness; `Precision` is the exactness.
