@@ -30,3 +30,4 @@ frand(n::Int) = rand(rng, n)
 frand(::Type{T}, n::Int) where {T<:AbstractFloat} = map(ldexp, rand(rng, T, n), randexp(T,n))
 frand(sr::StepRange{I,I}, n::Int) where {T<:AbstractFloat, I<:Integer} = map(ldexp, rand(rng, n), randexp(sr, n))
 frand(::Type{T}, sr::StepRange{I,I}, n::Int) where {T<:AbstractFloat, I<:Integer} = ldexp(rand(rng, T), randexp(sr))
+
