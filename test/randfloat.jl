@@ -3,7 +3,7 @@ using Random: Xoshiro
 
 sign_rng = Xoshiro(6180)
 exponent_rng = Xoshiro(141421)
-significand_rng = Xoshiro(1618)
+significand_rng = Xoshiro(1618034)
 bigfloat_rng = Xoshiro(124)
 
 const EXPMIN =  0
