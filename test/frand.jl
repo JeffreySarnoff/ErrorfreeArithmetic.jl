@@ -4,7 +4,7 @@
 
 using Random: Xoshiro
 
-rng = Xoshiro(618034)
+rng = Xoshiro(1618034)
 
 randsign() = rand(rng, (-1,1))
 randsign(n=1) = rand(rng, (-1,1), n)
