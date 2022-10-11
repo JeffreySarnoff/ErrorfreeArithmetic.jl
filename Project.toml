@@ -7,6 +7,7 @@ license = "MIT"
 version = "v0.5.3"
 
 [deps]
+SIMD = "fdea26ae-647d-5447-a871-4b548cad5224"
 VectorizationBase = "3d5dd08c-fd9d-11e8-17fa-ed2836048c2f"
 
 [extras]
@@ -18,5 +19,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 test = ["Random", "Combinatorics", "Test"]
 
 [compat]
+SIMD = "3, 4, 5"
 VectorizationBase = ">= 0.21.51"
 julia = "1.7"
