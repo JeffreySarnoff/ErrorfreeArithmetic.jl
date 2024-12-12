@@ -98,6 +98,12 @@ All routines expect Float64 or Float32 or Float16 values.
 
 ## references
 
+[CG2023] Thomas R Cameron and Stef Graillat.
+Accurate Horner Methods in Real and Complex Floating-Point Arithmetic
+HAL Id: hal-04030542, 2023
+paper retreived  from https://hal.science/hal-04030542v1
+C code available from https://github.com/trcameron/HornerK
+
 [LO2020] Marko Lange and Shin'ichi Oishi
 A note on Dekker’s FastTwoSum algorithm
 Numerische Mathematik (2020) 145:383–403
