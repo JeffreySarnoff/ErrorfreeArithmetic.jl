@@ -98,6 +98,7 @@ All routines expect Float64 or Float32 or Float16 values.
 
 ## references
 
+```
 [CG2023] Thomas R Cameron and Stef Graillat.
 Accurate Horner Methods in Real and Complex Floating-Point Arithmetic
 HAL Id: hal-04030542, 2023
@@ -126,4 +127,8 @@ SIAM J. Sci. Comput., 26(6), 1955–1988.
 Published online: 25 July 2006
 DOI: 10.1137/030601818
 
-[D1971] T.J. Dekker A floating-point technique for extending the available precision. Numer. Math. 18, 224–242 (1971). https://doi.org/10.1007/BF01397083
+[D1971] T.J. Dekker
+A floating-point technique for extending the available precision
+Numer. Math. 18, 224–242 (1971).
+https://doi.org/10.1007/BF01397083
+```
