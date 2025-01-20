@@ -69,7 +69,7 @@ end
 
 function Base.:+(x::Float64x4, y::Float64x4)
     Base.llvmcall("""
-        %res = fadd<4 x double> %0 $1
+        %res = fadd <4 x double> %0 $1
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
 end
@@ -104,7 +104,7 @@ end
 
 function Base.:-(x::Float64x4, y::Float64x4)
     Base.llvmcall("""
-        %res = fsub<4 x double> %0 $1
+        %res = fsub <4 x double> %0 $1
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
 end
@@ -139,7 +139,7 @@ end
 
 function Base.:*(x::Float64x4, y::Float64x4)
     Base.llvmcall("""
-        %res = fmul<4 x double> %0 $1
+        %res = fmul <4 x double> %0 $1
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
 end
@@ -174,7 +174,7 @@ end
 
 function Base.:/(x::Float64x4, y::Float64x4)
     Base.llvmcall("""
-        %res = fdiv<4 x double> %0 $1
+        %res = fdiv <4 x double> %0 $1
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
 end
