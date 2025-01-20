@@ -1,3 +1,59 @@
+
+# with arguments sorted by magnitude
+
+"""
+    two_hilo_sum(a, b)
+
+*unchecked* requirement `|a| ≥ |b|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_hilo_sum(a::F, b::F) where {F<:AbstractFloat}
+    hi = a + b
+    lo = b - (hi - a)
+    (hi, lo)
+end
+
+"""
+    two_lohi_sum(a, b)
+
+*unchecked* requirement `|b| ≥ |a|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_lohi_sum(a::T, b::T) where {F<:AbstractFloat}
+    hi = b + a
+    lo = a - (hi - b)
+    return (hi, lo)
+end
+
+
+"""
+    two_lohi_sum(a, b)
+
+*unchecked* requirement `|b| ≥ |a|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_lohi_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
+    hi = b .+ a
+    lo = a .- (hi .- b)
+    return hi, lo
+end
+
+"""
+    two_lohi_sum(a, b)
+
+*unchecked* requirement `|b| ≥ |a|`
+
+Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+"""
+@inline function two_lohi_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
+    hi = b .+ a
+    lo = a .- (hi .- b)
+    return hi, lo
+end
+
 """
     two_sum(a, b)
 
@@ -130,34 +186,6 @@ function three_fma(a::T, b::T, c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}
         z = (zs...,)
      end       
      return x, y, z
-end
-
-# with arguments sorted by magnitude
-
-"""
-    two_hilo_sum(a, b)
-
-*unchecked* requirement `|a| ≥ |b|`
-
-Computes `hi = fl(a+b)` and `lo = err(a+b)`.
-"""
-@inline function two_hilo_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
-    hi = a .+ b
-    lo = b .- (hi .- a)
-    return hi, lo
-end
-
-"""
-    two_lohi_sum(a, b)
-
-*unchecked* requirement `|b| ≥ |a|`
-
-Computes `hi = fl(a+b)` and `lo = err(a+b)`.
-"""
-@inline function two_lohi_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
-    hi = b .+ a
-    lo = a .- (hi .- b)
-    return hi, lo
 end
 
 """
