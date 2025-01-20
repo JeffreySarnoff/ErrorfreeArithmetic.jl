@@ -4,26 +4,6 @@ const Float32x4 = NTuple{4, Base.VecElement{Float32}}
 const Float64x4 = NTuple{4, Base.VecElement{Float64}}
 const Float32x8 = NTuple{8, Base.VecElement{Float32}}
 
-for (T,N,C) in ((:Float32x2, :2, :float), (:Float32x4, :4, :float), (:Float32x8, :8, :float),  
-                (:Float64x2, :2, :double), (:Float64x4, :4, :double))
-    thecall = :("%res = fneg <$(N) x $(C) > %0\n ret <$(N) x $(C)> %res")        
-    fn = """function Base.:-(x::$(T))
-            Base.llvmcall($(thecall), $(T), Tuple{$(T)}, x)
-            end"""
-    @eval Meta.parse($fn)
-end
-
-for (T,N,C) in ((:Float32x2, :2, :float), (:Float32x4, :4, :float), (:Float32x8, :8, :float),  
-                (:Float64x2, :2, :double), (:Float64x4, :4, :double))
-    thecall = :("%res = fadd <$(N) x $(C) > %0\n ret <$(N) x $(C)> %res")        
-    fn = """function Base.:+(x::$(T), y::$(T))
-            Base.llvmcall($(thecall), $(T), Tuple{$(T), $(T)}, x, y)
-            end"""
-    println(fn)
-    @eval Meta.parse($fn)
-end
-
-
 function Base.:-(x::Float32x2)
     Base.llvmcall("""
         %res = fneg <2 x float> %0
@@ -36,6 +16,13 @@ function Base.:-(x::Float32x4)
         %res = fneg <4 x float> %0
         ret <4 x float> %res
         """, Float32x4, Tuple{Float32x4}, x)
+end
+
+function Base.:-(x::Float32x8)
+    Base.llvmcall("""
+        %res = fneg <8 x float> %0
+        ret <8 x float> %res
+        """, Float32x8, Tuple{Float32x8}, x)
 end
 
 function Base.:-(x::Float64x2)
@@ -51,3 +38,144 @@ function Base.:-(x::Float64x4)
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4}, x)
 end
+
+function Base.:+(x::Float32x2, y::Float32x2)
+    Base.llvmcall("""
+        %res = fadd <2 x float> %0 $1
+        ret <2 x float> %res
+        """, Float32x2, Tuple{Float32x2, Float32x2}, x, y)
+end
+
+function Base.:+(x::Float32x4, y::Float32x4)
+    Base.llvmcall("""
+        %res = fadd <4 x float> %0 $1
+        ret <4 x float> %res
+        """, Float32x4, Tuple{Float32x4, Float32x4}, x, y)
+end
+
+function Base.:+(x::Float32x8, y::Float32x8)
+    Base.llvmcall("""
+        %res = fadd <8 x float> %0 $1
+        ret <8 x float> %res
+        """, Float32x8, Tuple{Float32x8, Float32x8}, x, y)
+end
+
+function Base.:+(x::Float64x2, y::Float64x2)
+    Base.llvmcall("""
+        %res = fadd <2 x double> %0 $1
+        ret <2 x double> %res
+        """, Float64x2, Tuple{Float64x2, Float64x2}, x, y)
+end
+
+function Base.:+(x::Float64x4, y::Float64x4)
+    Base.llvmcall("""
+        %res = fadd<4 x double> %0 $1
+        ret <4 x double> %res
+        """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
+end
+
+function Base.:-(x::Float32x2, y::Float32x2)
+    Base.llvmcall("""
+        %res = fsub <2 x float> %0 $1
+        ret <2 x float> %res
+        """, Float32x2, Tuple{Float32x2, Float32x2}, x, y)
+end
+
+function Base.:-(x::Float32x4, y::Float32x4)
+    Base.llvmcall("""
+        %res = fsub <4 x float> %0 $1
+        ret <4 x float> %res
+        """, Float32x4, Tuple{Float32x4, Float32x4}, x, y)
+end
+
+function Base.:-(x::Float32x8, y::Float32x8)
+    Base.llvmcall("""
+        %res = fsub <8 x float> %0 $1
+        ret <8 x float> %res
+        """, Float32x8, Tuple{Float32x8, Float32x8}, x, y)
+end
+
+function Base.:-(x::Float64x2, y::Float64x2)
+    Base.llvmcall("""
+        %res = fsub <2 x double> %0 $1
+        ret <2 x double> %res
+        """, Float64x2, Tuple{Float64x2, Float64x2}, x, y)
+end
+
+function Base.:-(x::Float64x4, y::Float64x4)
+    Base.llvmcall("""
+        %res = fsub<4 x double> %0 $1
+        ret <4 x double> %res
+        """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
+end
+
+function Base.:*(x::Float32x2, y::Float32x2)
+    Base.llvmcall("""
+        %res = fmul <2 x float> %0 $1
+        ret <2 x float> %res
+        """, Float32x2, Tuple{Float32x2, Float32x2}, x, y)
+end
+
+function Base.:*(x::Float32x4, y::Float32x4)
+    Base.llvmcall("""
+        %res = fmul <4 x float> %0 $1
+        ret <4 x float> %res
+        """, Float32x4, Tuple{Float32x4, Float32x4}, x, y)
+end
+
+function Base.:*(x::Float32x8, y::Float32x8)
+    Base.llvmcall("""
+        %res = fmul <8 x float> %0 $1
+        ret <8 x float> %res
+        """, Float32x8, Tuple{Float32x8, Float32x8}, x, y)
+end
+
+function Base.:*(x::Float64x2, y::Float64x2)
+    Base.llvmcall("""
+        %res = fmul <2 x double> %0 $1
+        ret <2 x double> %res
+        """, Float64x2, Tuple{Float64x2, Float64x2}, x, y)
+end
+
+function Base.:*(x::Float64x4, y::Float64x4)
+    Base.llvmcall("""
+        %res = fmul<4 x double> %0 $1
+        ret <4 x double> %res
+        """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
+end
+
+function Base.:/(x::Float32x2, y::Float32x2)
+    Base.llvmcall("""
+        %res = fdiv <2 x float> %0 $1
+        ret <2 x float> %res
+        """, Float32x2, Tuple{Float32x2, Float32x2}, x, y)
+end
+
+function Base.:/(x::Float32x4, y::Float32x4)
+    Base.llvmcall("""
+        %res = fdiv <4 x float> %0 $1
+        ret <4 x float> %res
+        """, Float32x4, Tuple{Float32x4, Float32x4}, x, y)
+end
+
+function Base.:/(x::Float32x8, y::Float32x8)
+    Base.llvmcall("""
+        %res = fdiv <8 x float> %0 $1
+        ret <8 x float> %res
+        """, Float32x8, Tuple{Float32x8, Float32x8}, x, y)
+end
+
+function Base.:/(x::Float64x2, y::Float64x2)
+    Base.llvmcall("""
+        %res = fdiv <2 x double> %0 $1
+        ret <2 x double> %res
+        """, Float64x2, Tuple{Float64x2, Float64x2}, x, y)
+end
+
+function Base.:/(x::Float64x4, y::Float64x4)
+    Base.llvmcall("""
+        %res = fdiv<4 x double> %0 $1
+        ret <4 x double> %res
+        """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
+end
+
