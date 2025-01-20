@@ -239,9 +239,8 @@ end
 @inline function Base.fma(a::T, b::T, c::T) where {N, F, T<:NTuple{N,F}}
     va = Vec(a)
     vb = Vec(b)
-    hi = va * vb
-    lo = fma(va, vb, -hi)
-    (hi.data, lo.data)
+    vc = Vec(c)
+    fma(va, vb, vc).data
 end
 
 @inline function two_prod(a::T, b::T) where {N, F, T<:NTuple{N,F}}
