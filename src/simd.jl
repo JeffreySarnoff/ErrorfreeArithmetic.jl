@@ -6,11 +6,31 @@ const Float64x4 = NTuple{4, Base.VecElement{Float64}}
 
 FloatBitsxN = NTuple{N, Base.VecElement{F}} where {N, F}
 
-const one32x2 = (Float32x2)((1.0f0, 1.0f0))
+const zero32x2 = (Float32x2)((0.0f0, 0.0f0))
+const zero32x4 = (Float32x4)((0.0f0, 0.0f0, 0.0f0, 0.0f0))
+const zero32x8 = (Float32x8)((0.0f0, 0.0f0, 0.0f0, 0.0f0, 0.0f0, 0.0f0, 0.0f0, 0.0f0))
+const zero64x2 = (Float32x2)((0.0, 0.0))
+const zero64x4 = (Float32x4)((0.0, 0.0, 0.0, 0.0))
+
 const one32x4 = (Float32x4)((1.0f0, 1.0f0, 1.0f0, 1.0f0))
 const one32x8 = (Float32x8)((1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0))
 const one64x2 = (Float32x2)((1.0, 1.0))
 const one64x4 = (Float32x4)((1.0, 1.0, 1.0, 1.0))
+
+Float32x2(x::VecElement{Float32}) = (x, 0.0f0)
+Float32x4(x::VecElement{Float32}) = (x, 0.0f0, 0.0f0, 0.0f0)
+Float32x8(x::VecElement{Float32}) = (x,  0.0f0, 0.0f0, 0.0f0,  0.0f0, 0.0f0, 0.0f0, 0.0f0)
+Float64x2(x::VecElement{Float64}) = (x, 0.0)
+Float64x4(x::VecElement{Float64}) = (x, 0.0, 0.0, 0.0)
+
+Base.fill(::Type{Float32x2}, x::VecElement{Float32}) = (x, x)
+Base.fill(::Type{Float32x4}, x::VecElement{Float32}) = (x, x, x, x)
+Base.fill(::Type{Float32x8}, x::VecElement{Float32}) = (x, x, x, x, x, x, x, x)
+Base.fill(::Type{Float64x2}, x::VecElement{Float64}) = (x, x)
+Base.fill(::Type{Float64x4}, x::VecElement{Float64}) = (x, x, x, x)
+
+Base.fill(::Type{Float32x4}, x::VecElement{Float32}, y::VecElement{Float32}) = (x, y, x, y)
+Base.fill(::Type{Float64x4}, x::VecElement{Float64}, y::VecElement{Float64}) = (x, y, x, y)
 
 Base.:+(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value + y.value)
 Base.:-(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value - y.value)
