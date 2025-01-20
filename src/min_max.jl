@@ -2,6 +2,25 @@
 # <n>_minmag below
 
 """
+    maxmin_mag(a, b)
+
+obtains (value of greater magnitude, value of lesser magnitude)
+"""
+@inline maxmin_mag(a::T, b::T) where {T} = abs(b) < abs(a) ? (a, b) : (b, a) 
+
+"""
+    maxmidmin_mag(a, b, c)
+
+obtains (value of greater magnitude, value of intermediate magnitude, value of lesser magnitude)
+"""
+function maxmin_mag(a::T, b::T, c::T) where {T} 
+    b, c = maxmin_mag(b, c)
+    a, c = maxmin_mag(a, c)
+    a, b = maxmin_mag(a, b)
+    return (a, b, c)
+end
+
+"""
     one_maxmag(a, b)
 
 obtains value of greatest magnitude
