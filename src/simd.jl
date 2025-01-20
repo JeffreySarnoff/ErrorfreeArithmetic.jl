@@ -1,8 +1,10 @@
 const Float32x2 = NTuple{2, Base.VecElement{Float32}}
-const Float64x2 = NTuple{2, Base.VecElement{Float64}}
 const Float32x4 = NTuple{4, Base.VecElement{Float32}}
-const Float64x4 = NTuple{4, Base.VecElement{Float64}}
 const Float32x8 = NTuple{8, Base.VecElement{Float32}}
+const Float64x2 = NTuple{2, Base.VecElement{Float64}}
+const Float64x4 = NTuple{4, Base.VecElement{Float64}}
+
+FloatBitsxN = NTuple{N, Base.VecElement{F}} where {N, F}
 
 const one32x2 = (Float32x2)((1.0f0, 1.0f0))
 const one32x4 = (Float32x4)((1.0f0, 1.0f0, 1.0f0, 1.0f0))
@@ -220,3 +222,31 @@ function Base.:inv(y::Float64x4)
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4, Float64x4}, one64x4, y)
 end
+
+@inline function two_hilo_sum(a::T, b::T) where {N, F, T<:NTuple{N,F}}                                                           
+    hi = a + b
+    lo = b - (hi - a)
+    (hi, lo)
+end
+
+@inline function two_sum(a::T, b::T) where {N, F, T<:NTuple{N,F}}
+    hi = a + b
+    v  = hi - a
+    lo = (a - (hi - v)) + (b - v)
+    (hi, lo)
+end
+
+@inline function Base.fma(a::T, b::T, c::T) where {N, F, T<:NTuple{N,F}}
+    va = Vec(a)
+    vb = Vec(b)
+    hi = va * vb
+    lo = fma(va, vb, -hi)
+    (hi.data, lo.data)
+end
+
+@inline function two_prod(a::T, b::T) where {N, F, T<:NTuple{N,F}}
+    hi = a * b
+    lo = fma(a, b, -hi)
+    (hi, lo)
+end
+
