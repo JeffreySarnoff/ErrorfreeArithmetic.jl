@@ -14,6 +14,12 @@ Computes `hi = fl(a+b)` and `lo = err(a+b)`.
     (hi, lo)
 end
 
+@inline function two_hilo_sum(a::T, b::T) where {N, F<:AbstractFloat, T<:NTuple{N,F}}
+    hi = a .+ b
+    lo = b .- (hi .- a)
+    return hi, lo
+end
+
 """
     two_lohi_sum(a, b)
 
@@ -21,37 +27,35 @@ end
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_lohi_sum(a::T, b::T) where {F<:AbstractFloat}
+@inline function two_lohi_sum(a::F, b::F) where {F<:AbstractFloat}
     hi = b + a
     lo = a - (hi - b)
-    return (hi, lo)
+    (hi, lo)
 end
 
-
-"""
-    two_lohi_sum(a, b)
-
-*unchecked* requirement `|b| ≥ |a|`
-
-Computes `hi = fl(a+b)` and `lo = err(a+b)`.
-"""
-@inline function two_lohi_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_lohi_sum(a::T, b::T) where {N, F<:AbstractFloat, T<:NTuple{N,F}}
     hi = b .+ a
     lo = a .- (hi .- b)
-    return hi, lo
+    (hi, lo)
 end
 
 """
-    two_lohi_sum(a, b)
+    two_hilo_diff(a, b)
 
-*unchecked* requirement `|b| ≥ |a|`
+*unchecked* requirement `|a| ≥ |b|`
 
-Computes `hi = fl(a+b)` and `lo = err(a+b)`.
+Computes `hi = fl(a-b)` and `lo = err(a-b)`.
 """
-@inline function two_lohi_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
-    hi = b .+ a
-    lo = a .- (hi .- b)
-    return hi, lo
+@inline function two_hilo_diff(a::F, b::F) where {F<:AbstractFloat}
+    hi = a - b
+    lo = -(b + (hi - a))
+    (hi, lo)
+end
+
+@inline function two_hilo_diff(a::T, b::T) where {N, F<:AbstractFloat, T<:NTuple{N,F}}
+    hi = a .- b
+    lo = (a .- hi) .- b
+    (hi, lo)
 end
 
 """
@@ -59,11 +63,18 @@ end
 
 Computes `hi = fl(a+b)` and `lo = err(a+b)`.
 """
-@inline function two_sum(a::T, b::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
+@inline function two_sum(a::F, b::F) where {F<:AbstractFloat,}
+    hi = a + b
+    v  = hi - a
+    lo = (a - (hi - v)) + (b - v)
+    (hi, lo)
+end
+
+@inline function two_sum(a::T, b::T) where {N, F<:AbstractFloat, T<:NTuple{N,F}}
     hi = a .+ b
     v  = hi .- a
     lo = (a .- (hi .- v)) .+ (b .- v)
-    return hi, lo
+    (hi, lo)
 end
 
 """
@@ -71,7 +82,15 @@ end
     
 Computes `hi = fl(a+b+c)` and `lo = err(a+b+c)`.
 """
-function two_sum(a::T,b::T,c::T) where {N, F<:Base.IEEEFloat, T<:NTuple{N,F}}
+function two_sum(a::F, b::F, c::F) where {F<:AbstractFloat}
+    s, t   = two_sum(b, c)
+    hi, u  = two_sum(a, s)
+    lo     = u + t
+    hi, lo = two_hilo_sum(hi, lo)
+    return hi, lo
+end
+
+function two_sum(a::T, b::T, c::T) where {N, F<:AbstractFloat, T<:NTuple{N,F}}
     s, t   = two_sum(b, c)
     hi, u  = two_sum(a, s)
     lo     = u .+ t
