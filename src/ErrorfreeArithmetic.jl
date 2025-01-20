@@ -17,6 +17,7 @@ export # error-free transformations
 using SIMD
 using VectorizationBase
 
+include("simd.jl")
 include("min_max.jl")
 include("sum_ordered.jl")
 include("sum.jl")
