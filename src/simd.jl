@@ -12,6 +12,21 @@ const one32x8 = (Float32x8)((1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.
 const one64x2 = (Float32x2)((1.0, 1.0))
 const one64x4 = (Float32x4)((1.0, 1.0, 1.0, 1.0))
 
+Base.:+(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value + y.value)
+Base.:-(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value - y.value)
+Base.:*(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value * y.value)
+Base.:/(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value / y.value)
+
+Base.:+(a::VecElement{T}, b::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value + b.value)
+Base.:*(a::VecElement{T}, b::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value * b.value)
+Base.:-(a::VecElement{T}, b::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value - b.value)
+Base.:/(a::VecElement{T}, b::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value / b.value)
+
+Base.:+(a::VecElement{T}, b::VecElement{T}, c::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value + b.value + c.value)
+Base.:*(a::VecElement{T}, b::VecElement{T}, c::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value * b.value * c.value)
+Base.:+(a::VecElement{T}, b::VecElement{T}, c::VecElement{T}, d::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value + b.value + c.value + d.value)
+Base.:*(a::VecElement{T}, b::VecElement{T}, c::VecElement{T}, d::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(a.value * b.value * c.value * d.value)
+
 function Base.:-(x::Float32x2)
     Base.llvmcall("""
         %res = fneg <2 x float> %0
