@@ -32,6 +32,9 @@ Base.fill(::Type{Float64x4}, x::VecElement{Float64}) = (x, x, x, x)
 Base.fill(::Type{Float32x4}, x::VecElement{Float32}, y::VecElement{Float32}) = (x, y, x, y)
 Base.fill(::Type{Float64x4}, x::VecElement{Float64}, y::VecElement{Float64}) = (x, y, x, y)
 
+maxmin_abs(x::VecElement{F}, y::VecElement{F}) where {F<:AbstractFloat} = abs(x.value) >= abs(y.value) ? (x, y) : (y, x)
+maxmin_abs(x::NTuple{2, VecElement{F}}) where {F<:AbstractFloat} = abs(x[1].value) >= abs(x[2].value) ? x : (x[2], x[1)
+
 Base.:+(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value + y.value)
 Base.:-(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value - y.value)
 Base.:*(x::VecElement{T}, y::VecElement{T}) where {T<:AbstractFloat} = VecElement{T}(x.value * y.value)
