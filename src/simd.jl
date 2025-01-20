@@ -4,6 +4,12 @@ const Float32x4 = NTuple{4, Base.VecElement{Float32}}
 const Float64x4 = NTuple{4, Base.VecElement{Float64}}
 const Float32x8 = NTuple{8, Base.VecElement{Float32}}
 
+const one32x2 = (Float32x2)((1.0f0, 1.0f0))
+const one32x4 = (Float32x4)((1.0f0, 1.0f0, 1.0f0, 1.0f0))
+const one32x8 = (Float32x8)((1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0, 1.0f0))
+const one64x2 = (Float32x2)((1.0, 1.0))
+const one64x4 = (Float32x4)((1.0, 1.0, 1.0, 1.0))
+
 function Base.:-(x::Float32x2)
     Base.llvmcall("""
         %res = fneg <2 x float> %0
@@ -177,4 +183,40 @@ function Base.:/(x::Float64x4, y::Float64x4)
         %res = fdiv <4 x double> %0, %1
         ret <4 x double> %res
         """, Float64x4, Tuple{Float64x4, Float64x4}, x, y)
+end
+
+
+function Base.:inv(y::Float32x2)
+    Base.llvmcall("""
+        %res = fdiv <2 x float> %0, %1
+        ret <2 x float> %res
+        """, Float32x2, Tuple{Float32x2, Float32x2}, one32x2, y)
+end
+
+function Base.:inv(y::Float32x4)
+    Base.llvmcall("""
+        %res = fdiv <4 x float> %0, %1
+        ret <4 x float> %res
+        """, Float32x4, Tuple{Float32x4, Float32x4}, one32x4, y)
+end
+
+function Base.:inv(y::Float32x8)
+    Base.llvmcall("""
+        %res = fdiv <8 x float> %0, %1
+        ret <8 x float> %res
+        """, Float32x8, Tuple{Float32x8, Float32x8}, one32x8 y)
+end
+
+function Base.:inv(y::Float64x2)
+    Base.llvmcall("""
+        %res = fdiv <2 x double> %0, %1
+        ret <2 x double> %res
+        """, Float64x2, Tuple{Float64x2, Float64x2}, one64x2, y)
+end
+
+function Base.:inv(y::Float64x4)
+    Base.llvmcall("""
+        %res = fdiv <4 x double> %0, %1
+        ret <4 x double> %res
+        """, Float64x4, Tuple{Float64x4, Float64x4}, one64x4, y)
 end
